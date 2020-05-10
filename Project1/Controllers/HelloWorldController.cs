@@ -65,7 +65,6 @@ namespace StoreApp.Controllers
             var customers = _context.Customers.Select(c => c);
             var first = await customers.FirstAsync();
             var vm = new WelcomeViewModel(first.FirstName, 1);
-            _context.Dispose();
             return View("Customer", vm);
         }
 
