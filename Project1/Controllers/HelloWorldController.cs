@@ -1,8 +1,11 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using System.Text.Encodings.Web;
 using Microsoft.Extensions.Logging;
 using MvcPractice2.Data;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace MvcPractice2.Controllers
 {
@@ -36,14 +39,26 @@ namespace MvcPractice2.Controllers
 
     public class HelloWorldController : Controller
     {
+        private MvcPractice2Context _context;
+        private ILogger<HelloWorldController> _logger;
+
         public HelloWorldController(MvcPractice2Context context, ILogger<HelloWorldController> logger)
         {
-            logger.LogCritical($"GETGOT LOGGER: {logger}");
-            logger.LogCritical($"GETGOT context: {context}");
+            this._context = context;
+            this._logger = logger;
         }
 
-        // 
-        // GET: /HelloWorld/
+        [Route("HelloWorld/db")]
+        public async Task<string> DbAccess()
+        {
+            var m = _context.Movie.Select(m => m);
+            foreach(var mo in await m.ToListAsync()) {
+                this._logger.LogCritical($"m00 : {mo.Title}");
+            }
+            this._logger.LogCritical($"m00vies : {m}");
+            return HtmlEncoder.Default.Encode("check console");
+        }
+
         [Route("HelloWorld")]
         [Route("HelloWorld/Index")]
         public string Index()

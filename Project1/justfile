@@ -3,3 +3,6 @@ build:
 
 run:
     dotnet run
+
+migrate:
+    dotnet ef database update
