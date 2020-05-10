@@ -1,6 +1,8 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Encodings.Web;
+using Microsoft.Extensions.Logging;
+using MvcPractice2.Data;
 
 namespace MvcPractice2.Controllers
 {
@@ -34,17 +36,19 @@ namespace MvcPractice2.Controllers
 
     public class HelloWorldController : Controller
     {
-
-        public HelloWorldController() {
-            Console.WriteLine("test");
+        public HelloWorldController(MvcPractice2Context context, ILogger<HelloWorldController> logger)
+        {
+            logger.LogCritical($"GETGOT LOGGER: {logger}");
+            logger.LogCritical($"GETGOT context: {context}");
         }
+
         // 
         // GET: /HelloWorld/
         [Route("HelloWorld")]
         [Route("HelloWorld/Index")]
-        public IActionResult Index()
+        public string Index()
         {
-            return View("Index");
+            return HtmlEncoder.Default.Encode("suip");
         }
 
         // 

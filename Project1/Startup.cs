@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 using MvcPractice2.Data;
 
@@ -25,6 +26,15 @@ namespace MvcPractice2
 
             services.AddDbContext<Data.MvcPractice2Context>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("MvcMovieContext")));
+            
+            services.AddLogging(logger => 
+            {
+                Host.CreateDefaultBuilder()
+                .ConfigureLogging(logging => {
+                    logging.ClearProviders();
+                    logging.AddConsole();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
