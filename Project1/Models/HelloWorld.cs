@@ -1,4 +1,4 @@
-namespace MvcPractice2.Models
+namespace StoreApp.Models
 {
     public class HelloWorld {
         public int Id { get; set; }

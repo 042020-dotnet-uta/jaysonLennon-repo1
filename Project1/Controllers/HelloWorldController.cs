@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Text.Encodings.Web;
 using Microsoft.Extensions.Logging;
-using MvcPractice2.Data;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
-namespace MvcPractice2.Controllers
+using StoreApp.Data;
+
+namespace StoreApp.Controllers
 {
     public class WelcomeViewModel
     {
@@ -39,10 +40,10 @@ namespace MvcPractice2.Controllers
 
     public class HelloWorldController : Controller
     {
-        private MvcPractice2Context _context;
+        private StoreContext _context;
         private ILogger<HelloWorldController> _logger;
 
-        public HelloWorldController(MvcPractice2Context context, ILogger<HelloWorldController> logger)
+        public HelloWorldController(StoreContext context, ILogger<HelloWorldController> logger)
         {
             this._context = context;
             this._logger = logger;
@@ -51,12 +52,21 @@ namespace MvcPractice2.Controllers
         [Route("HelloWorld/db")]
         public async Task<string> DbAccess()
         {
-            var m = _context.Movie.Select(m => m);
-            foreach(var mo in await m.ToListAsync()) {
-                this._logger.LogCritical($"m00 : {mo.Title}");
+            var customers = _context.Customers.Select(c => c);
+            foreach(var c in await customers.ToListAsync()) {
+                this._logger.LogCritical($"customer : {c.FirstName}");
             }
-            this._logger.LogCritical($"m00vies : {m}");
             return HtmlEncoder.Default.Encode("check console");
+        }
+
+        [Route("HelloWorld/vo")]
+        public async Task<IActionResult> ViewObjectTest()
+        {
+            var customers = _context.Customers.Select(c => c);
+            var first = await customers.FirstAsync();
+            var vm = new WelcomeViewModel(first.FirstName, 1);
+            _context.Dispose();
+            return View("Customer", vm);
         }
 
         [Route("HelloWorld")]

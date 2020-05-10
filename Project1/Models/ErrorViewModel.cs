@@ -1,6 +1,6 @@
 using System;
 
-namespace MvcPractice2.Models
+namespace StoreApp.Models
 {
     public class ErrorViewModel
     {

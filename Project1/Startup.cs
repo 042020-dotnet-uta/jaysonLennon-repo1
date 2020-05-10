@@ -6,9 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-using MvcPractice2.Data;
+using StoreApp.Data;
 
-namespace MvcPractice2
+namespace StoreApp
 {
     public class Startup
     {
@@ -24,8 +24,8 @@ namespace MvcPractice2
         {
             services.AddControllersWithViews();
 
-            services.AddDbContext<Data.MvcPractice2Context>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("MvcMovieContext")));
+            services.AddDbContext<StoreContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("StoreApp")));
             
             services.AddLogging(logger => 
             {
