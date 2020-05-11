@@ -10,15 +10,15 @@ using StoreApp.Data;
 
 namespace StoreApp.Controllers
 {
-    public class LoginController : Controller
+    public class Login : Controller
     {
         private StoreContext _context;
-        private ILogger<LoginController> _logger;
+        private ILogger<Login> _logger;
         private Repository.ICustomerRepository _customerRepository;
 
-        public LoginController(
+        public Login(
             StoreContext context,
-            ILogger<LoginController> logger,
+            ILogger<Login> logger,
             Repository.ICustomerRepository customerRepository
             )
         {

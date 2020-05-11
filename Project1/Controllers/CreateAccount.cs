@@ -13,12 +13,12 @@ namespace StoreApp.Controllers
     public class CreateAccount : Controller
     {
         private StoreContext _context;
-        private ILogger<LoginController> _logger;
+        private ILogger<Login> _logger;
         private Repository.ICustomerRepository _customerRepository;
 
         public CreateAccount(
             StoreContext context,
-            ILogger<LoginController> logger,
+            ILogger<Login> logger,
             Repository.ICustomerRepository customerRepository
             )
         {
