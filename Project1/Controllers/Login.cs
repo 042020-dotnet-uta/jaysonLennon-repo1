@@ -14,12 +14,12 @@ namespace StoreApp.Controllers
     {
         private StoreContext _context;
         private ILogger<Login> _logger;
-        private Repository.ICustomerRepository _customerRepository;
+        private Repository.ICustomer _customerRepository;
 
         public Login(
             StoreContext context,
             ILogger<Login> logger,
-            Repository.ICustomerRepository customerRepository
+            Repository.ICustomer customerRepository
             )
         {
             this._context = context;

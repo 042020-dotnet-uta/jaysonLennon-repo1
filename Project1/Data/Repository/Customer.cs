@@ -5,7 +5,7 @@ using StoreApp.Data.Entity;
 
 namespace StoreApp.Repository
 {
-    public interface ICustomerRepository
+    public interface ICustomer
     {
         IEnumerable<Customer> FindCustomerByFirstName(string firstName);
         IEnumerable<Customer> FindCustomerByLastName(string lastName);
@@ -18,7 +18,7 @@ namespace StoreApp.Repository
         IEnumerable<Order> GetOrderHistory(Customer customer);
     }
 
-    public class CustomerRepository : ICustomerRepository
+    public class CustomerRepository : ICustomer
     {
         private StoreContext _context;
 
@@ -27,47 +27,47 @@ namespace StoreApp.Repository
             this._context = context;
         }
 
-        Customer ICustomerRepository.Add(Customer customer)
+        Customer ICustomer.Add(Customer customer)
         {
             throw new NotImplementedException();
         }
 
-        IEnumerable<Customer> ICustomerRepository.FindCustomerByFirstName(string firstName)
+        IEnumerable<Customer> ICustomer.FindCustomerByFirstName(string firstName)
         {
             throw new NotImplementedException();
         }
 
-        IEnumerable<Customer> ICustomerRepository.FindCustomerByLastName(string lastName)
+        IEnumerable<Customer> ICustomer.FindCustomerByLastName(string lastName)
         {
             throw new NotImplementedException();
         }
 
-        IEnumerable<Customer> ICustomerRepository.FindCustomerByName(string name)
+        IEnumerable<Customer> ICustomer.FindCustomerByName(string name)
         {
             throw new NotImplementedException();
         }
 
-        Customer ICustomerRepository.GetCustomerByLogin(string login)
+        Customer ICustomer.GetCustomerByLogin(string login)
         {
             throw new NotImplementedException();
         }
 
-        Location ICustomerRepository.GetDefaultLocation(Customer customer)
+        Location ICustomer.GetDefaultLocation(Customer customer)
         {
             throw new NotImplementedException();
         }
 
-        IEnumerable<Order> ICustomerRepository.GetOrderHistory(Customer customer)
+        IEnumerable<Order> ICustomer.GetOrderHistory(Customer customer)
         {
             throw new NotImplementedException();
         }
 
-        bool ICustomerRepository.LoginExists(string login)
+        bool ICustomer.LoginExists(string login)
         {
             throw new NotImplementedException();
         }
 
-        bool ICustomerRepository.SetDefaultLocation(Customer customer, Location location)
+        bool ICustomer.SetDefaultLocation(Customer customer, Location location)
         {
             throw new NotImplementedException();
         }
