@@ -6,8 +6,8 @@
 
 2 - Which command is used to define a new app secret?
 * dotnet add secret "App:ServiceApiKey" "12345"
-* dotnet set secret "App:ServiceApiKey" "12345"
-* dotnet user-secrets add "App:ServiceApiKey" "12345"
+* dotnet new secret "App:ServiceApiKey" "12345"
+* dotnet user-secrets new "App:ServiceApiKey" "12345"
 * (CORRECT) dotnet user-secrets set "App:ServiceApiKey" "12345"
 
 3 - Which environment name is provided by ASP.NET Core?
