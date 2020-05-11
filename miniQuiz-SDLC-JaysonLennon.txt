@@ -1,0 +1,29 @@
+1 - Why does the Waterfall Model result in slow product delivery?
+* Clients can change feature requests at any time
+* It takes too much time to write the appropriate documentation
+* (CORRECT) Features must be completed before moving on to the next phase
+* Developers quit in the middle of a phase and it must be restarted
+
+2 - Which component of the SDLC is the most important?
+* (CORRECT) Analysis
+* Testing
+* Building
+* Deployment
+
+3 - How is the Agile process able to deliver features to clients quickly?
+* Agile does not allow new feature requests during development
+* (CORRECT) Agile focuses on delivering a working product over all other concerns
+* Agile is only used for small applications, so features are easy to implement
+* Agile requires clients be charged more, so more developers can work on the feature
+
+4 - What is a benefit to product owners and managers when using Agile Kanban?
+* (CORRECT) Implementation order of features can be easily changed with the backlog
+* Every feature is documented, so future developers can be productive faster
+* Managers can demand features be completed quickly
+* Project managed using Agile allow developers to be swapped in and out
+
+5 - When would it be appropriate to use the Big Bang model?
+* When many of the requirements are in flux or unknown
+* When the client knows exactly what software and features they desire
+* When a large development team is available to build the project
+* When the client requires heavy documentation and long term support
