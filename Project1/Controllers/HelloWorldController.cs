@@ -42,11 +42,17 @@ namespace StoreApp.Controllers
     {
         private StoreContext _context;
         private ILogger<HelloWorldController> _logger;
+        private Repository.IProductRepository _productRepository;
 
-        public HelloWorldController(StoreContext context, ILogger<HelloWorldController> logger)
+        public HelloWorldController(
+            StoreContext context,
+            ILogger<HelloWorldController> logger,
+            Repository.IProductRepository productRepository
+            )
         {
             this._context = context;
             this._logger = logger;
+            this._productRepository = productRepository;
         }
 
         [Route("HelloWorld/db")]
@@ -66,6 +72,13 @@ namespace StoreApp.Controllers
             var first = await customers.FirstAsync();
             var vm = new WelcomeViewModel(first.FirstName, 1);
             return View("Customer", vm);
+        }
+
+        [Route("HelloWorld/repo")]
+        public async Task<IActionResult> TestDI()
+        {
+            this.ViewData["repomsg"] = this._productRepository.sup();
+            return View("repo");
         }
 
         [Route("HelloWorld")]

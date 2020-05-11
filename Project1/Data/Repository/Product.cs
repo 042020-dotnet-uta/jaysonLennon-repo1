@@ -3,16 +3,16 @@ using StoreApp.Data;
 
 namespace StoreApp.Repository
 {
-    public interface IProduct
+    public interface IProductRepository
     {
         bool sup();
     }
 
-    public class Product : IProduct
+    public class ProductRepository : IProductRepository
     {
         private StoreContext _context;
 
-        public Product(StoreContext context)
+        public ProductRepository(StoreContext context)
         {
             this._context = context;
         }
