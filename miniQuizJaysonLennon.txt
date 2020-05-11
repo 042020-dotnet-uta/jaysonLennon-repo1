@@ -4,7 +4,6 @@
 * BlockCSRF
 * ValidateRequest
 
-
 2 - Which command is used to define a new app secret?
 * dotnet add secret "App:ServiceApiKey" "12345"
 * dotnet set secret "App:ServiceApiKey" "12345"
