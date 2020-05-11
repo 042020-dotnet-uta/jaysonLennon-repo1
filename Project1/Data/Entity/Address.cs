@@ -1,6 +1,6 @@
 using System;
 
-namespace StoreApp.Data.Entity
+namespace StoreApp.Entity
 {
     /// <summary>
     /// Consists of the components needed to form a full address.

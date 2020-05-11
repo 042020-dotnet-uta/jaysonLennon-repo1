@@ -41,20 +41,33 @@ namespace StoreApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                this._logger.LogCritical("invalid model");
-            } else
-            {
-                this._logger.LogInformation("valid model");
+                return View("Index", model);
             }
-            this._logger.LogTrace($"model username={model.UserName}");
-            return View("Index", model);
+            else
+            {
+                var customer = new Entity.Customer();
+                customer.Login = model.UserName;
+                customer.Password = model.Password;
+                await this._customerRepository.Add(customer);
+                // TODO: redirect to customer page
+                return View("Index", model);
+            }
         }
 
         [HttpGet]
         [Route("CreateAccount/VerifyUserName")]
         public async Task<IActionResult> VerifyUserName(string username)
         {
-            return Json($"That user name is unavailable.");
+            var verified = await _customerRepository.VerifyUserLogin(username);
+            if (verified)
+            {
+                return Json(true);
+            }
+            else
+            {
+
+                return Json($"That user name is unavailable.");
+            }
         }
     }
 }

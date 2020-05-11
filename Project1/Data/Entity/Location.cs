@@ -1,6 +1,6 @@
 using System;
 
-namespace StoreApp.Data.Entity
+namespace StoreApp.Entity
 {
     /// <summary>
     /// Represents a store location and consists of the name and address of the location.

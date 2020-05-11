@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace StoreApp.Data.Entity
+namespace StoreApp.Entity
 {
     /// <summary>
     /// Represents and order created by the customer.

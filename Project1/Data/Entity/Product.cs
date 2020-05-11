@@ -1,6 +1,6 @@
 using System;
 
-namespace StoreApp.Data.Entity
+namespace StoreApp.Entity
 {
     /// <summary>
     /// Contains various product information such as name and price.

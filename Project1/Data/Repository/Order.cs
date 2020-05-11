@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using StoreApp.Data;
-using StoreApp.Data.Entity;
+using StoreApp.Entity;
 
 namespace StoreApp.Repository
 {

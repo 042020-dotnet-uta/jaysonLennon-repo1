@@ -1,7 +1,6 @@
 using System;
-using System.Text.RegularExpressions;
 
-namespace StoreApp.Data.Entity
+namespace StoreApp.Entity
 {
     /// <summary>
     /// Contains all customer-related information such as name, phone number, and address.
