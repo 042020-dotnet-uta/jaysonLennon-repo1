@@ -16,6 +16,9 @@ namespace StoreApp.StartupUtil
     {
         public static void AddRepositories(IServiceCollection services)
         {
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<ILocationRepository, LocationRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
         }
     }

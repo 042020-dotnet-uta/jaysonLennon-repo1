@@ -1,11 +1,14 @@
 using System;
+using System.Collections.Generic;
 using StoreApp.Data;
+using StoreApp.Data.Entity;
 
 namespace StoreApp.Repository
 {
     public interface IProductRepository
     {
-        bool sup();
+        Product GetProductById(Guid id);
+        IEnumerable<LocationInventory> GetProductsAvailable(Location location);
     }
 
     public class ProductRepository : IProductRepository
@@ -17,9 +20,14 @@ namespace StoreApp.Repository
             this._context = context;
         }
 
-        public bool sup()
+        Product IProductRepository.GetProductById(Guid id)
         {
-            return true;
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<LocationInventory> IProductRepository.GetProductsAvailable(Location location)
+        {
+            throw new NotImplementedException();
         }
     }
 }

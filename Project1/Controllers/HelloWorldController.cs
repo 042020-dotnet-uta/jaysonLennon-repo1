@@ -74,13 +74,6 @@ namespace StoreApp.Controllers
             return View("Customer", vm);
         }
 
-        [Route("HelloWorld/repo")]
-        public async Task<IActionResult> TestDI()
-        {
-            this.ViewData["repomsg"] = this._productRepository.sup();
-            return View("repo");
-        }
-
         [Route("HelloWorld")]
         [Route("HelloWorld/Index")]
         public string Index()
