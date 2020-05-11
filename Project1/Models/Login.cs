@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace StoreApp.Models
 {
-    public class LoginViewModel {
+    public class Login {
 
         [Required(ErrorMessage = "A user name is required.")]
         [Display(Name = "User Name", Description = "Unique name used to log in.")]
