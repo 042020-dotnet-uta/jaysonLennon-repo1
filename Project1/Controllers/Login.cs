@@ -39,6 +39,7 @@ namespace StoreApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> TryLogin(Models.Login model)
         {
+            // TODO: Implement login
             if (!ModelState.IsValid)
             {
                 this._logger.LogCritical("invalid model");
