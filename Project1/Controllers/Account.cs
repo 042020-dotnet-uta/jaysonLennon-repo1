@@ -14,13 +14,13 @@ using Microsoft.AspNetCore.Authentication;
 
 namespace StoreApp.Controllers
 {
-    public class AccountManagement : Controller
+    public class Account : Controller
     {
         private StoreContext _context;
         private ILogger<Models.Login> _logger;
         private Repository.ICustomer _customerRepository;
 
-        public AccountManagement(
+        public Account(
             StoreContext context,
             ILogger<Models.Login> logger,
             Repository.ICustomer customerRepository
@@ -31,14 +31,14 @@ namespace StoreApp.Controllers
             this._customerRepository = customerRepository;
         }
 
-        [Route("CreateAccount")]
+        [Route("Account/Create")]
         public async Task<IActionResult> CreateAccountIndex()
         {
             var model = new Models.CreateAccount();
             return View("CreateAccount", model);
         }
 
-        [Route("Login")]
+        [Route("Account/Login")]
         public async Task<IActionResult> LoginIndex()
         {
             var model = new Models.Login();
@@ -47,7 +47,7 @@ namespace StoreApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("CreateAccount/TryCreate")]
+        [Route("Account/TryCreate")]
         public async Task<IActionResult> TryCreate(Models.CreateAccount model)
         {
             if (!ModelState.IsValid)
@@ -60,12 +60,11 @@ namespace StoreApp.Controllers
                 customer.Login = model.UserName;
                 customer.Password = model.Password;
                 await this._customerRepository.Add(customer);
-                // TODO: redirect to customer page
-                return View("TODO", model);
+                return Redirect("Customer/Home");
             }
         }
 
-        [Route("Login/TryLogin")]
+        [Route("Account/TryLogin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> TryLogin(Models.Login model)
@@ -106,17 +105,17 @@ namespace StoreApp.Controllers
             return Redirect("/Customer/Home");
         }
 
-        [Route("Login/AccessDenied")]
+        [Route("Account/AccessDenied")]
         [HttpGet]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AccessDenied()
+        public async Task<IActionResult> AccessDenied(string returnUrl)
         {
-            this._logger.LogTrace($"access denied");
+            this._logger.LogTrace($"access denied: return={returnUrl}");
             return View("AccessDenied");
         }
 
         [HttpGet]
-        [Route("CreateAccount/VerifyUserName")]
+        [Route("Account/VerifyUserName")]
         public async Task<IActionResult> VerifyUserName(string username)
         {
             var verified = await _customerRepository.VerifyUserLogin(username);
@@ -129,6 +128,14 @@ namespace StoreApp.Controllers
 
                 return Json($"That user name is unavailable.");
             }
+        }
+
+        [HttpPost]
+        [Route("Account/Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Redirect("LogoutOk");
         }
     }
 }

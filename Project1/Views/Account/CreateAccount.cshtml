@@ -1,8 +1,8 @@
-@model StoreApp.Models.Login;
+@model StoreApp.Models.CreateAccount;
 
-<h1>Login Page</h1>
+<h1>Create Account page</h1>
 
-<form asp-controller="AccountManagement" asp-action="TryLogin" method="POST">
+<form asp-controller="Account" asp-action="TryCreate" method="POST">
     <div>
         <label asp-for="UserName"></label>
         <input asp-for="UserName" placeholder="User Name" />
