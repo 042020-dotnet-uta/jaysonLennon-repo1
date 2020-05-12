@@ -42,11 +42,17 @@ namespace StoreApp.Controllers
     {
         private StoreContext _context;
         private ILogger<HelloWorldController> _logger;
+        private Repository.IProductRepository _productRepository;
 
-        public HelloWorldController(StoreContext context, ILogger<HelloWorldController> logger)
+        public HelloWorldController(
+            StoreContext context,
+            ILogger<HelloWorldController> logger,
+            Repository.IProductRepository productRepository
+            )
         {
             this._context = context;
             this._logger = logger;
+            this._productRepository = productRepository;
         }
 
         [Route("HelloWorld/db")]
