@@ -7,6 +7,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
 using StoreApp.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StoreApp.Controllers
 {
@@ -90,6 +91,13 @@ namespace StoreApp.Controllers
         {
             WelcomeViewModel vd = new WelcomeViewModel(name, id);
             return View("Index", vd);
+        }
+
+        [Route("HelloWorld/Authed")]
+        [Authorize(Roles = "Customer")]
+        public async Task<IActionResult> AuthorizedPage()
+        {
+            return View("AuthorizedPage");
         }
     }
 }

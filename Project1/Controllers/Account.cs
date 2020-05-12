@@ -39,9 +39,9 @@ namespace StoreApp.Controllers
         }
 
         [Route("Account/Login")]
-        public async Task<IActionResult> LoginIndex()
+        public async Task<IActionResult> LoginIndex(Models.Login model)
         {
-            var model = new Models.Login();
+            this._logger.LogDebug($"return url={model.ReturnUrl}");
             return View("Login", model);
         }
 
@@ -73,7 +73,8 @@ namespace StoreApp.Controllers
             if (!ModelState.IsValid)
             {
                 this._logger.LogCritical("invalid model");
-            } else
+            }
+            else
             {
                 this._logger.LogInformation("valid model");
             }
@@ -102,7 +103,15 @@ namespace StoreApp.Controllers
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
 
-            return Redirect("/Customer/Home");
+            this._logger.LogDebug($"return url={model.ReturnUrl}");
+            if (!String.IsNullOrEmpty(model.ReturnUrl))
+            {
+                return Redirect(model.ReturnUrl);
+            }
+            else
+            {
+                return Redirect("/Customer/Home");
+            }
         }
 
         [Route("Account/AccessDenied")]

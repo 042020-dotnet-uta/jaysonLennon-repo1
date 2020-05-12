@@ -3,6 +3,7 @@
 <h1>Login Page</h1>
 
 <form asp-controller="Account" asp-action="TryLogin" method="POST">
+    <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl">
     <div>
         <label asp-for="UserName"></label>
         <input asp-for="UserName" placeholder="User Name" />
