@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -5,8 +6,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 using StoreApp.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace StoreApp.StartupUtil
 {
@@ -51,6 +55,17 @@ namespace StoreApp
                 });
             });
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(options =>
+                    {
+                        options.Cookie.HttpOnly = true;
+                        options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+                        options.LoginPath = "/Login/TryLogin";
+                        options.AccessDeniedPath = "/Login/AccessDenied";
+                        options.SlidingExpiration = true;
+                    });
+
             StartupUtil.Repos.AddRepositories(services);
         }
 
@@ -67,11 +82,22 @@ namespace StoreApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            // IMPORTANT: These have to be called in this specific order.
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
+            var cookiePolicyOptions = new CookiePolicyOptions
+            {
+                MinimumSameSitePolicy = SameSiteMode.Strict,
+            };
+
+            app.UseCookiePolicy(cookiePolicyOptions);
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
