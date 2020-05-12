@@ -43,12 +43,12 @@ namespace StoreApp.Controllers
     {
         private StoreContext _context;
         private ILogger<HelloWorldController> _logger;
-        private Repository.IProductRepository _productRepository;
+        private Repository.IProduct _productRepository;
 
         public HelloWorldController(
             StoreContext context,
             ILogger<HelloWorldController> logger,
-            Repository.IProductRepository productRepository
+            Repository.IProduct productRepository
             )
         {
             this._context = context;

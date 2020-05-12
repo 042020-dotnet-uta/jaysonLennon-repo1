@@ -97,7 +97,7 @@ namespace StoreApp.Repository
 
         bool ICustomer.LoginExists(string login)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         bool ICustomer.SetDefaultLocation(Customer customer, Location location)

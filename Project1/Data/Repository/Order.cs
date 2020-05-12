@@ -27,7 +27,7 @@ namespace StoreApp.Repository
         /// <summary>Order rejected because the quantity of <c>Product</c> is too high.</summary>
         HighQuantityRejection
     }
-    public interface IOrderRepository
+    public interface IOrder
     {
         PlaceOrderResult PlaceOrder(Product product, Location location, int orderQuantity, int maxAllowed);
         IEnumerable<Order> GetOrderHistory(Customer customer);
@@ -36,7 +36,7 @@ namespace StoreApp.Repository
         bool SetLineItemQuantity(OrderLineItem orderLine, int newQuantity);
     }
 
-    public class OrderRepository : IOrderRepository
+    public class OrderRepository : IOrder
     {
         private StoreContext _context;
 
@@ -45,27 +45,27 @@ namespace StoreApp.Repository
             this._context = context;
         }
 
-        bool IOrderRepository.DeleteLineItem(OrderLineItem orderLine)
+        bool IOrder.DeleteLineItem(OrderLineItem orderLine)
         {
             throw new NotImplementedException();
         }
 
-        IEnumerable<Order> IOrderRepository.GetOrderHistory(Customer customer)
+        IEnumerable<Order> IOrder.GetOrderHistory(Customer customer)
         {
             throw new NotImplementedException();
         }
 
-        IEnumerable<OrderLineItem> IOrderRepository.GetOrderLines(Order order)
+        IEnumerable<OrderLineItem> IOrder.GetOrderLines(Order order)
         {
             throw new NotImplementedException();
         }
 
-        PlaceOrderResult IOrderRepository.PlaceOrder(Product product, Location location, int orderQuantity, int maxAllowed)
+        PlaceOrderResult IOrder.PlaceOrder(Product product, Location location, int orderQuantity, int maxAllowed)
         {
             throw new NotImplementedException();
         }
 
-        bool IOrderRepository.SetLineItemQuantity(OrderLineItem orderLine, int newQuantity)
+        bool IOrder.SetLineItemQuantity(OrderLineItem orderLine, int newQuantity)
         {
             throw new NotImplementedException();
         }

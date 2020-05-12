@@ -1,3 +1,4 @@
-﻿@{
-    Layout = "_Layout";
+﻿@{ string sessionLayoutKey = StoreApp.SessionLayout.K.UseSessionLayout; }
+@{
+    Layout = ViewData.ContainsKey(sessionLayoutKey) ? "_LayoutWithSessionHeader" : "_Layout";
 }

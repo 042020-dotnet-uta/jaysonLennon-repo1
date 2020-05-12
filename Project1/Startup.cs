@@ -21,9 +21,9 @@ namespace StoreApp.StartupUtil
         public static void AddRepositories(IServiceCollection services)
         {
             services.AddScoped<ICustomer, CustomerRepository>();
-            services.AddScoped<ILocationRepository, LocationRepository>();
-            services.AddScoped<IOrderRepository, OrderRepository>();
-            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ILocation, LocationRepository>();
+            services.AddScoped<IOrder, OrderRepository>();
+            services.AddScoped<IProduct, ProductRepository>();
         }
     }
 }
@@ -67,6 +67,8 @@ namespace StoreApp
                     });
 
             StartupUtil.Repos.AddRepositories(services);
+
+            services.AddScoped<SessionLayout.UseLayout>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

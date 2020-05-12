@@ -91,10 +91,9 @@ namespace StoreApp.Controllers
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, model.UserName),
-                new Claim(ClaimTypes.Role, "Customer"),
-                // TODO: get database last user update time to reauth
-                new Claim("LastChanged", "2000-01-01"),
+                new Claim(Auth.Claim.UserName, model.UserName),
+                new Claim(ClaimTypes.Role, Auth.Role.Customer),
+                // TODO: Check user permissions regularly in case they get revoked.
             };
 
             var claimsIdentity = new ClaimsIdentity(

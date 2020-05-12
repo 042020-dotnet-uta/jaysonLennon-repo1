@@ -5,13 +5,13 @@ using StoreApp.Entity;
 
 namespace StoreApp.Repository
 {
-    public interface IProductRepository
+    public interface IProduct
     {
         Product GetProductById(Guid id);
         IEnumerable<LocationInventory> GetProductsAvailable(Location location);
     }
 
-    public class ProductRepository : IProductRepository
+    public class ProductRepository : IProduct
     {
         private StoreContext _context;
 
@@ -20,12 +20,12 @@ namespace StoreApp.Repository
             this._context = context;
         }
 
-        Product IProductRepository.GetProductById(Guid id)
+        Product IProduct.GetProductById(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        IEnumerable<LocationInventory> IProductRepository.GetProductsAvailable(Location location)
+        IEnumerable<LocationInventory> IProduct.GetProductsAvailable(Location location)
         {
             throw new NotImplementedException();
         }
