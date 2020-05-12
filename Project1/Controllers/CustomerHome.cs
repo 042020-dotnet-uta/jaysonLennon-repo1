@@ -1,3 +1,5 @@
+using System.IO;
+using System.Threading;
 using System.Net;
 using System;
 using Microsoft.AspNetCore.Mvc;
@@ -29,9 +31,9 @@ namespace StoreApp.Controllers
         }
 
         [Route("Customer/Home")]
-        public async Task<string> Home()
+        public async Task<IActionResult> Home()
         {
-            return("this is the home page");
+            return View("Index");
         }
     }
 }

@@ -46,6 +46,14 @@ namespace StoreApp.Controllers
         }
 
         [HttpPost]
+        [Route("Account/Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Redirect("LogoutOk");
+        }
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Account/TryCreate")]
         public async Task<IActionResult> TryCreate(Models.CreateAccount model)
@@ -139,12 +147,5 @@ namespace StoreApp.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("Account/Logout")]
-        public async Task<IActionResult> Logout()
-        {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return Redirect("LogoutOk");
-        }
     }
 }
