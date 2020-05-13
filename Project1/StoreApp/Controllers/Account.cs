@@ -17,12 +17,12 @@ namespace StoreApp.Controllers
     public class Account : Controller
     {
         private StoreContext _context;
-        private ILogger<Models.Login> _logger;
+        private ILogger<Account> _logger;
         private Repository.ICustomer _customerRepository;
 
         public Account(
             StoreContext context,
-            ILogger<Models.Login> logger,
+            ILogger<Account> logger,
             Repository.ICustomer customerRepository
             )
         {
@@ -45,10 +45,13 @@ namespace StoreApp.Controllers
         }
 
         [Route("Account/Login")]
-        public async Task<IActionResult> LoginIndex(Models.Login model)
+        public async Task<IActionResult> LoginIndex(Models.LoginRedirect loginRedirectModel)
         {
-            this._logger.LogDebug($"return url={model.ReturnUrl}");
-            return View("Login", model);
+            var loginUser = new Models.LoginUser();
+            loginUser.ReturnUrl = loginRedirectModel.ReturnUrl;
+            loginUser.ErrorMessage = loginRedirectModel.ErrorMessage;
+            this._logger.LogDebug($"return url={loginUser.ReturnUrl}");
+            return View("Login", loginUser);
         }
 
         [HttpPost]
@@ -70,7 +73,7 @@ namespace StoreApp.Controllers
             }
             else
             {
-                var loginExists = this._customerRepository.LoginExists(model.UserName);
+                var loginExists = await this._customerRepository.LoginExists(model.UserName);
                 if (loginExists)
                 {
                     model.ErrorMessage = "That user name is unavailable.";
@@ -88,7 +91,7 @@ namespace StoreApp.Controllers
         [Route("Account/TryLogin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> TryLogin(Models.Login model)
+        public async Task<IActionResult> TryLogin(Models.LoginUser model)
         {
             // TODO: Implement login
             if (!ModelState.IsValid)
@@ -106,8 +109,10 @@ namespace StoreApp.Controllers
             var customer = await this._customerRepository.VerifyCredentials(model.UserName, model.Password);
             if (customer == null) 
             {
-                model.ErrorMessage = "Invalid login credentials";
-                return View("Login", model);
+                var loginRedirect = new Models.LoginRedirect();
+                loginRedirect.ErrorMessage = "Invalid login credentials";
+                loginRedirect.ReturnUrl = model.ReturnUrl;
+                return RedirectToAction("LoginIndex", loginRedirect);
             }
 
             var claims = new List<Claim>

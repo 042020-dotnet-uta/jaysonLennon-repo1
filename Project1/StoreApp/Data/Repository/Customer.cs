@@ -32,7 +32,7 @@ namespace StoreApp.Repository
         IEnumerable<Customer> FindCustomerByLastName(string lastName);
         IEnumerable<Customer> FindCustomerByName(string name);
         Task<Customer> GetCustomerByLogin(string login);
-        bool LoginExists(string login);
+        Task<bool> LoginExists(string login);
         Task<CreateUserAccountResult> Add(Customer customer);
         Task<bool> VerifyUserLogin(string login);
         bool SetDefaultLocation(Customer customer, Location location);
@@ -108,9 +108,13 @@ namespace StoreApp.Repository
             throw new NotImplementedException();
         }
 
-        bool ICustomer.LoginExists(string login)
+        async Task<bool> ICustomer.LoginExists(string login)
         {
-            return true;
+            login = login.ToLower();
+            return await _context.Customers
+                           .Where(c => c.Login.ToLower() == login)
+                           .Select(c => c)
+                           .SingleOrDefaultAsync() != null;
         }
 
         bool ICustomer.SetDefaultLocation(Customer customer, Location location)

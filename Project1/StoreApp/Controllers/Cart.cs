@@ -18,12 +18,12 @@ namespace StoreApp.Controllers
     public class Cart : Controller
     {
         private StoreContext _context;
-        private ILogger<Models.Login> _logger;
+        private ILogger<Cart> _logger;
         private Repository.IOrder _orderRepository;
 
         public Cart(
             StoreContext context,
-            ILogger<Models.Login> logger,
+            ILogger<Cart> logger,
             Repository.IOrder orderRepository
             )
         {

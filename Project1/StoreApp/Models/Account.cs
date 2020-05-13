@@ -18,7 +18,7 @@ namespace StoreApp.Models
         public string ErrorMessage { get; set; }
     }
 
-    public class Login {
+    public class LoginUser {
 
         [Required(ErrorMessage = "A user name is required.")]
         [Display(Name = "User Name", Description = "Unique name used to log in.")]
@@ -29,6 +29,12 @@ namespace StoreApp.Models
         [Display(Name = "Password", Description = "Password used to log in.")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        public string ReturnUrl { get; set; }
+        public string ErrorMessage { get; set; }
+    }
+
+    public class LoginRedirect
+    {
         public string ReturnUrl { get; set; }
         public string ErrorMessage { get; set; }
     }
