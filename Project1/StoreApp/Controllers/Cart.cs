@@ -19,17 +19,17 @@ namespace StoreApp.Controllers
     {
         private StoreContext _context;
         private ILogger<Cart> _logger;
-        private Repository.IOrder _orderRepository;
+        private IServiceProvider _services;
 
         public Cart(
             StoreContext context,
             ILogger<Cart> logger,
-            Repository.IOrder orderRepository
+            IServiceProvider services
             )
         {
             this._context = context;
             this._logger = logger;
-            this._orderRepository = orderRepository;
+            this._services = services;
         }
 
         [Route("Cart/View")]
@@ -61,12 +61,26 @@ namespace StoreApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = Auth.Role.Customer)]
-        public IActionResult AddToCart(Models.CartAdd model)
+        public async Task<IActionResult> AddToCart(Models.CartAdd model)
         {
-            // TODO: Implement 'add to cart' functionality.
-            // check if order exists
-            // if not, create a new one
-            // add item to order
+            var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
+            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+            var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
+            var productRepo = (Repository.IProduct)this._services.GetService(typeof(Repository.IProduct));
+
+            var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
+
+            var customer = await customerRepo.GetCustomerById(customerId);
+            var location = await customerRepo.GetDefaultLocation(customer);
+            var product = await productRepo.GetProductById(model.ItemId);
+
+            var currentOrder = await customerRepo.GetOpenOrder(customer, location);
+            var added = await orderRepo.AddLineItem(currentOrder, product, model.ItemQuantity);
+            if (!added)
+            {
+                return View("CartAddError");
+            }
+
             _logger.LogTrace($" call add to cart with id {model.ItemId} and quantity {model.ItemQuantity}");
             var okModel = new Models.CartAddOk();
             okModel.ItemId = model.ItemId;

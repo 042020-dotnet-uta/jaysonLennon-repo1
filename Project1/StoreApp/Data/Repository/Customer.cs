@@ -39,6 +39,7 @@ namespace StoreApp.Repository
         void SetDefaultLocation(Customer customer, Location location);
         Task<Location> GetDefaultLocation(Customer customer);
         IEnumerable<Order> GetOrderHistory(Customer customer);
+        Task<Order> GetOpenOrder(Customer customer, Location location);
         Task<Customer> VerifyCredentials(string login, string plainPassword);
     }
 
@@ -106,6 +107,25 @@ namespace StoreApp.Repository
                                  .Where(c => c.Login.ToLower() == login)
                                  .Select(c => c)
                                  .FirstOrDefaultAsync();
+        }
+
+        async Task<Order> ICustomer.GetOpenOrder(Customer customer, Location location)
+        {
+            var currentOrder = await _context.Orders
+                                             .Where(o => o.Customer.CustomerId == customer.CustomerId)
+                                             .Where(o => o.TimeSubmitted == null)
+                                             .Where(o => o.Location.LocationId == location.LocationId)
+                                             .Select(o => o)
+                                             .FirstOrDefaultAsync();
+            if (currentOrder == null)
+            {
+                var newOrder = new Entity.Order(customer, location);
+                _context.Add(newOrder);
+                await _context.SaveChangesAsync();
+                return newOrder;
+            } else {
+                return currentOrder;
+            }
         }
 
         IEnumerable<Order> ICustomer.GetOrderHistory(Customer customer)

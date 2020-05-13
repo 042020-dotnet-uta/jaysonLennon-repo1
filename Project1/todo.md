@@ -9,6 +9,7 @@
 - [X] Display products from selected store or default store
 - [X] Redirect to account management page on product click if not logged in
 - [ ] Show which store's items are being displayed
+- [ ] calculate stock based on items in order
 - [X] Click items to go to detail page
 - [ ] Use data from db
 - [ ] styles
@@ -42,6 +43,9 @@
 - [X] 'Checkout' button
 - [X] 'Continue Shopping' button
 - [ ] styles
+
+# Item detail page
+- [ ] link to try again on error
 
 # Checkout page
 - [X] Display products in cart, quantity, and totals per product
