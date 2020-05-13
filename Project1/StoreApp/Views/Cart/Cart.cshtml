@@ -2,6 +2,7 @@
 <h1>This is the view cart page</h1>
 
 <div>total cost = @Model.TotalCost()</div>
+<a asp-controller="Checkout" asp-action="Index">Checkout</a>
 
 <form asp-controller="Cart" asp-action="Update" method="POST">
     <button type="submit" value="update" name="action">Update Quantities</button>
