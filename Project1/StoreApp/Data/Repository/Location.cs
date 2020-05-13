@@ -36,7 +36,9 @@ namespace StoreApp.Repository
 
         IEnumerable<Location> ILocation.GetLocations()
         {
-            throw new NotImplementedException();
+            return (from loc in _context.Locations
+                   select loc)
+                   .AsEnumerable();
         }
 
         Location ILocation.GetMostStocked()
