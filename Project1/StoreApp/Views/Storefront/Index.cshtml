@@ -3,5 +3,7 @@
 <h1>this is the storefront page</h1>
 @foreach (var product in @Model.products)
 {
-    <div>Quantity: @product.Item2, product: @product.Item1.Name</div>
+    <div>
+        <a href="ItemDetail/View/@product.Item1.ProductId">[Click]</a> Quantity: @product.Item2, product: @product.Item1.Name
+    </div>
 }

@@ -39,6 +39,7 @@ namespace StoreApp.Controllers
             var model = new Models.Storefront();
 
 
+            // Determine which location's inventory we should display.
             Entity.Location location = null;
             var username = HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserName);
             if (username != null)
