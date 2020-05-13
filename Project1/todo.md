@@ -31,6 +31,7 @@
 # Item detail page
 - [X] Display product
 - [X] Quantity picker and 'add to cart' button
+- [ ] Display message if item not found and link to go back to storefront
 - [ ] Update order info on backend
 - [ ] Use data from db
 - [ ] styles
@@ -58,7 +59,7 @@
 - [X] List products
 - [X] quantity boxes
 - [ ] remove buttons
-- [ ] "update quantities" link
+- [X] "update quantities" button
 - [X] "update quantities" redirects to cart view when session expires
 - [ ] display error on broken model
 - [ ] "Checkout" link

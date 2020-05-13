@@ -3,12 +3,14 @@ using System.Linq;
 using System.Collections.Generic;
 using StoreApp.Data;
 using StoreApp.Entity;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace StoreApp.Repository
 {
     public interface IProduct
     {
-        Product GetProductById(Guid id);
+        Task<Product> GetProductById(Guid id);
     }
 
     public class ProductRepository : IProduct
@@ -20,9 +22,12 @@ namespace StoreApp.Repository
             this._context = context;
         }
 
-        Product IProduct.GetProductById(Guid id)
+        async Task<Product> IProduct.GetProductById(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Products
+                                 .Where(p => p.ProductId == id)
+                                 .Select(p => p)
+                                 .SingleOrDefaultAsync();
         }
 
     }

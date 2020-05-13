@@ -13,10 +13,14 @@ namespace StoreApp.Controllers
     public class ItemDetail : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private Repository.IProduct _productRepository;
 
-        public ItemDetail(ILogger<HomeController> logger)
+        public ItemDetail(
+            ILogger<HomeController> logger,
+            Repository.IProduct productRepository)
         {
-            _logger = logger;
+            this._logger = logger;
+            this._productRepository = productRepository;
         }
 
         [Route("ItemDetail")]
@@ -28,11 +32,20 @@ namespace StoreApp.Controllers
 
         [Route("ItemDetail/View/{id}")]
         [Authorize(Roles = Auth.Role.Customer)]
-        public IActionResult ShowDetail(Guid id)
+        public async Task<IActionResult> ShowDetail(Guid id)
         {
-            // TODO: Show details of item.
+            var product = await _productRepository.GetProductById(id);
+            if (product == null)
+            {
+                return View("ItemDetail", new Models.ItemDetail());
+            }
+
             var model = new Models.ItemDetail();
-            model.Id = id;
+            model.Id = product.ProductId;
+            model.Name = product.Name;
+            model.ImageName = product.ImageName;
+            model.UnitPrice = product.Price;
+
             return View("ItemDetail", model);
         }
     }

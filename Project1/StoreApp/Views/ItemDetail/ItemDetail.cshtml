@@ -2,8 +2,16 @@
 
 <h1>this is the item detail view for item number @Model.Id</h1>
 
-<form asp-controller="Cart" asp-action="AddToCart" method="POST">
-    <input type="hidden" name="ItemId" value="@Model.Id">
-    <input type="text" type="number" min="0" name="ItemQuantity">
-    <input type="submit" value="Add to cart">
-</form>
+<p>item name=@Model.Name</p>
+<p>item price=@Model.UnitPrice</p>
+<p>item img=@Model.ImageName</p>
+
+@if (Model.Id != null) {
+    <form asp-controller="Cart" asp-action="AddToCart" method="POST">
+        <input type="hidden" name="ItemId" value="@Model.Id">
+        <input type="text" type="number" min="0" name="ItemQuantity">
+        <input type="submit" value="Add to cart">
+    </form>
+} else {
+    <h2>Unable to find that item id.</h2>
+}
