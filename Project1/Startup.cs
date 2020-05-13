@@ -8,6 +8,21 @@ using Microsoft.Extensions.Logging;
 
 using StoreApp.Data;
 
+namespace StoreApp.StartupUtil
+{
+    using StoreApp.Repository;
+
+    public static class Repos
+    {
+        public static void AddRepositories(IServiceCollection services)
+        {
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<ILocationRepository, LocationRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+        }
+    }
+}
 namespace StoreApp
 {
     public class Startup
@@ -35,6 +50,8 @@ namespace StoreApp
                     logging.AddConsole();
                 });
             });
+
+            StartupUtil.Repos.AddRepositories(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
