@@ -31,7 +31,7 @@ namespace StoreApp.Repository
         IEnumerable<Customer> FindCustomerByFirstName(string firstName);
         IEnumerable<Customer> FindCustomerByLastName(string lastName);
         IEnumerable<Customer> FindCustomerByName(string name);
-        Customer GetCustomerByLogin(string login);
+        Task<Customer> GetCustomerByLogin(string login);
         bool LoginExists(string login);
         Task<CreateUserAccountResult> Add(Customer customer);
         Task<bool> VerifyUserLogin(string login);
@@ -88,9 +88,13 @@ namespace StoreApp.Repository
             throw new NotImplementedException();
         }
 
-        Customer ICustomer.GetCustomerByLogin(string login)
+        async Task<Customer> ICustomer.GetCustomerByLogin(string login)
         {
-            throw new NotImplementedException();
+            login = login.ToLower();
+            return await _context.Customers
+                                 .Where(c => c.Login.ToLower() == login)
+                                 .Select(c => c)
+                                 .FirstOrDefaultAsync();
         }
 
         IEnumerable<Order> ICustomer.GetOrderHistory(Customer customer)
