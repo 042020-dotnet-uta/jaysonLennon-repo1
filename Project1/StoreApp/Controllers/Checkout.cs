@@ -25,21 +25,21 @@ namespace StoreApp.Controllers
         {
             // TODO: Replace dummy data with order information.
             // TODO: Format items
-            var checkoutItem = new Models.CheckoutItem();
-            checkoutItem.Id = Guid.NewGuid();
-            checkoutItem.Name = "item name here (test item)";
-            checkoutItem.UnitPrice = 12.34;
-            checkoutItem.Quantity = 4;
+            var cartItem = new Models.CartItem();
+            cartItem.Id = Guid.NewGuid();
+            cartItem.Name = "item name here (test item)";
+            cartItem.UnitPrice = 12.34;
+            cartItem.Quantity = 4;
 
-            var checkoutItem2 = new Models.CheckoutItem();
-            checkoutItem2.Id = Guid.NewGuid();
-            checkoutItem2.Name = "another item";
-            checkoutItem2.UnitPrice = 3.0;
-            checkoutItem2.Quantity = 3;
+            var cartItem2 = new Models.CartItem();
+            cartItem2.Id = Guid.NewGuid();
+            cartItem2.Name = "another item";
+            cartItem2.UnitPrice = 3.0;
+            cartItem2.Quantity = 3;
 
             var model = new Models.Checkout();
-            model.Items.Add(checkoutItem);
-            model.Items.Add(checkoutItem2);
+            model.Items.Add(cartItem);
+            model.Items.Add(cartItem2);
 
             return View("Checkout", model);
         }
