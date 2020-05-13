@@ -70,6 +70,13 @@ namespace StoreApp.Controllers
             }
             else
             {
+                var loginExists = this._customerRepository.LoginExists(model.UserName);
+                if (loginExists)
+                {
+                    model.ErrorMessage = "That user name is unavailable.";
+                    return View("CreateAccount", model);
+                }
+
                 var customer = new Entity.Customer();
                 customer.Login = model.UserName;
                 customer.Password = model.Password;

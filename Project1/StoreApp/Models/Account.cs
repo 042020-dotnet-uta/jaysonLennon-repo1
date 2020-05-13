@@ -15,6 +15,7 @@ namespace StoreApp.Models
         [Display(Name = "Password", Description = "Password used to log in.")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        public string ErrorMessage { get; set; }
     }
 
     public class Login {
