@@ -32,10 +32,11 @@ namespace StoreApp.Repository
         IEnumerable<Customer> FindCustomerByLastName(string lastName);
         IEnumerable<Customer> FindCustomerByName(string name);
         Task<Customer> GetCustomerByLogin(string login);
+        Task<Customer> GetCustomerById(Guid id);
         Task<bool> LoginExists(string login);
         Task<CreateUserAccountResult> Add(Customer customer);
         Task<bool> VerifyUserLogin(string login);
-        bool SetDefaultLocation(Customer customer, Location location);
+        void SetDefaultLocation(Customer customer, Location location);
         Task<Location> GetDefaultLocation(Customer customer);
         IEnumerable<Order> GetOrderHistory(Customer customer);
         Task<Customer> VerifyCredentials(string login, string plainPassword);
@@ -89,6 +90,14 @@ namespace StoreApp.Repository
             throw new NotImplementedException();
         }
 
+        async Task<Customer> ICustomer.GetCustomerById(Guid id)
+        {
+            return await _context.Customers
+                                 .Where(c => c.CustomerId == id)
+                                 .Select(c => c)
+                                 .FirstOrDefaultAsync();
+        }
+
         async Task<Customer> ICustomer.GetCustomerByLogin(string login)
         {
             login = login.ToLower();
@@ -96,11 +105,6 @@ namespace StoreApp.Repository
                                  .Where(c => c.Login.ToLower() == login)
                                  .Select(c => c)
                                  .FirstOrDefaultAsync();
-        }
-
-        Task<Location> ICustomer.GetDefaultLocation(Customer customer)
-        {
-            throw new NotImplementedException();
         }
 
         IEnumerable<Order> ICustomer.GetOrderHistory(Customer customer)
@@ -117,9 +121,10 @@ namespace StoreApp.Repository
                            .SingleOrDefaultAsync() != null;
         }
 
-        bool ICustomer.SetDefaultLocation(Customer customer, Location location)
+        async void ICustomer.SetDefaultLocation(Customer customer, Location location)
         {
-            throw new NotImplementedException();
+            customer.DefaultLocation = location;
+            await _context.SaveChangesAsync();
         }
 
         async Task<Customer> ICustomer.VerifyCredentials(string login, string plainPassword)

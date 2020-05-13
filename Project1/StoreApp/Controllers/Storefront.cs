@@ -36,20 +36,27 @@ namespace StoreApp.Controllers
         public async Task<IActionResult> Index()
         {
             var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
+            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
             var model = new Models.Storefront();
-
 
             // Determine which location's inventory we should display.
             Entity.Location location = null;
-            var username = HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserName);
-            if (username != null)
+            var userId = HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId);
+            if (userId != null)
             {
-                var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
-                var customer = await customerRepo.GetCustomerByLogin(username.Value);
+                var userIdAsGuid = Guid.Parse(userId.Value);
+                var customer = await customerRepo.GetCustomerById(userIdAsGuid);
                 location = await customerRepo.GetDefaultLocation(customer);
+                if (location == null)
+                {
+                    location = locationRepo.GetMostStocked();
+                    customerRepo.SetDefaultLocation(customer, location);
+                }
             }
-
-            if (location == null) location = locationRepo.GetMostStocked();
+            else
+            {
+                location = locationRepo.GetMostStocked();
+            }
 
             model.products = locationRepo.GetProductsAvailable(location).ToList();
 
