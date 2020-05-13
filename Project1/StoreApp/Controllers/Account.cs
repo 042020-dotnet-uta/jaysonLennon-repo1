@@ -47,6 +47,8 @@ namespace StoreApp.Controllers
         [Route("Account/Login")]
         public async Task<IActionResult> LoginIndex(Models.LoginRedirect loginRedirectModel)
         {
+            // LoginRedirectModel is used to forward error messages and redirection requests.
+            // It should always be mapped to a LoginUser before returning the Login view.
             var loginUser = new Models.LoginUser();
             loginUser.ReturnUrl = loginRedirectModel.ReturnUrl;
             loginUser.ErrorMessage = loginRedirectModel.ErrorMessage;
@@ -93,20 +95,16 @@ namespace StoreApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> TryLogin(Models.LoginUser model)
         {
-            // TODO: Implement login
             if (!ModelState.IsValid)
             {
-                this._logger.LogCritical("invalid model");
-            }
-            else
-            {
-                this._logger.LogInformation("valid model");
+                return View("Login", model);
             }
 
             this._logger.LogDebug("We are letting anyone sign in atm for testing");
             this._logger.LogTrace($"model username={model.UserName}");
 
             var customer = await this._customerRepository.VerifyCredentials(model.UserName, model.Password);
+            // Not finding a customer means their credentials could not be verified.
             if (customer == null) 
             {
                 var loginRedirect = new Models.LoginRedirect();

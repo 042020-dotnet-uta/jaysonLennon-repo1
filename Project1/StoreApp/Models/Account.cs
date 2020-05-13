@@ -18,6 +18,9 @@ namespace StoreApp.Models
         public string ErrorMessage { get; set; }
     }
 
+    /// <summary>
+    /// For validating user information on the login page.
+    /// </summary>
     public class LoginUser {
 
         [Required(ErrorMessage = "A user name is required.")]
@@ -33,6 +36,16 @@ namespace StoreApp.Models
         public string ErrorMessage { get; set; }
     }
 
+
+    /// <summary>
+    /// For handling a redirect to the login page from another page that requires
+    /// authorization.
+    /// <remarks>
+    /// This type is for forwarding error messages and return urls to the LoginUser model.
+    /// We need to do this so the LoginUser model doesn't immediately produce client-side
+    /// verification errors.
+    /// </remarks>
+    /// </summary>
     public class LoginRedirect
     {
         public string ReturnUrl { get; set; }
