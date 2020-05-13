@@ -4,7 +4,8 @@
 <div style="text-decoration: underline;">this is the session header partial</div>
 
 @if (!ViewData.ContainsKey(K.UserName)){
-    <a asp-controller="Account" asp-action="Landing">Login / Create Account</a>
+    <a asp-controller="Account" asp-action="LoginIndex">Login</a>
+    <a asp-Controller="Account" asp-action="CreateAccountIndex">Create Account</a>
 } else {
     <div>
         <a asp-controller="Cart" asp-action="View">View Cart</a>

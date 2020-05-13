@@ -7,7 +7,7 @@ namespace StoreApp.Models
 
         [Required(ErrorMessage = "A user name is required.")]
         [Display(Name = "User Name", Description = "Unique name used to log in.")]
-        [Remote(action: "VerifyUserName", controller: "CreateAccount")]
+        [Remote(action: "VerifyUserName", controller: "Account")]
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "A password is required.")]

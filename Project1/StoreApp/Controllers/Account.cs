@@ -31,12 +31,6 @@ namespace StoreApp.Controllers
             this._customerRepository = customerRepository;
         }
 
-        [Route("Account/Landing")]
-        public async Task<IActionResult> Landing()
-        {
-            return View("Landing");
-        }
-
         [Route("Account/Manage")]
         public async Task<IActionResult> Manage()
         {
@@ -80,7 +74,7 @@ namespace StoreApp.Controllers
                 customer.Login = model.UserName;
                 customer.Password = model.Password;
                 await this._customerRepository.Add(customer);
-                return Redirect("Customer/Home");
+                return Redirect("/Storefront");
             }
         }
 
@@ -114,7 +108,7 @@ namespace StoreApp.Controllers
             var authProperties = new AuthenticationProperties
             {
                 AllowRefresh = true,
-                RedirectUri = "/Customer/Home"
+                RedirectUri = "/Storefront"
             };
 
             await HttpContext.SignInAsync(
@@ -129,7 +123,7 @@ namespace StoreApp.Controllers
             }
             else
             {
-                return Redirect("/Customer/Home");
+                return Redirect("/Storefront");
             }
         }
 
