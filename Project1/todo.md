@@ -55,10 +55,12 @@
 - [ ] styles
 
 # View cart page
-- [ ] List products
-- [ ] quantity boxes
+- [X] List products
+- [X] quantity boxes
 - [ ] remove buttons
 - [ ] "update quantities" link
+- [X] "update quantities" redirects to cart view when session expires
+- [ ] display error on broken model
 - [ ] "Checkout" link
 - [ ] Use data from db
 - [ ] styles
