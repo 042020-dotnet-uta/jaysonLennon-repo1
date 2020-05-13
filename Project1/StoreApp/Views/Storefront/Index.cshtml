@@ -1,6 +1,7 @@
 @model StoreApp.Models.Storefront
 
 <h1>this is the storefront page</h1>
+<h2>Viewing items from store: @Model.StoreName</h2>
 @foreach (var product in @Model.products)
 {
     <div>

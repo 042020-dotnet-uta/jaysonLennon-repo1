@@ -56,6 +56,7 @@ namespace StoreApp.Repository
         {
             return await _context.Customers
                                  .Include(c => c.DefaultLocation)
+                                 .Where(c => c.CustomerId == customer.CustomerId)
                                  .Select(c => c.DefaultLocation)
                                  .FirstOrDefaultAsync();
         }

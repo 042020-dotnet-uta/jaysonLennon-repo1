@@ -59,6 +59,7 @@ namespace StoreApp.Controllers
             }
 
             model.products = locationRepo.GetProductsAvailable(location).ToList();
+            model.StoreName = location.Name;
 
             return View("Index", model);
         }
