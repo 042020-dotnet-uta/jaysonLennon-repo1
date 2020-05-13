@@ -37,6 +37,7 @@ namespace StoreApp.Controllers
         [ServiceFilter(typeof(SessionLayout.UseLayout))] // Change the layout to include session info.
         public async Task<IActionResult> Index()
         {
+            var model = new Models.Storefront();
             return View("Index");
         }
     }

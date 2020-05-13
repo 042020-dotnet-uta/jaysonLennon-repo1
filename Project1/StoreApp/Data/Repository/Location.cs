@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using StoreApp.Entity;
 using StoreApp.Data;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace StoreApp.Repository
 {
@@ -10,6 +13,7 @@ namespace StoreApp.Repository
         IEnumerable<Location> GetLocations();
         IEnumerable<LocationInventory> GetAllInventory(Location location);
         IEnumerable<LocationInventory> GetInventoryAvailable(Location location);
+        Location GetMostStocked();
     }
 
     public class LocationRepository : ILocation
@@ -34,6 +38,28 @@ namespace StoreApp.Repository
         IEnumerable<Location> ILocation.GetLocations()
         {
             throw new NotImplementedException();
+        }
+
+        Location ILocation.GetMostStocked()
+        {
+            var locationIds = this._context.LocationInventories
+                .Include(loc => loc.Location)
+                .Select( li => new {
+                    LocationId = li.Location.LocationId
+                });
+
+            var locationWithMostProducts = locationIds
+                .GroupBy(l => l.LocationId)
+                .Select( gr => new {
+                    LocationId = gr.Key,
+                    Count = gr.Count()
+                })
+                .OrderByDescending(gr => gr.Count)
+                .FirstOrDefault();
+
+            return this._context.Locations
+                       .Where(l => l.LocationId == locationWithMostProducts.LocationId)
+                       .FirstOrDefault();
         }
     }
 }

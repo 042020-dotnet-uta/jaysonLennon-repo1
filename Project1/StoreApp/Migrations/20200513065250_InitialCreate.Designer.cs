@@ -2,21 +2,23 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StoreApp.Data;
 
 namespace StoreApp.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20200513065250_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.3");
 
-            modelBuilder.Entity("StoreApp.Data.Entity.Address", b =>
+            modelBuilder.Entity("StoreApp.Entity.Address", b =>
                 {
                     b.Property<Guid>("AddressId")
                         .ValueGeneratedOnAdd()
@@ -52,7 +54,7 @@ namespace StoreApp.Migrations
                     b.ToTable("Addresses");
                 });
 
-            modelBuilder.Entity("StoreApp.Data.Entity.AddressLine1", b =>
+            modelBuilder.Entity("StoreApp.Entity.AddressLine1", b =>
                 {
                     b.Property<Guid>("AddressLine1Id")
                         .ValueGeneratedOnAdd()
@@ -66,7 +68,7 @@ namespace StoreApp.Migrations
                     b.ToTable("AddressLine1");
                 });
 
-            modelBuilder.Entity("StoreApp.Data.Entity.AddressLine2", b =>
+            modelBuilder.Entity("StoreApp.Entity.AddressLine2", b =>
                 {
                     b.Property<Guid>("AddressLine2Id")
                         .ValueGeneratedOnAdd()
@@ -80,7 +82,7 @@ namespace StoreApp.Migrations
                     b.ToTable("AddressLine2");
                 });
 
-            modelBuilder.Entity("StoreApp.Data.Entity.City", b =>
+            modelBuilder.Entity("StoreApp.Entity.City", b =>
                 {
                     b.Property<Guid>("CityId")
                         .ValueGeneratedOnAdd()
@@ -94,7 +96,7 @@ namespace StoreApp.Migrations
                     b.ToTable("City");
                 });
 
-            modelBuilder.Entity("StoreApp.Data.Entity.Customer", b =>
+            modelBuilder.Entity("StoreApp.Entity.Customer", b =>
                 {
                     b.Property<Guid>("CustomerId")
                         .ValueGeneratedOnAdd()
@@ -130,7 +132,7 @@ namespace StoreApp.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("StoreApp.Data.Entity.Location", b =>
+            modelBuilder.Entity("StoreApp.Entity.Location", b =>
                 {
                     b.Property<Guid>("LocationId")
                         .ValueGeneratedOnAdd()
@@ -149,7 +151,7 @@ namespace StoreApp.Migrations
                     b.ToTable("Locations");
                 });
 
-            modelBuilder.Entity("StoreApp.Data.Entity.LocationInventory", b =>
+            modelBuilder.Entity("StoreApp.Entity.LocationInventory", b =>
                 {
                     b.Property<Guid>("LocationInventoryId")
                         .ValueGeneratedOnAdd()
@@ -173,7 +175,7 @@ namespace StoreApp.Migrations
                     b.ToTable("LocationInventories");
                 });
 
-            modelBuilder.Entity("StoreApp.Data.Entity.Order", b =>
+            modelBuilder.Entity("StoreApp.Entity.Order", b =>
                 {
                     b.Property<Guid>("OrderId")
                         .ValueGeneratedOnAdd()
@@ -206,7 +208,7 @@ namespace StoreApp.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("StoreApp.Data.Entity.OrderLineItem", b =>
+            modelBuilder.Entity("StoreApp.Entity.OrderLineItem", b =>
                 {
                     b.Property<Guid>("OrderLineItemId")
                         .ValueGeneratedOnAdd()
@@ -233,10 +235,13 @@ namespace StoreApp.Migrations
                     b.ToTable("OrderLineItems");
                 });
 
-            modelBuilder.Entity("StoreApp.Data.Entity.Product", b =>
+            modelBuilder.Entity("StoreApp.Entity.Product", b =>
                 {
                     b.Property<Guid>("ProductId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImageName")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -250,7 +255,7 @@ namespace StoreApp.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("StoreApp.Data.Entity.State", b =>
+            modelBuilder.Entity("StoreApp.Entity.State", b =>
                 {
                     b.Property<Guid>("StateId")
                         .ValueGeneratedOnAdd()
@@ -264,7 +269,7 @@ namespace StoreApp.Migrations
                     b.ToTable("State");
                 });
 
-            modelBuilder.Entity("StoreApp.Data.Entity.ZipCode", b =>
+            modelBuilder.Entity("StoreApp.Entity.ZipCode", b =>
                 {
                     b.Property<Guid>("ZipCodeId")
                         .ValueGeneratedOnAdd()
@@ -278,76 +283,76 @@ namespace StoreApp.Migrations
                     b.ToTable("ZipCode");
                 });
 
-            modelBuilder.Entity("StoreApp.Data.Entity.Address", b =>
+            modelBuilder.Entity("StoreApp.Entity.Address", b =>
                 {
-                    b.HasOne("StoreApp.Data.Entity.City", "City")
+                    b.HasOne("StoreApp.Entity.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId");
 
-                    b.HasOne("StoreApp.Data.Entity.AddressLine1", "Line1")
+                    b.HasOne("StoreApp.Entity.AddressLine1", "Line1")
                         .WithMany()
                         .HasForeignKey("Line1AddressLine1Id");
 
-                    b.HasOne("StoreApp.Data.Entity.AddressLine2", "Line2")
+                    b.HasOne("StoreApp.Entity.AddressLine2", "Line2")
                         .WithMany()
                         .HasForeignKey("Line2AddressLine2Id");
 
-                    b.HasOne("StoreApp.Data.Entity.State", "State")
+                    b.HasOne("StoreApp.Entity.State", "State")
                         .WithMany()
                         .HasForeignKey("StateId");
 
-                    b.HasOne("StoreApp.Data.Entity.ZipCode", "Zip")
+                    b.HasOne("StoreApp.Entity.ZipCode", "Zip")
                         .WithMany()
                         .HasForeignKey("ZipCodeId");
                 });
 
-            modelBuilder.Entity("StoreApp.Data.Entity.Customer", b =>
+            modelBuilder.Entity("StoreApp.Entity.Customer", b =>
                 {
-                    b.HasOne("StoreApp.Data.Entity.Address", "Address")
+                    b.HasOne("StoreApp.Entity.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId");
 
-                    b.HasOne("StoreApp.Data.Entity.Location", "DefaultLocation")
+                    b.HasOne("StoreApp.Entity.Location", "DefaultLocation")
                         .WithMany()
                         .HasForeignKey("DefaultLocationLocationId");
                 });
 
-            modelBuilder.Entity("StoreApp.Data.Entity.Location", b =>
+            modelBuilder.Entity("StoreApp.Entity.Location", b =>
                 {
-                    b.HasOne("StoreApp.Data.Entity.Address", "Address")
+                    b.HasOne("StoreApp.Entity.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId");
                 });
 
-            modelBuilder.Entity("StoreApp.Data.Entity.LocationInventory", b =>
+            modelBuilder.Entity("StoreApp.Entity.LocationInventory", b =>
                 {
-                    b.HasOne("StoreApp.Data.Entity.Location", "Location")
+                    b.HasOne("StoreApp.Entity.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId");
 
-                    b.HasOne("StoreApp.Data.Entity.Product", "Product")
+                    b.HasOne("StoreApp.Entity.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId");
                 });
 
-            modelBuilder.Entity("StoreApp.Data.Entity.Order", b =>
+            modelBuilder.Entity("StoreApp.Entity.Order", b =>
                 {
-                    b.HasOne("StoreApp.Data.Entity.Customer", "Customer")
+                    b.HasOne("StoreApp.Entity.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId");
 
-                    b.HasOne("StoreApp.Data.Entity.Location", "Location")
+                    b.HasOne("StoreApp.Entity.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId");
                 });
 
-            modelBuilder.Entity("StoreApp.Data.Entity.OrderLineItem", b =>
+            modelBuilder.Entity("StoreApp.Entity.OrderLineItem", b =>
                 {
-                    b.HasOne("StoreApp.Data.Entity.Order", "Order")
+                    b.HasOne("StoreApp.Entity.Order", "Order")
                         .WithMany("OrderLineItems")
                         .HasForeignKey("OrderId");
 
-                    b.HasOne("StoreApp.Data.Entity.Product", "Product")
+                    b.HasOne("StoreApp.Entity.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId");
                 });

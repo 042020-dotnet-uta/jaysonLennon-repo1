@@ -1,8 +1,11 @@
 build:
-    dotnet build
+    cd StoreApp && dotnet build
 
 run:
-    dotnet run
+    cd StoreApp && dotnet run
 
 migrate:
-    dotnet ef database update
+    cd StoreApp && dotnet ef database update
+
+test:
+    cd Tests && dotnet test

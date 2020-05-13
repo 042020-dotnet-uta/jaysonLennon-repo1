@@ -9,6 +9,7 @@ namespace StoreApp.Repository
     {
         Product GetProductById(Guid id);
         IEnumerable<LocationInventory> GetProductsAvailable(Location location);
+        IEnumerable<Product> GetProducts(Location location);
     }
 
     public class ProductRepository : IProduct
@@ -21,6 +22,11 @@ namespace StoreApp.Repository
         }
 
         Product IProduct.GetProductById(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<Product> IProduct.GetProducts(Location location)
         {
             throw new NotImplementedException();
         }

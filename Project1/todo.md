@@ -4,6 +4,11 @@
 - [X] "Logged in" state
 - [ ] styles
 
+# Storefront page
+- [ ] Display products from all stores
+- [ ] Redirect to account management page on product click if not logged in
+- [ ] styles
+
 # Account Management Page
 - [ ] Order history link
 - [ ] Store selector
@@ -16,10 +21,6 @@
 - [ ] Display details of order
 - [ ] styles
 
-# Storefront page
-- [ ] Display products from all stores
-- [ ] Redirect to account management page on product click if not logged in
-- [ ] styles
 
 # Item detail page
 - [ ] Display product

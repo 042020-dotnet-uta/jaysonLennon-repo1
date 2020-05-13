@@ -23,6 +23,11 @@ namespace StoreApp.Entity
         public string Name { get; set; }
 
         /// <summary>
+        /// Name of the image file to use for this product.
+        /// </summary>
+        public string ImageName { get; set; }
+
+        /// <summary>
         /// Needed for EF.
         /// </summary>
         public Product(){}

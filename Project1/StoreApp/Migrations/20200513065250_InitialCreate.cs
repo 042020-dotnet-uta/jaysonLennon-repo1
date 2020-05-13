@@ -49,7 +49,8 @@ namespace StoreApp.Migrations
                 {
                     ProductId = table.Column<Guid>(nullable: false),
                     Price = table.Column<double>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    ImageName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
