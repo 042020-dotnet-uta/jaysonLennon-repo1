@@ -36,7 +36,7 @@ namespace StoreApp.Repository
         Task<CreateUserAccountResult> Add(Customer customer);
         Task<bool> VerifyUserLogin(string login);
         bool SetDefaultLocation(Customer customer, Location location);
-        Location GetDefaultLocation(Customer customer);
+        Task<Location> GetDefaultLocation(Customer customer);
         IEnumerable<Order> GetOrderHistory(Customer customer);
     }
 
@@ -48,6 +48,14 @@ namespace StoreApp.Repository
         public CustomerRepository(StoreContext context)
         {
             this._context = context;
+        }
+
+        public async Task<Location> GetDefaultLocation(Customer customer)
+        {
+            return await _context.Customers
+                                 .Include(c => c.DefaultLocation)
+                                 .Select(c => c.DefaultLocation)
+                                 .FirstOrDefaultAsync();
         }
 
         async Task<CreateUserAccountResult> ICustomer.Add(Customer customer)
@@ -81,11 +89,6 @@ namespace StoreApp.Repository
         }
 
         Customer ICustomer.GetCustomerByLogin(string login)
-        {
-            throw new NotImplementedException();
-        }
-
-        Location ICustomer.GetDefaultLocation(Customer customer)
         {
             throw new NotImplementedException();
         }
