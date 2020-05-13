@@ -1,6 +1,6 @@
 # Session Header
-- [ ] Change data based on login status
-- [ ] "Not logged in" state
+- [X] Change data based on login status
+- [X] "Not logged in" state
 - [ ] "Logged in" state
 
 # Account Management Page
