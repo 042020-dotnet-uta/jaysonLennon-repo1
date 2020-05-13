@@ -38,6 +38,7 @@ namespace StoreApp.Repository
         bool SetDefaultLocation(Customer customer, Location location);
         Task<Location> GetDefaultLocation(Customer customer);
         IEnumerable<Order> GetOrderHistory(Customer customer);
+        Task<Customer> VerifyCredentials(string login, string plainPassword);
     }
 
 
@@ -97,6 +98,11 @@ namespace StoreApp.Repository
                                  .FirstOrDefaultAsync();
         }
 
+        Task<Location> ICustomer.GetDefaultLocation(Customer customer)
+        {
+            throw new NotImplementedException();
+        }
+
         IEnumerable<Order> ICustomer.GetOrderHistory(Customer customer)
         {
             throw new NotImplementedException();
@@ -112,12 +118,25 @@ namespace StoreApp.Repository
             throw new NotImplementedException();
         }
 
+        async Task<Customer> ICustomer.VerifyCredentials(string login, string plainPassword)
+        {
+            login = login.ToLower();
+            var hashed = StoreApp.Util.Hash.Sha256(plainPassword);
+            return await _context.Customers
+                                 .Where(c => c.Login.ToLower() == login)
+                                 .Where(c => c.Password == hashed)
+                                 .Select(c => c)
+                                 .SingleOrDefaultAsync();
+        }
+
         async Task<bool> ICustomer.VerifyUserLogin(string login)
         {
             if (String.IsNullOrEmpty(login)) return false;
             login = login.ToLower();
             // TODO: additional validation rules
-            var exists = await _context.Customers.Where(c => c.Login.ToLower() == login).SingleOrDefaultAsync();
+            var exists = await _context.Customers
+                                       .Where(c => c.Login.ToLower() == login)
+                                       .SingleOrDefaultAsync();
             return exists == null;
         }
     }

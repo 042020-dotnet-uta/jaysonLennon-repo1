@@ -3,6 +3,7 @@ namespace StoreApp.Auth
     public static class Claim
     {
         public const string UserName = "UserName";
+        public const string UserId = "UserId";
         public const string Role = "Role";
         public const string LastPermissionUpdate = "LastPermissionUpdate";
     }

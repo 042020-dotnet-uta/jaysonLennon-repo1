@@ -92,13 +92,22 @@ namespace StoreApp.Controllers
             {
                 this._logger.LogInformation("valid model");
             }
+
             this._logger.LogDebug("We are letting anyone sign in atm for testing");
             this._logger.LogTrace($"model username={model.UserName}");
+
+            var customer = await this._customerRepository.VerifyCredentials(model.UserName, model.Password);
+            if (customer == null) 
+            {
+                model.ErrorMessage = "Invalid login credentials";
+                return View("Login", model);
+            }
 
             var claims = new List<Claim>
             {
                 new Claim(Auth.Claim.UserName, model.UserName),
                 new Claim(ClaimTypes.Role, Auth.Role.Customer),
+                new Claim(Auth.Claim.UserId, customer.CustomerId.ToString()),
                 // TODO: Check user permissions regularly in case they get revoked.
             };
 
@@ -117,6 +126,7 @@ namespace StoreApp.Controllers
                 authProperties);
 
             this._logger.LogDebug($"return url={model.ReturnUrl}");
+
             if (!String.IsNullOrEmpty(model.ReturnUrl))
             {
                 return Redirect(model.ReturnUrl);

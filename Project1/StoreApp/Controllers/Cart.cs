@@ -33,6 +33,7 @@ namespace StoreApp.Controllers
         }
 
         [Route("Cart/View")]
+        [Authorize(Roles = Auth.Role.Customer)]
         public async Task<IActionResult> Index()
         {
             // TODO: Replace dummy data with order information.
@@ -63,6 +64,9 @@ namespace StoreApp.Controllers
         public IActionResult AddToCart(Models.CartAdd model)
         {
             // TODO: Implement 'add to cart' functionality.
+            // check if order exists
+            // if not, create a new one
+            // add item to order
             _logger.LogTrace($" call add to cart with id {model.ItemId} and quantity {model.ItemQuantity}");
             var okModel = new Models.CartAddOk();
             okModel.ItemId = model.ItemId;
