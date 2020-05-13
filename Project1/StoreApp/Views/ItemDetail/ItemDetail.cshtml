@@ -1,3 +1,9 @@
 @model StoreApp.Models.ItemDetail
 
 <h1>this is the item detail view for item number @Model.Id</h1>
+
+<form asp-controller="Cart" asp-action="AddToCart" method="POST">
+    <input type="hidden" name="ItemId" value="@Model.Id">
+    <input type="text" type="number" min="0" name="ItemQuantity">
+    <input type="submit" value="Add to cart">
+</form>

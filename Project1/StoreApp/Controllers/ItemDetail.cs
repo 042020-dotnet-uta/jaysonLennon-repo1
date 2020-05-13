@@ -26,7 +26,7 @@ namespace StoreApp.Controllers
             return Redirect("/Storefront");
         }
 
-        [Route("ItemDetail/View/{id?}")]
+        [Route("ItemDetail/View/{id}")]
         [Authorize(Roles = Auth.Role.Customer)]
         public IActionResult ShowDetail(Guid id)
         {

@@ -26,13 +26,14 @@
 
 # Item detail page
 - [X] Display product
-- [ ] Quantity picker and 'add to cart' button
+- [X] Quantity picker and 'add to cart' button
+- [ ] Update order info on backend
 - [ ] styles
 
 # Added to cart page
-- [ ] Display product, quantity, and message
-- [ ] 'Checkout' button
-- [ ] 'Continue Shopping' button
+- [X] Display product, quantity, and message
+- [X] 'Checkout' button
+- [X] 'Continue Shopping' button
 - [ ] styles
 
 # Checkout page

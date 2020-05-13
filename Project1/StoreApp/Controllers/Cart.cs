@@ -5,12 +5,13 @@ using System.Text.Encodings.Web;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-
-using StoreApp.Data;
-using System.Collections.Generic;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using System.Collections.Generic;
+using System.Security.Claims;
+
+using StoreApp.Data;
 
 namespace StoreApp.Controllers
 {
@@ -35,6 +36,19 @@ namespace StoreApp.Controllers
         public async Task<IActionResult> ViewCart()
         {
             return View("Cart");
+        }
+
+        [Route("Cart/Add")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = Auth.Role.Customer)]
+        public IActionResult AddToCart(Models.CartAdd model)
+        {
+            _logger.LogTrace($" call add to cart with id {model.ItemId} and quantity {model.ItemQuantity}");
+            var okModel = new Models.CartAddOk();
+            okModel.ItemId = model.ItemId;
+            okModel.ItemQuantity = model.ItemQuantity;
+            return View("CartAddOk", okModel);
         }
     }
 }
