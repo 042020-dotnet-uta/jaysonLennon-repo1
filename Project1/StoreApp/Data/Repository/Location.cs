@@ -10,9 +10,9 @@ namespace StoreApp.Repository
 {
     public interface ILocation
     {
+        Task<Location> GetById(Guid id);
         IEnumerable<Location> GetLocations();
         Location GetMostStocked();
-        Task<Location> GetById(Guid id);
         IEnumerable<Tuple<Product, int>> GetProductsAvailable(Location location);
         IEnumerable<Tuple<Product, int>> GetAllProducts(Location location);
     }

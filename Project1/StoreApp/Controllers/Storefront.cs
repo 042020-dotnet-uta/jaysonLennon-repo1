@@ -1,3 +1,4 @@
+using System.Net;
 using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -16,22 +17,16 @@ namespace StoreApp.Controllers
         private StoreContext _context;
         private ILogger<HelloWorldController> _logger;
         private IServiceProvider _services;
-        private Repository.IProduct _productRepository;
-        private Repository.ILocation _locationRepository;
 
         public Storefront(
             StoreContext context,
             ILogger<HelloWorldController> logger,
-            IServiceProvider services,
-            Repository.IProduct productRepository,
-            Repository.ILocation locationRepository
+            IServiceProvider services
             )
         {
             this._context = context;
             this._logger = logger;
             this._services = services;
-            this._productRepository = productRepository;
-            this._locationRepository = locationRepository;
 
             this._logger.LogTrace("instantiate storefront");
         }
@@ -40,9 +35,24 @@ namespace StoreApp.Controllers
         [ServiceFilter(typeof(SessionLayout.UseLayout))] // Change the layout to include session info.
         public async Task<IActionResult> Index()
         {
-            var mostStockedLocation = this._locationRepository.GetMostStocked();
+            var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
             var model = new Models.Storefront();
-            return View("Index");
+
+
+            Entity.Location location = null;
+            var username = HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserName);
+            if (username != null)
+            {
+                var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+                var customer = await customerRepo.GetCustomerByLogin(username.Value);
+                location = await customerRepo.GetDefaultLocation(customer);
+            }
+
+            if (location == null) location = locationRepo.GetMostStocked();
+
+            model.products = locationRepo.GetProductsAvailable(location).ToList();
+
+            return View("Index", model);
         }
     }
 }
