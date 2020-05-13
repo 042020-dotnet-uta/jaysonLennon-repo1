@@ -17,18 +17,21 @@ namespace StoreApp.Controllers
         private ILogger<HelloWorldController> _logger;
         private IServiceProvider _services;
         private Repository.IProduct _productRepository;
+        private Repository.ILocation _locationRepository;
 
         public Storefront(
             StoreContext context,
             ILogger<HelloWorldController> logger,
             IServiceProvider services,
-            Repository.IProduct productRepository
+            Repository.IProduct productRepository,
+            Repository.ILocation locationRepository
             )
         {
             this._context = context;
             this._logger = logger;
             this._services = services;
             this._productRepository = productRepository;
+            this._locationRepository = locationRepository;
 
             this._logger.LogTrace("instantiate storefront");
         }
@@ -37,6 +40,7 @@ namespace StoreApp.Controllers
         [ServiceFilter(typeof(SessionLayout.UseLayout))] // Change the layout to include session info.
         public async Task<IActionResult> Index()
         {
+            var mostStockedLocation = this._locationRepository.GetMostStocked();
             var model = new Models.Storefront();
             return View("Index");
         }
