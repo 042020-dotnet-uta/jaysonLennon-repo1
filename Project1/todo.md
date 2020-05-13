@@ -5,8 +5,10 @@
 - [ ] styles
 
 # Storefront page
-- [ ] Display products from all stores
+- [X] Display products from selected store or default store
 - [ ] Redirect to account management page on product click if not logged in
+- [ ] Show which store's items are being displayed
+- [ ] Click items to go to detail page
 - [ ] styles
 
 # Account Management Page
