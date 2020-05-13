@@ -31,6 +31,18 @@ namespace StoreApp.Controllers
             this._customerRepository = customerRepository;
         }
 
+        [Route("Account/Landing")]
+        public async Task<IActionResult> Landing()
+        {
+            return View("Landing");
+        }
+
+        [Route("Account/Manage")]
+        public async Task<IActionResult> Manage()
+        {
+            return View("Manage");
+        }
+
         [Route("Account/Create")]
         public async Task<IActionResult> CreateAccountIndex()
         {

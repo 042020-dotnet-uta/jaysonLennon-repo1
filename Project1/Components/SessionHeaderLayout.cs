@@ -19,7 +19,6 @@ namespace StoreApp.SessionLayout
     /// </summary>
     public static class K
     {
-        public const string IsLoggedIn = "_SESSION_HEADER__USER_NAME";
         public const string UserName = "_SESSION_HEADER__USER_NAME";
         public const string NumItemsInCart = "_SESSION_HEADER__NUM_ITEMS_IN_CART";
         public const string UseSessionLayout = "_LAYOUT_USE_SESSION_IN_HEADER";
@@ -48,15 +47,14 @@ namespace StoreApp.SessionLayout
 
             var controller = (Controller)context.Controller;
 
+            controller.ViewData[K.UseSessionLayout] = true;
+
             if (username != null)
             {
                 controller.ViewData[K.UserName] = username.Value;
-                // Change the layout.
-                controller.ViewData[K.UseSessionLayout] = true;
             }
             else
             {
-                controller.ViewData[K.UserName] = "no user name";
             }
 
             await next();

@@ -1,4 +1,13 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @namespace StoreApp.SessionLayout
 
 <div style="text-decoration: underline;">this is the session header partial</div>
-<div>session header UserName = @ViewData[K.UserName]</div>
+
+@if (!ViewData.ContainsKey(K.UserName)){
+    <a asp-controller="Account" asp-action="Landing">Login / Create Account</a>
+} else {
+    <div>
+        <a asp-controller="Cart" asp-action="View">Cart</a>
+        <a asp-controller="Account" asp-action="Manage">@ViewData[K.UserName]</a>
+    </div>
+}
