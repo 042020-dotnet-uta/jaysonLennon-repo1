@@ -6,9 +6,9 @@
 
 # Storefront page
 - [X] Display products from selected store or default store
-- [ ] Redirect to account management page on product click if not logged in
+- [X] Redirect to account management page on product click if not logged in
 - [ ] Show which store's items are being displayed
-- [ ] Click items to go to detail page
+- [X] Click items to go to detail page
 - [ ] styles
 
 # Account Management Page
@@ -25,7 +25,7 @@
 
 
 # Item detail page
-- [ ] Display product
+- [X] Display product
 - [ ] Quantity picker and 'add to cart' button
 - [ ] styles
 
