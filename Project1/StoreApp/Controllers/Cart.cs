@@ -44,6 +44,7 @@ namespace StoreApp.Controllers
         [Authorize(Roles = Auth.Role.Customer)]
         public IActionResult AddToCart(Models.CartAdd model)
         {
+            // TODO: Implement 'add to cart' functionality.
             _logger.LogTrace($" call add to cart with id {model.ItemId} and quantity {model.ItemQuantity}");
             var okModel = new Models.CartAddOk();
             okModel.ItemId = model.ItemId;

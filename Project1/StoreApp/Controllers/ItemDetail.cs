@@ -30,6 +30,7 @@ namespace StoreApp.Controllers
         [Authorize(Roles = Auth.Role.Customer)]
         public IActionResult ShowDetail(Guid id)
         {
+            // TODO: Show details of item.
             var model = new Models.ItemDetail();
             model.Id = id;
             return View("ItemDetail", model);
