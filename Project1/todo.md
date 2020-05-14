@@ -94,4 +94,7 @@
 - [ ] grep for unimplemented exceptions
 - [ ] exception handling (drop the db to test)
 - [ ] require customer ids in queries
+- [ ] model binding check
+- [ ] use tempdata for informational message passing
+- [ ] post requests should redirect to get
 

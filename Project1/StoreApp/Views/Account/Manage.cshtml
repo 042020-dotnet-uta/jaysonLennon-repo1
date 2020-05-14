@@ -1,3 +1,20 @@
+@model StoreApp.Models.AccountManagement
+
 <h1>This is the account management page</h1>
 
+@if (@Model.OkMessage != null) {
+    <div style="background: cyan;">Information: @Model.OkMessage</div>
+}
+@if (@Model.ErrorMessage != null) {
+    <div style="background: red;">Error: @Model.ErrorMessage</div>
+}
+
 <a asp-controller="Account" asp-action="OrderHistory">Order history</a>
+
+<form asp-controller="Account" asp-action="UpdateAccountInfo" method="POST">
+    <div>
+        select default store
+        <select asp-for="DefaultStore" asp-items="@Model.Stores"></select>
+    </div>
+    <input type="submit" value="Save Changes">
+</form>

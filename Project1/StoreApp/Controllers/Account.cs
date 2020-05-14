@@ -1,4 +1,5 @@
 using System;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Text.Encodings.Web;
@@ -12,6 +13,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
+using StoreApp.Util;
 
 namespace StoreApp.Controllers
 {
@@ -36,7 +38,68 @@ namespace StoreApp.Controllers
         [Authorize(Roles = Auth.Role.Customer)]
         public async Task<IActionResult> Manage()
         {
-            return View("Manage");
+            var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
+            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+            var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
+
+            var defaultLocation = await customerRepo.GetDefaultLocation(customerId);
+            var allLocations = locationRepo.GetLocations();
+
+            var model = new Models.AccountManagement();
+            model.DefaultStore = defaultLocation.LocationId.ToString();
+
+            foreach(var loc in allLocations)
+            {
+                model.Stores.Add( new SelectListItem { Value = loc.LocationId.ToString(), Text = loc.Name });
+            }
+
+            model.OkMessage = this.GetFlashInfo();
+            model.ErrorMessage = this.GetFlashError();
+
+            return View("Manage", model);
+        }
+
+        [HttpPost]
+        [Route("Account/Update")]
+        public async Task<IActionResult> UpdateAccountInfo(Models.AccountManagement model)
+        {
+            if (!ModelState.IsValid)
+            {
+                this.SetFlashError("There was an error submitting your information. Please try again.");
+                return RedirectToAction("Manage");
+            }
+
+            Guid defaultLocationId;
+            if (!Guid.TryParse(model.DefaultStore, out defaultLocationId))
+            {
+                this.SetFlashError("Unable to find the selected store. Please choose another store.");
+                return RedirectToAction("Manage");
+            }
+
+            var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
+            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+            var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
+
+            var customer = await customerRepo.GetCustomerById(customerId);
+            var location = await locationRepo.GetById(defaultLocationId);
+            customerRepo.SetDefaultLocation(customer, location);
+
+            var allLocations = locationRepo.GetLocations();
+
+            foreach(var loc in allLocations)
+            {
+                model.Stores.Add( new SelectListItem { Value = loc.LocationId.ToString(), Text = loc.Name });
+            }
+
+            this.SetFlashInfo("Your information has been successfully updated.");
+            return RedirectToAction("Manage");
+        }
+
+        [HttpGet]
+        [Route("Account/Update")]
+        public async Task<IActionResult> RedirectUpdateAccountInfo(Models.AccountManagement model)
+        {
+            return Redirect("/Account/Manage");
         }
 
         [Route("Account/OrderHistory")]
