@@ -10,6 +10,7 @@ using StoreApp.Data;
 using System.Collections.Generic;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 
 namespace StoreApp.Controllers
@@ -18,23 +19,63 @@ namespace StoreApp.Controllers
     {
         private StoreContext _context;
         private ILogger<Account> _logger;
-        private Repository.ICustomer _customerRepository;
+        private IServiceProvider _services;
 
         public Account(
             StoreContext context,
             ILogger<Account> logger,
-            Repository.ICustomer customerRepository
+            IServiceProvider services
             )
         {
             this._context = context;
             this._logger = logger;
-            this._customerRepository = customerRepository;
+            this._services = services;
         }
 
         [Route("Account/Manage")]
+        [Authorize(Roles = Auth.Role.Customer)]
         public async Task<IActionResult> Manage()
         {
             return View("Manage");
+        }
+
+        [Route("Account/OrderHistory")]
+        [Authorize(Roles = Auth.Role.Customer)]
+        public async Task<IActionResult> OrderHistory()
+        {
+            var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
+            var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
+            var orders = orderRepo.GetSubmittedOrders(customerId);
+            _logger.LogTrace($"num orders={orders.Count()}");
+
+            var model = new Models.CustomerOrderHistory();
+
+            foreach(var o in orders)
+            {
+                model.AddHistoryItem(o.Item1, o.Item2);
+            }
+
+            return View("OrderHistory", model);
+        }
+
+        [Route("Account/OrderHistoryDetail")]
+        [Authorize(Roles = Auth.Role.Customer)]
+        public async Task<IActionResult> OrderHistoryDetail(Guid orderId)
+        {
+            var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
+            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+            var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
+            var orderLines = orderRepo.GetOrderLines(customerId, orderId);
+            var order = await orderRepo.GetOrderById(orderId);
+
+            var model = new Models.CustomerOrderHistoryDetail(order);
+
+            foreach(var line in orderLines)
+            {
+                model.AddLineItem(line);
+            }
+
+            return View("OrderHistoryDetail", model);
         }
 
         [Route("Account/Create")]
@@ -75,7 +116,8 @@ namespace StoreApp.Controllers
             }
             else
             {
-                var loginExists = await this._customerRepository.LoginExists(model.UserName);
+                var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+                var loginExists = await customerRepo.LoginExists(model.UserName);
                 if (loginExists)
                 {
                     model.ErrorMessage = "That user name is unavailable.";
@@ -85,7 +127,7 @@ namespace StoreApp.Controllers
                 var customer = new Entity.Customer();
                 customer.Login = model.UserName;
                 customer.Password = model.Password;
-                await this._customerRepository.Add(customer);
+                await customerRepo.Add(customer);
                 return Redirect("/Storefront");
             }
         }
@@ -103,7 +145,8 @@ namespace StoreApp.Controllers
             this._logger.LogDebug("We are letting anyone sign in atm for testing");
             this._logger.LogTrace($"model username={model.UserName}");
 
-            var customer = await this._customerRepository.VerifyCredentials(model.UserName, model.Password);
+            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+            var customer = await customerRepo.VerifyCredentials(model.UserName, model.Password);
             // Not finding a customer means their credentials could not be verified.
             if (customer == null) 
             {
@@ -160,7 +203,8 @@ namespace StoreApp.Controllers
         [Route("Account/VerifyUserName")]
         public async Task<IActionResult> VerifyUserName(string username)
         {
-            var verified = await _customerRepository.VerifyUserLogin(username);
+            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+            var verified = await customerRepo.VerifyUserLogin(username);
             if (verified)
             {
                 return Json(true);

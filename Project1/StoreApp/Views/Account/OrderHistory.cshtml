@@ -1,0 +1,14 @@
+@model StoreApp.Models.CustomerOrderHistory
+
+<h1>this is the order history page for a customer</h1>
+
+<h2>Orders</h2>
+
+@foreach (var order in @Model.orders)
+{
+    <div>
+        <a asp-controller="Account"
+        asp-action="OrderHistoryDetail"
+        asp-route-orderId="@order.OrderId">@order.ItemQuantity items - $@order.AmountPaid - @order.TimeSubmitted</a>
+    </div>
+}

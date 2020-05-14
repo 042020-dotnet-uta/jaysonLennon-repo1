@@ -16,16 +16,16 @@
 
 # Account Management Page
 - [ ] Use data from db
-- [ ] Order history link
+- [X] Order history link
 - [ ] Store selector
 - [ ] Personal info form
 - [ ] Save personal info
 - [ ] styles
 
 # Order History page
-- [ ] Use data from db
-- [ ] List orders
-- [ ] Display details of order
+- [X] Use data from db
+- [X] List orders
+- [X] Display details of order
 - [ ] styles
 
 
@@ -88,4 +88,10 @@
 - [ ] fix logger generics in all controllers
 - [ ] apply async where appropriate
 - [ ] autofocus
+- [ ] ensure appropriate routes are authorize-gated
+- [ ] remove unused imports
+- [ ] separate models into view and submission
+- [ ] grep for unimplemented exceptions
+- [ ] exception handling (drop the db to test)
+- [ ] require customer ids in queries
 

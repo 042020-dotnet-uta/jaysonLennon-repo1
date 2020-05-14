@@ -9,6 +9,7 @@
 } else {
     <div>
         <a asp-controller="Cart" asp-action="Index">View Cart</a>
-        <a asp-controller="Account" asp-action="Manage">@ViewData[K.UserName]</a>
+        <br>
+        <a asp-controller="Account" asp-action="Manage">manage account: @ViewData[K.UserName]</a>
     </div>
 }
