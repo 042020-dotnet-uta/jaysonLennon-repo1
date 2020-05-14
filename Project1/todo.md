@@ -62,9 +62,10 @@
 # View cart page
 - [X] List products
 - [X] quantity boxes
-- [ ] remove buttons
+- [X] remove buttons
 - [X] "update quantities" button
 - [X] "update quantities" redirects to cart view when session expires
+- [ ] show different data when the cart is empty
 - [ ] display error on broken model
 - [ ] "Checkout" link
 - [ ] Use data from db

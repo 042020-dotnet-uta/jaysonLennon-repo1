@@ -20,6 +20,7 @@ namespace StoreApp.Models
     public class Cart {
         public List<CartItem> Items { get; set; } = new List<CartItem>();
         public string Action { get; set; }
+        public string ErrorMessage { get; set; }
         public double TotalCost() => Items.Sum(item => item.TotalPrice());
         public Nullable<int> RemoveIndex()
         {

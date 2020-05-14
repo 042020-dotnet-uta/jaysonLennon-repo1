@@ -36,23 +36,37 @@ namespace StoreApp.Controllers
         [Authorize(Roles = Auth.Role.Customer)]
         public async Task<IActionResult> Index()
         {
-            // TODO: Replace dummy data with order information.
-            // TODO: Format items
-            var cartItem = new Models.CartItem();
-            cartItem.Id = Guid.NewGuid();
-            cartItem.Name = "item name here (test item)";
-            cartItem.UnitPrice = 12.34;
-            cartItem.Quantity = 4;
+            var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
+            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+            var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
+            var productRepo = (Repository.IProduct)this._services.GetService(typeof(Repository.IProduct));
 
-            var cartItem2 = new Models.CartItem();
-            cartItem2.Id = Guid.NewGuid();
-            cartItem2.Name = "another item";
-            cartItem2.UnitPrice = 3.0;
-            cartItem2.Quantity = 3;
+            var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
+            _logger.LogDebug($"customer id={customerId}");
+
+            var customer = await customerRepo.GetCustomerById(customerId);
+            _logger.LogDebug($"customer obj={customer}");
+            var location = await customerRepo.GetDefaultLocation(customer);
+            _logger.LogDebug($"location obj={location}");
+
+            var currentOrder = await customerRepo.GetOpenOrder(customer, location);
+            _logger.LogDebug($"current order obj={currentOrder}");
+            var orderLines = orderRepo.GetOrderLines(currentOrder);
+            _logger.LogDebug($"order lines obj={orderLines}");
 
             var model = new Models.Cart();
-            model.Items.Add(cartItem);
-            model.Items.Add(cartItem2);
+
+            foreach(var item in orderLines)
+            {
+                _logger.LogDebug($"iterate through item {item.Product.ProductId}");
+                var cartItem = new Models.CartItem();
+                cartItem.Id = item.Product.ProductId;
+                cartItem.Name = item.Product.Name;
+                cartItem.UnitPrice = item.Product.Price;
+                cartItem.Quantity = item.Quantity;
+                cartItem.ImageName = item.Product.ImageName;
+                model.Items.Add(cartItem);
+            }
 
             return View("Cart", model);
         }
@@ -88,20 +102,30 @@ namespace StoreApp.Controllers
             return View("CartAddOk", okModel);
         }
 
-        [Route("Cart/Update")]
+        [Route("Cart/Add")]
         [HttpGet]
         [Authorize(Roles = Auth.Role.Customer)]
-        public IActionResult UpdateRedirect(Models.Cart model)
+        public IActionResult RedirectCartAdd(Models.Cart model)
         {
             return Redirect("/Cart/View");
         }
+
 
         [Route("Cart/Update")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = Auth.Role.Customer)]
-        public IActionResult Update(Models.Cart model)
+        public async Task<IActionResult> Update(Models.Cart model)
         {
+            var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
+            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+
+            var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
+            var customer = await customerRepo.GetCustomerById(customerId);
+            var location = await customerRepo.GetDefaultLocation(customer);
+
+            var order = await customerRepo.GetOpenOrder(customer, location);
+
             _logger.LogTrace($"update cart");
             if (ModelState.IsValid)
             {
@@ -111,16 +135,29 @@ namespace StoreApp.Controllers
                 var removeIndex = model.RemoveIndex();
                 if (removeIndex != null)
                 {
-                    // TODO: Implement 'remove item' functionality.
-                    _logger.LogTrace($"remove item at index {removeIndex}");
+                    if ((int)removeIndex < model.Items.Count)
+                    {
+                        _logger.LogTrace($"remove item at index {removeIndex}");
+                        var removed = await orderRepo.DeleteLineItem(order, model.Items[(int)removeIndex].Id);
+                        if (!removed)
+                        {
+                            model.ErrorMessage = "There was an error removing an item from your order. Please try again.";
+                            return View("Cart", model);
+                        }
+                    }
                 }
                 else
                 {
-                    // TODO: Implement 'update item quantities' functionality.
                     _logger.LogTrace($"do quantity update");
                     foreach (var i in model.Items)
                     {
                         _logger.LogTrace($"new item info={i.Id}::{i.Quantity}");
+                        var updated = await orderRepo.SetLineItemQuantity(order, i.Id, i.Quantity);
+                        if (!updated)
+                        {
+                            model.ErrorMessage = "There was an error updating the items quantities in your order. Please try again.";
+                            return View("Cart", model);
+                        }
                     }
                 }
             }
@@ -129,6 +166,15 @@ namespace StoreApp.Controllers
                 // TODO: display error on broken model
                 _logger.LogTrace($"broken model");
             }
+
+            return Redirect("/Cart/View");
+        }
+
+        [Route("Cart/Update")]
+        [HttpGet]
+        [Authorize(Roles = Auth.Role.Customer)]
+        public IActionResult RedirectCartUpdated(Models.Cart model)
+        {
             return Redirect("/Cart/View");
         }
 

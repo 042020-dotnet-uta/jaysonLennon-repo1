@@ -35,9 +35,10 @@ namespace StoreApp.Repository
         PlaceOrderResult PlaceOrder(Product product, Location location, int orderQuantity, int maxAllowed);
         IEnumerable<Order> GetOrderHistory(Customer customer);
         IEnumerable<OrderLineItem> GetOrderLines(Order order);
-        bool DeleteLineItem(OrderLineItem orderLine);
-        bool SetLineItemQuantity(OrderLineItem orderLine, int newQuantity);
+        Task<bool> DeleteLineItem(Order order, Guid productId);
+        Task<bool> SetLineItemQuantity(Order order, Guid productId, int newQuantity);
         Task<bool> AddLineItem(Order order, Product product, int quantity);
+        Task<Order> GetOrderById(Guid id);
     }
 
     public class OrderRepository : IOrder
@@ -79,9 +80,27 @@ namespace StoreApp.Repository
             return true;
         }
 
-        bool IOrder.DeleteLineItem(OrderLineItem orderLine)
+        async Task<bool> IOrder.DeleteLineItem(Order order, Guid productId)
         {
-            throw new NotImplementedException();
+            var lineItem = await _context.OrderLineItems
+                                   .Where(li => li.Order.OrderId == order.OrderId)
+                                   .Where(li => li.Product.ProductId == productId)
+                                   .Select(li => li)
+                                   .SingleOrDefaultAsync();
+
+            if (lineItem == null) return false;
+
+            _context.Remove(lineItem);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        async Task<Order> IOrder.GetOrderById(Guid id)
+        {
+            return await _context.Orders
+                                 .Where(o => o.OrderId == id)
+                                 .SingleOrDefaultAsync();
         }
 
         IEnumerable<Order> IOrder.GetOrderHistory(Customer customer)
@@ -91,7 +110,10 @@ namespace StoreApp.Repository
 
         IEnumerable<OrderLineItem> IOrder.GetOrderLines(Order order)
         {
-            throw new NotImplementedException();
+            return _context.OrderLineItems
+                           .Include(li => li.Product)
+                           .Where(li => li.Order.OrderId == order.OrderId)
+                           .AsEnumerable();
         }
 
         PlaceOrderResult IOrder.PlaceOrder(Product product, Location location, int orderQuantity, int maxAllowed)
@@ -99,9 +121,28 @@ namespace StoreApp.Repository
             throw new NotImplementedException();
         }
 
-        bool IOrder.SetLineItemQuantity(OrderLineItem orderLine, int newQuantity)
+        async Task<bool> IOrder.SetLineItemQuantity(Order order, Guid productId, int newQuantity)
         {
-            throw new NotImplementedException();
+            var lineItem = await _context.OrderLineItems
+                .Where(li => li.Product.ProductId == productId)
+                .Where(li => li.Order.OrderId == order.OrderId)
+                .Select(li => li)
+                .SingleOrDefaultAsync();
+
+            if (lineItem == null) return false;
+
+            if (newQuantity <= 0)
+            {
+                _context.Remove(lineItem);
+            }
+            else
+            {
+                lineItem.Quantity = newQuantity;
+
+            }
+            await _context.SaveChangesAsync();
+
+            return true;
         }
     }
 }
