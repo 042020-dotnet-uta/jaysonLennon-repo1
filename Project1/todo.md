@@ -35,6 +35,7 @@
 - [X] Display message if item not found
 - [X] Update order info on backend
 - [X] Use data from db
+- [ ] Disallow ordering more than the max
 - [ ] styles
 
 # Added to cart page
@@ -68,6 +69,7 @@
 - [X] remove buttons
 - [X] "update quantities" button
 - [X] "update quantities" redirects to cart view when session expires
+- [ ] Disallow ordering more than the max
 - [ ] show different data when the cart is empty
 - [ ] display error on broken model
 - [ ] "Checkout" link
