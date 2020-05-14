@@ -99,7 +99,7 @@ namespace StoreApp.Controllers
         [Route("Account/Update")]
         public async Task<IActionResult> RedirectUpdateAccountInfo(Models.AccountManagement model)
         {
-            return Redirect("/Account/Manage");
+            return RedirectToAction("Manage");
         }
 
         [Route("Account/OrderHistory")]
