@@ -32,14 +32,14 @@
 # Item detail page
 - [X] Display product
 - [X] Quantity picker and 'add to cart' button
-- [ ] Display message if item not found and link to go back to storefront
-- [ ] Update order info on backend
-- [ ] Use data from db
+- [X] Display message if item not found
+- [X] Update order info on backend
+- [X] Use data from db
 - [ ] styles
 
 # Added to cart page
 - [X] Display product, quantity, and message
-- [ ] Use data from db
+- [X] Use data from db
 - [X] 'Checkout' button
 - [X] 'Continue Shopping' button
 - [ ] styles

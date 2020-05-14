@@ -30,14 +30,22 @@ namespace StoreApp.Controllers
             return Redirect("/Storefront");
         }
 
+        [Route("ItemDetail/View")]
+        public async Task<IActionResult> RedirectShowDetail(Guid id)
+        {
+            return Redirect("/Storefront");
+        }
+
         [Route("ItemDetail/View/{id}")]
         [Authorize(Roles = Auth.Role.Customer)]
         public async Task<IActionResult> ShowDetail(Guid id)
         {
+            if (!ModelState.IsValid) return View("ItemDetail", Models.ItemDetail.ItemNotFound());
+
             var product = await _productRepository.GetProductById(id);
             if (product == null)
             {
-                return View("ItemDetail", new Models.ItemDetail());
+                return View("ItemDetail", Models.ItemDetail.ItemNotFound());
             }
 
             var model = new Models.ItemDetail();
