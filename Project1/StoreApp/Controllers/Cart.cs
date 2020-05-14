@@ -110,7 +110,6 @@ namespace StoreApp.Controllers
             return Redirect("/Cart/View");
         }
 
-
         [Route("Cart/Update")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -175,17 +174,6 @@ namespace StoreApp.Controllers
         [Authorize(Roles = Auth.Role.Customer)]
         public IActionResult RedirectCartUpdated(Models.Cart model)
         {
-            return Redirect("/Cart/View");
-        }
-
-        [Route("Cart/RemoveItem")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = Auth.Role.Customer)]
-        public IActionResult RemoveItem(Guid itemId)
-        {
-            // TODO: Implement 'update cart' functionality.
-            _logger.LogTrace($"remove item {itemId}");
             return Redirect("/Cart/View");
         }
     }
