@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace StoreApp.Models
 {
@@ -8,6 +10,7 @@ namespace StoreApp.Models
         public string ImageName { get; set; }
         public double UnitPrice { get; set; }
         public bool NotFound { get; set; } = false;
+        public int Stock { get; set; }
 
         public static ItemDetail ItemNotFound()
         {

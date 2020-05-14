@@ -15,6 +15,7 @@ namespace StoreApp.Repository
         Location GetMostStocked();
         IEnumerable<Tuple<Product, int>> GetProductsAvailable(Location location);
         IEnumerable<Tuple<Product, int>> GetAllProducts(Location location);
+        Task<int> GetStock(Location location, Product product);
     }
 
     public class LocationRepository : ILocation
@@ -85,6 +86,14 @@ namespace StoreApp.Repository
                          where loc.LocationId == id
                          select loc)
                          .FirstOrDefaultAsync();
+        }
+
+        async Task<int> ILocation.GetStock(Location location, Product product)
+        {
+            return await _context.LocationInventories
+                .Where(li => li.Product.ProductId == product.ProductId)
+                .Where(li => li.Location.LocationId == location.LocationId)
+                .SumAsync(li => li.Quantity);
         }
     }
 }

@@ -12,15 +12,16 @@ namespace StoreApp.Controllers
 {
     public class ItemDetail : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private Repository.IProduct _productRepository;
+        private readonly ILogger<ItemDetail> _logger;
+        private IServiceProvider _services;
 
         public ItemDetail(
-            ILogger<HomeController> logger,
-            Repository.IProduct productRepository)
+            ILogger<ItemDetail> logger,
+            IServiceProvider services
+            )
         {
             this._logger = logger;
-            this._productRepository = productRepository;
+            this._services = services;
         }
 
         [Route("ItemDetail")]
@@ -42,17 +43,31 @@ namespace StoreApp.Controllers
         {
             if (!ModelState.IsValid) return View("ItemDetail", Models.ItemDetail.ItemNotFound());
 
-            var product = await _productRepository.GetProductById(id);
+            var productRepo = (Repository.IProduct)this._services.GetService(typeof(Repository.IProduct));
+
+            var product = await productRepo.GetProductById(id);
             if (product == null)
             {
                 return View("ItemDetail", Models.ItemDetail.ItemNotFound());
             }
+
+            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+            var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
+
+            var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
+            _logger.LogDebug($"customer id={customerId}");
+
+            var location = await customerRepo.GetDefaultLocation(customerId);
+            _logger.LogDebug($"location obj={location}");
+
+            var quantityInStock = await locationRepo.GetStock(location, product);
 
             var model = new Models.ItemDetail();
             model.Id = product.ProductId;
             model.Name = product.Name;
             model.ImageName = product.ImageName;
             model.UnitPrice = product.Price;
+            model.Stock = quantityInStock;
 
             return View("ItemDetail", model);
         }

@@ -38,6 +38,7 @@ namespace StoreApp.Repository
         Task<bool> VerifyUserLogin(string login);
         void SetDefaultLocation(Customer customer, Location location);
         Task<Location> GetDefaultLocation(Customer customer);
+        Task<Location> GetDefaultLocation(Guid customerId);
         IEnumerable<Order> GetOrderHistory(Customer customer);
         Task<Order> GetOpenOrder(Customer customer, Location location);
         Task<Customer> VerifyCredentials(string login, string plainPassword);
@@ -60,6 +61,15 @@ namespace StoreApp.Repository
                                  .Where(c => c.CustomerId == customer.CustomerId)
                                  .Select(c => c.DefaultLocation)
                                  .FirstOrDefaultAsync();
+        }
+
+        async Task<Location> ICustomer.GetDefaultLocation(Guid customerId)
+        {
+            return await _context.Customers
+                .Include(c => c.DefaultLocation)
+                .Where(c => c.CustomerId == customerId)
+                .Select(c => c.DefaultLocation)
+                .FirstOrDefaultAsync();
         }
 
         async Task<CreateUserAccountResult> ICustomer.Add(Customer customer)
@@ -108,6 +118,7 @@ namespace StoreApp.Repository
                                  .Select(c => c)
                                  .FirstOrDefaultAsync();
         }
+
 
         async Task<Order> ICustomer.GetOpenOrder(Customer customer, Location location)
         {
