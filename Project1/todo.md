@@ -86,4 +86,5 @@
 - [ ] Add redirects for POST-only URLs to appropriate location (cart main, storefront, etc)
 - [ ] fix logger generics in all controllers
 - [ ] apply async where appropriate
+- [ ] autofocus
 

@@ -56,15 +56,23 @@ namespace StoreApp.Controllers
 
             var model = new Models.Cart();
 
+            var allStock = locationRepo.GetStock(currentOrder.OrderId);
+
             foreach(var item in orderLines)
             {
                 _logger.LogDebug($"iterate through item {item.Product.ProductId}");
+                var stock = allStock
+                    .Where(i => i.Item1 == item.Product.ProductId)
+                    .Select(s => s.Item2)
+                    .FirstOrDefault();
+
                 var cartItem = new Models.CartItem();
                 cartItem.Id = item.Product.ProductId;
                 cartItem.Name = item.Product.Name;
                 cartItem.UnitPrice = item.Product.Price;
                 cartItem.Quantity = item.Quantity;
                 cartItem.ImageName = item.Product.ImageName;
+                cartItem.Stock = stock;
                 model.Items.Add(cartItem);
             }
 
