@@ -28,10 +28,8 @@ namespace StoreApp.Controllers
         [Authorize(Roles = Auth.Role.Customer)]
         public async Task<IActionResult> Index()
         {
-            var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
             var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
             var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
-            var productRepo = (Repository.IProduct)this._services.GetService(typeof(Repository.IProduct));
 
             var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
             _logger.LogDebug($"customer id={customerId}");
@@ -66,12 +64,53 @@ namespace StoreApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = Auth.Role.Customer)]
-        public IActionResult PlaceOrder()
+        public async Task<IActionResult> PlaceOrder()
         {
-            // TODO: place order
-            // TODO: return order status page based on outcome
             _logger.LogTrace($"call placeorder");
-            return View("PlaceOrderOk");
+            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+            var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
+
+            var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
+            _logger.LogDebug($"customer id={customerId}");
+
+            var customer = await customerRepo.GetCustomerById(customerId);
+            _logger.LogDebug($"customer obj={customer}");
+            var location = await customerRepo.GetDefaultLocation(customer);
+            _logger.LogDebug($"location obj={location}");
+
+            var currentOrder = await customerRepo.GetOpenOrder(customer, location);
+            var orderPlaced = await orderRepo.PlaceOrder(currentOrder.OrderId);
+            switch (orderPlaced)
+            {
+                case StoreApp.Repository.PlaceOrderResult.Ok:
+                {
+                    return View("PlaceOrderOk");
+                }
+                case StoreApp.Repository.PlaceOrderResult.OutOfStock:
+                {
+                    return View("PlaceOrderFailOutOfStock");
+                }
+                case StoreApp.Repository.PlaceOrderResult.NoLineItems:
+                {
+                    return View("PlaceOrderFailNoLineItems");
+                }
+                case StoreApp.Repository.PlaceOrderResult.OrderNotFound:
+                {
+                    return View("PlaceOrderFailOrderNotFound");
+                }
+                default:
+                {
+                    return View("PlaceOrderFail");
+                }
+
+            }
+        }
+
+        [Route("Checkout/PlaceOrder")]
+        [HttpGet]
+        public IActionResult RedirectPlaceOrder()
+        {
+            return Redirect("/Checkout");
         }
     }
 }

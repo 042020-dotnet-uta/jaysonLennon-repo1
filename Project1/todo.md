@@ -51,7 +51,10 @@
 - [X] Display products in cart, quantity, and totals per product
 - [X] Display total for order
 - [X] 'Purchase' button
-- [ ] Use data from db
+- [X] Use data from db
+- [ ] Display different information when cart is empty
+- [ ] Remove purchase button when cart empty
+- [ ] add links to various order placement failure pages
 - [ ] styles
 
 ## Purchase OK page
@@ -76,3 +79,6 @@
 - [ ] Create account button
 - [ ] styles
 - [ ] Use data from db
+
+# General
+- [ ] Add redirects for POST-only URLs to appropriate location (cart main, storefront, etc)

@@ -26,13 +26,10 @@ namespace StoreApp.Repository
 
         /// <summary>Order rejected because the order ID does not exist.</summary>
         OrderNotFound,
-
-        /// <summary>Order rejected because the quantity of <c>Product</c> is too high.</summary>
-        HighQuantityRejection
     }
     public interface IOrder
     {
-        PlaceOrderResult PlaceOrder(Product product, Location location, int orderQuantity, int maxAllowed);
+        Task<PlaceOrderResult> PlaceOrder(Guid orderId);
         IEnumerable<Order> GetOrderHistory(Customer customer);
         IEnumerable<OrderLineItem> GetOrderLines(Order order);
         Task<bool> DeleteLineItem(Order order, Guid productId);
@@ -116,9 +113,51 @@ namespace StoreApp.Repository
                            .AsEnumerable();
         }
 
-        PlaceOrderResult IOrder.PlaceOrder(Product product, Location location, int orderQuantity, int maxAllowed)
+        async Task<PlaceOrderResult> IOrder.PlaceOrder(Guid orderId)
         {
-            throw new NotImplementedException();
+            var order = await _context.Orders
+                .Include(o => o.Location)
+                .Include(o => o.OrderLineItems)
+                    .ThenInclude(li => li.Product)
+                .Where(o => o.OrderId == orderId)
+                .SingleOrDefaultAsync();
+
+            if (order == null) return PlaceOrderResult.OrderNotFound;
+            if (order.OrderLineItems.Count() == 0) return PlaceOrderResult.NoLineItems;
+
+            var totalOrderPrice = 0.0;
+            var totalItemQuantity = 0;
+
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                foreach (var lineItem in order.OrderLineItems)
+                {
+                    var locationInventory = await _context.LocationInventories
+                        .Where(i => i.Product.ProductId == lineItem.Product.ProductId)
+                        .Where(i => i.Location.LocationId == order.Location.LocationId)
+                        .SingleOrDefaultAsync();
+
+                    if (locationInventory == null) return PlaceOrderResult.OutOfStock;
+                    var newStockQuantity = locationInventory.TryAdjustQuantity(-lineItem.Quantity);
+                    if (newStockQuantity == null)
+                    {
+                        transaction.Rollback();
+                        return PlaceOrderResult.OutOfStock;
+                    }
+
+                    var lineItemPrice = lineItem.Quantity * lineItem.Product.Price;
+                    totalOrderPrice += lineItemPrice;
+                    lineItem.AmountCharged = lineItemPrice;
+                    totalItemQuantity += lineItem.Quantity;
+                    await _context.SaveChangesAsync();
+                }
+
+                order.AmountPaid = totalOrderPrice;
+                order.TimeSubmitted = DateTime.Now;
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+            }
+            return PlaceOrderResult.Ok;
         }
 
         async Task<bool> IOrder.SetLineItemQuantity(Order order, Guid productId, int newQuantity)
