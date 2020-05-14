@@ -11,7 +11,7 @@
 } else {
     <form asp-controller="Cart" asp-action="AddToCart" method="POST">
         <input type="hidden" name="ItemId" value="@Model.Id">
-        <input type="number" min="1" max="@Model.Stock" step="1" name="ItemQuantity">
+        <input type="number" min="1" max="@Model.Stock" step="1" name="ItemQuantity" value="1">
         <input type="submit" value="Add to cart">
     </form>
 }

@@ -35,7 +35,7 @@
 - [X] Display message if item not found
 - [X] Update order info on backend
 - [X] Use data from db
-- [ ] Disallow ordering more than the max
+- [X] Disallow ordering more than the max
 - [ ] styles
 
 # Added to cart page
