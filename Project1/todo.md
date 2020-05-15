@@ -70,7 +70,7 @@
 - [X] Disallow ordering more than the max
 - [X] show maximum possible to order for each item
 - [X] show different data when the cart is empty
-- [ ] display error on broken model
+- [X] display error on broken model
 - [X] "Checkout" link
 - [X] Use data from db
 - [ ] styles
