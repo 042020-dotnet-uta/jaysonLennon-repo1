@@ -77,18 +77,18 @@
 
 # General
 - [X] Add redirects for POST-only URLs to appropriate location (cart main, storefront, etc)
-- [ ] fix logger generics in all controllers
+- [X] fix logger generics in all controllers
 - [ ] apply async where appropriate
 - [ ] autofocus
 - [ ] ensure appropriate routes are authorize-gated
 - [ ] remove unused imports
-- [ ] separate models into view and submission
-- [ ] grep for unimplemented exceptions
+- [X] separate models into view and submission
+- [X] grep for unimplemented interfaces
 - [ ] exception handling (drop the db to test)
 - [X] require customer ids in queries
 - [X] model binding check
 - [X] use tempdata for informational message passing
 - [X] post requests should redirect to get
-- [ ] add flash message display to all pages
+- [X] add flash message display to all pages
 - [ ] style flash messages
 
