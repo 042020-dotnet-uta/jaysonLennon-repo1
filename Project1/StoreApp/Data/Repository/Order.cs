@@ -72,7 +72,7 @@ namespace StoreApp.Repository
             var currentOrderLine = await _context.OrderLineItems
                 .Where(li => li.Product.ProductId == product.ProductId)
                 .Where(li => li.Order.OrderId == order.OrderId)
-                .Where(li => li.Order.Customer.UserId == userId)
+                .Where(li => li.Order.User.UserId == userId)
                 .Select(li => li)
                 .SingleOrDefaultAsync();
 
@@ -108,7 +108,7 @@ namespace StoreApp.Repository
         {
             var lineItem = await _context.OrderLineItems
                                    .Where(li => li.Order.OrderId == order.OrderId)
-                                   .Where(li => li.Order.Customer.UserId == userId)
+                                   .Where(li => li.Order.User.UserId == userId)
                                    .Where(li => li.Product.ProductId == productId)
                                    .Select(li => li)
                                    .SingleOrDefaultAsync();
@@ -126,7 +126,7 @@ namespace StoreApp.Repository
             return await _context.Orders
                 .Include(o => o.Location)
                 .Where(o => o.OrderId == orderId)
-                .Where(o => o.Customer.UserId == userId)
+                .Where(o => o.User.UserId == userId)
                 .SingleOrDefaultAsync();
         }
 
@@ -134,7 +134,7 @@ namespace StoreApp.Repository
         {
             Console.WriteLine($"getting orders for {userId}");
             return _context.Orders
-                .Where(o => o.Customer.UserId == userId)
+                .Where(o => o.User.UserId == userId)
                 .Where(o => o.TimeSubmitted != null)
                 .Select(o =>
                     new Tuple<Order, int>(
@@ -152,7 +152,7 @@ namespace StoreApp.Repository
             return _context.OrderLineItems
                 .Include(ol => ol.Product)
                 .Where(ol => ol.Order.OrderId == orderId)
-                .Where(ol => ol.Order.Customer.UserId == userId)
+                .Where(ol => ol.Order.User.UserId == userId)
                 .Select(ol => ol)
                 .OrderBy(ol => ol.Product.Name)
                 .AsEnumerable();
@@ -165,7 +165,7 @@ namespace StoreApp.Repository
                 .Include(o => o.OrderLineItems)
                     .ThenInclude(li => li.Product)
                 .Where(o => o.OrderId == orderId)
-                .Where(o => o.Customer.UserId == userId)
+                .Where(o => o.User.UserId == userId)
                 .SingleOrDefaultAsync();
 
             if (order == null) return PlaceOrderResult.OrderNotFound;
@@ -212,7 +212,7 @@ namespace StoreApp.Repository
                 .Include(li => li.Product)
                 .Where(li => li.Product.ProductId == productId)
                 .Where(li => li.Order.OrderId == order.OrderId)
-                .Where(li => li.Order.Customer.UserId == userId)
+                .Where(li => li.Order.User.UserId == userId)
                 .Select(li => li)
                 .SingleOrDefaultAsync();
 

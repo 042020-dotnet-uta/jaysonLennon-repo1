@@ -34,7 +34,7 @@ namespace StoreApp.Controllers
         }
 
         [Route("ItemDetail/View/{id}")]
-        [Authorize(Roles = Auth.Role.Customer)]
+        [Authorize(Roles = Auth.Role.User)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         [ServiceFilter(typeof(CartHeader.CartHeaderFilter))]
         public async Task<IActionResult> ShowDetail(Guid id)
@@ -49,13 +49,13 @@ namespace StoreApp.Controllers
                 return View("ItemDetail", Model.View.ItemDetail.ItemNotFound());
             }
 
-            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+            var userRepo = (Repository.IUser)this._services.GetService(typeof(Repository.IUser));
             var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
 
             var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
-            _logger.LogDebug($"customer id={userId}");
+            _logger.LogDebug($"user id={userId}");
 
-            var location = await customerRepo.GetDefaultLocation(userId);
+            var location = await userRepo.GetDefaultLocation(userId);
             _logger.LogDebug($"location obj={location}");
 
             var quantityInStock = await locationRepo.GetStock(location, product);

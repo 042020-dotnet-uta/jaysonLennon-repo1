@@ -11,7 +11,7 @@ namespace StoreApp.Data
         /// <summary>The Products table.</summary>
         public DbSet<Entity.Product> Products { get; set; }
 
-        /// <summary>The Customers table.</summary>
+        /// <summary>The Users table.</summary>
         public DbSet<Entity.User> Users { get; set; }
 
         /// <summary>The Locations table.</summary>

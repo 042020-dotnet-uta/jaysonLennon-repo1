@@ -28,25 +28,25 @@ namespace StoreApp.Controllers
         }
 
         [Route("Cart")]
-        [Authorize(Roles = Auth.Role.Customer)]
+        [Authorize(Roles = Auth.Role.User)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         [ServiceFilter(typeof(CartHeader.CartHeaderFilter))]
         public async Task<IActionResult> Index()
         {
             var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
-            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+            var userRepo = (Repository.IUser)this._services.GetService(typeof(Repository.IUser));
             var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
             var productRepo = (Repository.IProduct)this._services.GetService(typeof(Repository.IProduct));
 
             var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
-            _logger.LogDebug($"customer id={userId}");
+            _logger.LogDebug($"user id={userId}");
 
-            var customer = await customerRepo.GetCustomerById(userId);
-            _logger.LogDebug($"customer obj={customer}");
-            var location = await customerRepo.GetDefaultLocation(customer);
+            var user = await userRepo.GetUserById(userId);
+            _logger.LogDebug($"user obj={user}");
+            var location = await userRepo.GetDefaultLocation(user);
             _logger.LogDebug($"location obj={location}");
 
-            var currentOrder = await customerRepo.GetOpenOrder(customer, location);
+            var currentOrder = await userRepo.GetOpenOrder(user, location);
             _logger.LogDebug($"current order obj={currentOrder}");
             var orderLines = orderRepo.GetOrderLines(userId, currentOrder.OrderId);
             _logger.LogDebug($"order lines obj={orderLines}");
@@ -79,21 +79,21 @@ namespace StoreApp.Controllers
         [Route("Cart/Add")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = Auth.Role.Customer)]
+        [Authorize(Roles = Auth.Role.User)]
         public async Task<IActionResult> AddToCart(Model.Input.CartAdd model)
         {
             var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
-            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+            var userRepo = (Repository.IUser)this._services.GetService(typeof(Repository.IUser));
             var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
             var productRepo = (Repository.IProduct)this._services.GetService(typeof(Repository.IProduct));
 
             var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
 
-            var customer = await customerRepo.GetCustomerById(userId);
-            var location = await customerRepo.GetDefaultLocation(customer);
+            var user = await userRepo.GetUserById(userId);
+            var location = await userRepo.GetDefaultLocation(user);
             var product = await productRepo.GetProductById(model.ItemId);
 
-            var currentOrder = await customerRepo.GetOpenOrder(customer, location);
+            var currentOrder = await userRepo.GetOpenOrder(user, location);
             var addStatus = await orderRepo.AddLineItem(userId, currentOrder, product, model.ItemQuantity);
             switch (addStatus)
             {
@@ -132,7 +132,7 @@ namespace StoreApp.Controllers
 
         [Route("Cart/AddOk")]
         [HttpGet]
-        [Authorize(Roles = Auth.Role.Customer)]
+        [Authorize(Roles = Auth.Role.User)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         [ServiceFilter(typeof(CartHeader.CartHeaderFilter))]
         public IActionResult CartAddOk(Model.View.CartAddOk model)
@@ -142,7 +142,7 @@ namespace StoreApp.Controllers
 
         [Route("Cart/Add")]
         [HttpGet]
-        [Authorize(Roles = Auth.Role.Customer)]
+        [Authorize(Roles = Auth.Role.User)]
         public IActionResult RedirectCartAdd(Model.Input.Cart model)
         {
             return RedirectToAction("Index", "Cart");
@@ -151,17 +151,17 @@ namespace StoreApp.Controllers
         [Route("Cart/Update")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = Auth.Role.Customer)]
+        [Authorize(Roles = Auth.Role.User)]
         public async Task<IActionResult> Update(Model.Input.Cart model)
         {
             var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
-            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+            var userRepo = (Repository.IUser)this._services.GetService(typeof(Repository.IUser));
 
             var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
-            var customer = await customerRepo.GetCustomerById(userId);
-            var location = await customerRepo.GetDefaultLocation(customer);
+            var user = await userRepo.GetUserById(userId);
+            var location = await userRepo.GetDefaultLocation(user);
 
-            var order = await customerRepo.GetOpenOrder(customer, location);
+            var order = await userRepo.GetOpenOrder(user, location);
 
             _logger.LogTrace($"update cart");
             if (ModelState.IsValid)
@@ -218,7 +218,7 @@ namespace StoreApp.Controllers
 
         [Route("Cart/Update")]
         [HttpGet]
-        [Authorize(Roles = Auth.Role.Customer)]
+        [Authorize(Roles = Auth.Role.User)]
         public IActionResult RedirectCartUpdated(Model.Input.Cart model)
         {
             return RedirectToAction("Index", "Cart");

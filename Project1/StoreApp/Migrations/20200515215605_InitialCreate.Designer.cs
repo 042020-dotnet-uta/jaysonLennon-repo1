@@ -148,7 +148,7 @@ namespace StoreApp.Migrations
                     b.Property<double?>("AmountPaid")
                         .HasColumnType("REAL");
 
-                    b.Property<Guid?>("CustomerUserId")
+                    b.Property<Guid?>("UserUserId")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid?>("LocationId")
@@ -165,7 +165,7 @@ namespace StoreApp.Migrations
 
                     b.HasKey("OrderId");
 
-                    b.HasIndex("CustomerUserId");
+                    b.HasIndex("UserUserId");
 
                     b.HasIndex("LocationId");
 
@@ -330,9 +330,9 @@ namespace StoreApp.Migrations
 
             modelBuilder.Entity("StoreApp.Entity.Order", b =>
                 {
-                    b.HasOne("StoreApp.Entity.User", "Customer")
+                    b.HasOne("StoreApp.Entity.User", "User")
                         .WithMany()
-                        .HasForeignKey("CustomerUserId");
+                        .HasForeignKey("UserUserId");
 
                     b.HasOne("StoreApp.Entity.Location", "Location")
                         .WithMany()

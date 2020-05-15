@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace StoreApp.Entity
 {
     /// <summary>
-    /// Represents and order created by the customer.
+    /// Represents and order created by the user.
     /// An <c>Order</c> goes through a lifecycle of: creation, submission, and fulfillment.
     /// <c>Products</c> on the <c>Order</c> are added via adding an <c>OrderLineObject</c> through the
     /// <c>AddLineItem()</c> method.
@@ -17,9 +17,9 @@ namespace StoreApp.Entity
         public Guid OrderId { get; set; }
 
         /// <summary>
-        /// <c>Customer</c> that placed the <c>Order</c>.
+        /// <c>User</c> that placed the <c>Order</c>.
         /// </summary>
-        public virtual User Customer { get; set; }
+        public virtual User User { get; set; }
 
         /// <summary>
         /// <c>Location</c> in which the <c>Order</c> was placed.
@@ -42,7 +42,7 @@ namespace StoreApp.Entity
         public virtual Nullable<DateTime> TimeFulfilled { get; set; }
         
         /// <summary>
-        /// The amount the customer paid for this <c>Order</c>.
+        /// The amount the user paid for this <c>Order</c>.
         /// </summary>
         public Nullable<double> AmountPaid { get; set; }
 
@@ -62,13 +62,13 @@ namespace StoreApp.Entity
         /// <summary>
         /// Creates a new <c>Order</c> object.
         /// </summary>
-        /// <param name="customer">The <c>Customer</c> that created this Order.</param>
+        /// <param name="user">The <c>User</c> that created this Order.</param>
         /// <param name="location">The <c>Location</c> where this <c>Order</c> was placed.</param>
-        public Order(User customer, Location location)
+        public Order(User user, Location location)
         {
             this.OrderId = Guid.NewGuid();
             this.TimeCreated = DateTime.Now;
-            this.Customer = customer;
+            this.User = user;
             this.Location = location;
         }
 
@@ -115,7 +115,7 @@ namespace StoreApp.Entity
         public virtual Product Product { get; set; }
 
         /// <summary>
-        /// The amount charged to the <c>Customer</c> for this <c>OrderLineItem</c>.
+        /// The amount charged to the <c>User</c> for this <c>OrderLineItem</c>.
         /// </summary>
         public virtual Nullable<double> AmountCharged { get; set; }
 

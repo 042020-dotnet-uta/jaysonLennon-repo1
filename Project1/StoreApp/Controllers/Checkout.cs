@@ -23,23 +23,23 @@ namespace StoreApp.Controllers
         }
 
         [Route("Checkout")]
-        [Authorize(Roles = Auth.Role.Customer)]
+        [Authorize(Roles = Auth.Role.User)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         [ServiceFilter(typeof(CartHeader.CartHeaderFilter))]
         public async Task<IActionResult> Index()
         {
-            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+            var userRepo = (Repository.IUser)this._services.GetService(typeof(Repository.IUser));
             var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
 
             var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
-            _logger.LogDebug($"customer id={userId}");
+            _logger.LogDebug($"user id={userId}");
 
-            var customer = await customerRepo.GetCustomerById(userId);
-            _logger.LogDebug($"customer obj={customer}");
-            var location = await customerRepo.GetDefaultLocation(customer);
+            var user = await userRepo.GetUserById(userId);
+            _logger.LogDebug($"user obj={user}");
+            var location = await userRepo.GetDefaultLocation(user);
             _logger.LogDebug($"location obj={location}");
 
-            var currentOrder = await customerRepo.GetOpenOrder(customer, location);
+            var currentOrder = await userRepo.GetOpenOrder(user, location);
             _logger.LogDebug($"current order obj={currentOrder}");
             var orderLines = orderRepo.GetOrderLines(userId, currentOrder.OrderId);
 
@@ -63,22 +63,22 @@ namespace StoreApp.Controllers
         [Route("Checkout/PlaceOrder")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = Auth.Role.Customer)]
+        [Authorize(Roles = Auth.Role.User)]
         public async Task<IActionResult> PlaceOrder()
         {
             _logger.LogTrace($"call placeorder");
-            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+            var userRepo = (Repository.IUser)this._services.GetService(typeof(Repository.IUser));
             var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
 
             var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
-            _logger.LogDebug($"customer id={userId}");
+            _logger.LogDebug($"user id={userId}");
 
-            var customer = await customerRepo.GetCustomerById(userId);
-            _logger.LogDebug($"customer obj={customer}");
-            var location = await customerRepo.GetDefaultLocation(customer);
+            var user = await userRepo.GetUserById(userId);
+            _logger.LogDebug($"user obj={user}");
+            var location = await userRepo.GetDefaultLocation(user);
             _logger.LogDebug($"location obj={location}");
 
-            var currentOrder = await customerRepo.GetOpenOrder(customer, location);
+            var currentOrder = await userRepo.GetOpenOrder(user, location);
             var orderPlaced = await orderRepo.PlaceOrder(userId, currentOrder.OrderId);
             switch (orderPlaced)
             {

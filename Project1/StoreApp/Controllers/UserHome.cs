@@ -7,22 +7,22 @@ using StoreApp.Data;
 
 namespace StoreApp.Controllers
 {
-    [Authorize(Roles = Auth.Role.Customer)]
-    public class CustomerHome : Controller
+    [Authorize(Roles = Auth.Role.User)]
+    public class UserHome : Controller
     {
         private StoreContext _context;
-        private ILogger<CustomerHome> _logger;
+        private ILogger<UserHome> _logger;
 
-        public CustomerHome(
+        public UserHome(
             StoreContext context,
-            ILogger<CustomerHome> logger
+            ILogger<UserHome> logger
             )
         {
             this._context = context;
             this._logger = logger;
         }
 
-        [Route("Customer/Home")]
+        [Route("User/Home")]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         [ServiceFilter(typeof(CartHeader.CartHeaderFilter))]
         public async Task<IActionResult> Home()

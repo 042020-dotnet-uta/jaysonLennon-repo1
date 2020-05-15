@@ -6,7 +6,7 @@ using StoreApp.Repository;
 namespace StoreApp.Model.Input
 {
     // TODO: Add constraints
-    public class AccountManagement : Repository.ICustomerData
+    public class AccountManagement : Repository.IUserData
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -87,12 +87,12 @@ namespace StoreApp.Model.Input
 
         public List<SelectListItem> Stores { get; } = new List<SelectListItem>();
 
-        string ICustomerData.GetAddressLine1() => this.AddressLine1;
-        string ICustomerData.GetAddressLine2() => this.AddressLine2;
-        string ICustomerData.GetCity() => this.City;
-        string ICustomerData.GetFirstName() => this.FirstName;
-        string ICustomerData.GetLastName() => this.LastName;
-        string ICustomerData.GetState() => this.StatePicked;
-        string ICustomerData.GetZip() => this.Zip;
+        string IUserData.GetAddressLine1() => this.AddressLine1;
+        string IUserData.GetAddressLine2() => this.AddressLine2;
+        string IUserData.GetCity() => this.City;
+        string IUserData.GetFirstName() => this.FirstName;
+        string IUserData.GetLastName() => this.LastName;
+        string IUserData.GetState() => this.StatePicked;
+        string IUserData.GetZip() => this.Zip;
     }
 }

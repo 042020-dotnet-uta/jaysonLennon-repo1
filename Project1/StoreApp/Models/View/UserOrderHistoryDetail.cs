@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StoreApp.Model.View
 {
-    public class CustomerOrderHistoryLine
+    public class UserOrderHistoryLine
     {
         public string Name { get; set; }
         public double? AmountCharged { get; set; }
@@ -11,14 +11,14 @@ namespace StoreApp.Model.View
         public string ImageName { get; set; }
     }
 
-    public class CustomerOrderHistoryDetail {
+    public class UserOrderHistoryDetail {
         public Guid OrderId { get; set; }
         public DateTime? TimeSubmitted { get; set; }
         public double? AmountPaid { get; set; }
         public string StoreName { get; set; }
-        public List<CustomerOrderHistoryLine> LineItems { get; set; } = new List<CustomerOrderHistoryLine>();
+        public List<UserOrderHistoryLine> LineItems { get; set; } = new List<UserOrderHistoryLine>();
 
-        public CustomerOrderHistoryDetail(Entity.Order order)
+        public UserOrderHistoryDetail(Entity.Order order)
         {
             this.OrderId = order.OrderId;
             this.TimeSubmitted = order.TimeSubmitted;
@@ -27,7 +27,7 @@ namespace StoreApp.Model.View
         }
         public void AddLineItem(Entity.OrderLineItem lineItem)
         {
-            var historyLine = new CustomerOrderHistoryLine();
+            var historyLine = new UserOrderHistoryLine();
             historyLine.Name = lineItem.Product.Name;
             historyLine.AmountCharged = lineItem.AmountCharged;
             historyLine.Quantity = lineItem.Quantity;

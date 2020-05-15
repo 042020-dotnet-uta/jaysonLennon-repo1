@@ -208,7 +208,7 @@ namespace StoreApp.Migrations
                 columns: table => new
                 {
                     OrderId = table.Column<Guid>(nullable: false),
-                    CustomerUserId = table.Column<Guid>(nullable: true),
+                    UserUserId = table.Column<Guid>(nullable: true),
                     LocationId = table.Column<Guid>(nullable: true),
                     TimeCreated = table.Column<DateTime>(nullable: true),
                     TimeSubmitted = table.Column<DateTime>(nullable: true),
@@ -219,8 +219,8 @@ namespace StoreApp.Migrations
                 {
                     table.PrimaryKey("PK_Orders", x => x.OrderId);
                     table.ForeignKey(
-                        name: "FK_Orders_Users_CustomerUserId",
-                        column: x => x.CustomerUserId,
+                        name: "FK_Orders_Users_UserUserId",
+                        column: x => x.UserUserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
@@ -310,9 +310,9 @@ namespace StoreApp.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_CustomerUserId",
+                name: "IX_Orders_UserUserId",
                 table: "Orders",
-                column: "CustomerUserId");
+                column: "UserUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_LocationId",

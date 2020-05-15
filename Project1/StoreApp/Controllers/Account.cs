@@ -33,15 +33,15 @@ namespace StoreApp.Controllers
         }
 
         [Route("Account/Manage")]
-        [Authorize(Roles = Auth.Role.Customer)]
+        [Authorize(Roles = Auth.Role.User)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public async Task<IActionResult> Manage()
         {
             var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
-            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+            var userRepo = (Repository.IUser)this._services.GetService(typeof(Repository.IUser));
             var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
 
-            var defaultLocation = await customerRepo.GetDefaultLocation(userId);
+            var defaultLocation = await userRepo.GetDefaultLocation(userId);
             var allLocations = locationRepo.GetLocations();
 
             var model = new Model.Input.AccountManagement();
@@ -52,11 +52,11 @@ namespace StoreApp.Controllers
                 model.Stores.Add( new SelectListItem { Value = loc.LocationId.ToString(), Text = loc.Name });
             }
 
-            var customer = await customerRepo.GetCustomerById(userId);
-            model.FirstName = customer.FirstName;
-            model.LastName = customer.LastName;
+            var user = await userRepo.GetUserById(userId);
+            model.FirstName = user.FirstName;
+            model.LastName = user.LastName;
 
-            var userAddress = await customerRepo.GetAddressByuserId(userId);
+            var userAddress = await userRepo.GetAddressByuserId(userId);
             if (userAddress != null)
             {
                 model.AddressLine1 = userAddress.Line1 != null ? userAddress.Line1.Data : null;
@@ -87,14 +87,14 @@ namespace StoreApp.Controllers
             }
 
             var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
-            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+            var userRepo = (Repository.IUser)this._services.GetService(typeof(Repository.IUser));
             var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
 
-            var customer = await customerRepo.GetCustomerById(userId);
+            var user = await userRepo.GetUserById(userId);
             var location = await locationRepo.GetById(defaultLocationId);
-            customerRepo.SetDefaultLocation(customer, location);
+            userRepo.SetDefaultLocation(user, location);
 
-            var updateOk = await customerRepo.UpdateCustomerInfo(customer.UserId, model);
+            var updateOk = await userRepo.UpdateUserInfo(user.UserId, model);
             if (!updateOk)
             {
                 this.SetFlashError("There was an error saving your information. Please try again.");
@@ -120,7 +120,7 @@ namespace StoreApp.Controllers
         }
 
         [Route("Account/OrderHistory")]
-        [Authorize(Roles = Auth.Role.Customer)]
+        [Authorize(Roles = Auth.Role.User)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public async Task<IActionResult> OrderHistory()
         {
@@ -129,7 +129,7 @@ namespace StoreApp.Controllers
             var orders = orderRepo.GetSubmittedOrders(userId);
             _logger.LogTrace($"num orders={orders.Count()}");
 
-            var model = new Model.View.CustomerOrderHistory();
+            var model = new Model.View.UserOrderHistory();
 
             foreach(var o in orders)
             {
@@ -140,17 +140,17 @@ namespace StoreApp.Controllers
         }
 
         [Route("Account/OrderHistoryDetail")]
-        [Authorize(Roles = Auth.Role.Customer)]
+        [Authorize(Roles = Auth.Role.User)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public async Task<IActionResult> OrderHistoryDetail(Guid orderId)
         {
             var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
-            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+            var userRepo = (Repository.IUser)this._services.GetService(typeof(Repository.IUser));
             var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
             var orderLines = orderRepo.GetOrderLines(userId, orderId);
             var order = await orderRepo.GetOrderById(userId, orderId);
 
-            var model = new Model.View.CustomerOrderHistoryDetail(order);
+            var model = new Model.View.UserOrderHistoryDetail(order);
 
             foreach(var line in orderLines)
             {
@@ -199,20 +199,20 @@ namespace StoreApp.Controllers
             }
             else
             {
-                var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
-                var loginExists = await customerRepo.LoginExists(model.UserName);
+                var userRepo = (Repository.IUser)this._services.GetService(typeof(Repository.IUser));
+                var loginExists = await userRepo.LoginExists(model.UserName);
                 if (loginExists)
                 {
                     this.SetFlashError("That user name is unavailable.");
                     return View("CreateAccount", model);
                 }
 
-                var customer = new Entity.User();
-                customer.Login = model.UserName;
-                customer.Password = model.Password;
-                await customerRepo.Add(customer);
+                var user = new Entity.User();
+                user.Login = model.UserName;
+                user.Password = model.Password;
+                await userRepo.Add(user);
 
-                var loginOk = await DoLogin(customer.UserId);
+                var loginOk = await DoLogin(user.UserId);
                 _logger.LogTrace($"loginok={loginOk}");
 
                 return RedirectToAction("Index", "Storefront");
@@ -221,22 +221,22 @@ namespace StoreApp.Controllers
 
         private async Task<bool> DoLogin(Guid userId)
         {
-            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
-            var customer = await customerRepo.GetCustomerById(userId);
-            if (customer == null)
+            var userRepo = (Repository.IUser)this._services.GetService(typeof(Repository.IUser));
+            var user = await userRepo.GetUserById(userId);
+            if (user == null)
             {
                 return false;
             }
 
             var claims = new List<Claim>
             {
-                new Claim(Auth.Claim.UserName, customer.Login),
-                new Claim(ClaimTypes.Role, Auth.Role.Customer),
+                new Claim(Auth.Claim.UserName, user.Login),
+                new Claim(ClaimTypes.Role, Auth.Role.User),
                 new Claim(Auth.Claim.UserId, userId.ToString()),
                 // TODO: Check user permissions regularly in case they get revoked.
             };
 
-            if (customer.Role == Entity.Role.Admin)
+            if (user.Role == Entity.Role.Admin)
             {
                 claims.Add(new Claim(ClaimTypes.Role, Auth.Role.Administrator));
             }
@@ -271,10 +271,10 @@ namespace StoreApp.Controllers
             this._logger.LogDebug("We are letting anyone sign in atm for testing");
             this._logger.LogTrace($"model username={model.UserName}");
 
-            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
-            var customer = await customerRepo.VerifyCredentials(model.UserName, model.Password);
-            // Not finding a customer means their credentials could not be verified.
-            if (customer == null) 
+            var userRepo = (Repository.IUser)this._services.GetService(typeof(Repository.IUser));
+            var user = await userRepo.VerifyCredentials(model.UserName, model.Password);
+            // Not finding a user means their credentials could not be verified.
+            if (user == null) 
             {
                 var loginRedirect = new Model.Input.LoginRedirect();
                 this.SetFlashError("Invalid login credentials");
@@ -282,7 +282,7 @@ namespace StoreApp.Controllers
                 return RedirectToAction("LoginIndex", loginRedirect);
             }
 
-            await DoLogin(customer.UserId);
+            await DoLogin(user.UserId);
 
             this._logger.LogDebug($"return url={model.ReturnUrl}");
 
@@ -310,8 +310,8 @@ namespace StoreApp.Controllers
         [Route("Account/VerifyUserName")]
         public async Task<IActionResult> VerifyUserName(string username)
         {
-            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
-            var verified = await customerRepo.VerifyUserLogin(username);
+            var userRepo = (Repository.IUser)this._services.GetService(typeof(Repository.IUser));
+            var verified = await userRepo.VerifyUserLogin(username);
             if (verified)
             {
                 return Json(true);

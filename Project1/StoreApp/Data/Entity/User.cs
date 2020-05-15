@@ -5,55 +5,55 @@ namespace StoreApp.Entity
 {
     public enum Role
     {
-        Customer,
+        User,
         Admin
     }
 
     /// <summary>
-    /// Contains all customer-related information such as name, phone number, and address.
+    /// Contains all user-related information such as name, phone number, and address.
     /// </summary>
     public class User
     {
         /// <summary>
-        /// The ID for this <c>Customer</c> object.
+        /// The ID for this <c>User</c> object.
         /// </summary>
         public Guid UserId { get; set; }
 
         /// <summary>
-        /// The <c>Login</c> name for this customer.
+        /// The <c>Login</c> name for this user.
         /// </summary>
         public string Login { get; set; }
 
         /// <summary>
-        /// The first name of this customer.
+        /// The first name of this user.
         /// </summary>
         public string FirstName { get; set; }
 
         /// <summary>
-        /// The last name of this customer.
+        /// The last name of this user.
         /// </summary>
         public string LastName { get; set; }
 
         /// <summary>
-        /// The address of this customer.
+        /// The address of this user.
         /// </summary>
         public virtual Entity.Address Address { get; set; }
 
         /// <summary>
-        /// The phone number for this customer.
+        /// The phone number for this user.
         /// </summary>
         public string PhoneNumber { get; set; }
 
         private string _Password;
         /// <summary>
-        /// The password for this customer.
+        /// The password for this user.
         /// </summary>
         public string Password { get; set; }
 
         /// <summary>
-        /// The default <c>Location</c> where this customer's orders should be placed.
+        /// The default <c>Location</c> where this user's orders should be placed.
         /// </summary>
-        /// <value>If this is null, then the customer has not set a default <c>Location</c>.</value>
+        /// <value>If this is null, then the user has not set a default <c>Location</c>.</value>
         public virtual Location DefaultLocation { get; set; }
 
         public Role Role { get; set; }

@@ -11,12 +11,12 @@ namespace StoreApp.Controllers
     public class Storefront : Controller
     {
         private StoreContext _context;
-        private ILogger<CustomerHome> _logger;
+        private ILogger<UserHome> _logger;
         private IServiceProvider _services;
 
         public Storefront(
             StoreContext context,
-            ILogger<CustomerHome> logger,
+            ILogger<UserHome> logger,
             IServiceProvider services
             )
         {
@@ -33,7 +33,7 @@ namespace StoreApp.Controllers
         public async Task<IActionResult> Index()
         {
             var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
-            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+            var userRepo = (Repository.IUser)this._services.GetService(typeof(Repository.IUser));
             var model = new Model.View.Storefront();
 
             // Determine which location's inventory we should display.
@@ -42,12 +42,12 @@ namespace StoreApp.Controllers
             if (userId != null)
             {
                 var userIdAsGuid = Guid.Parse(userId.Value);
-                var customer = await customerRepo.GetCustomerById(userIdAsGuid);
-                location = await customerRepo.GetDefaultLocation(customer);
+                var user = await userRepo.GetUserById(userIdAsGuid);
+                location = await userRepo.GetDefaultLocation(user);
                 if (location == null)
                 {
                     location = locationRepo.GetMostStocked();
-                    customerRepo.SetDefaultLocation(customer, location);
+                    userRepo.SetDefaultLocation(user, location);
                 }
             }
             else

@@ -80,7 +80,7 @@
 
 # Admin pages
 - [ ] view location orders
-- [ ] search for customers
+- [ ] search for users
 
 # General
 - [X] Add redirects for POST-only URLs to appropriate location (cart main, storefront, etc)
@@ -92,7 +92,7 @@
 - [X] separate models into view and submission
 - [X] grep for unimplemented interfaces
 - [X] exception handling (drop the db to test)
-- [X] require customer ids in queries
+- [X] require user ids in queries
 - [X] model binding check
 - [X] use tempdata for informational message passing
 - [X] post requests should redirect to get

@@ -30,7 +30,7 @@ namespace StoreApp.CartHeader
 
         async Task IAsyncActionFilter.OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var customerRepository = (Repository.ICustomer)_services.GetService(typeof(Repository.ICustomer));
+            var userRepository = (Repository.IUser)_services.GetService(typeof(Repository.IUser));
 
             var userId = context.HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId);
 
@@ -41,7 +41,7 @@ namespace StoreApp.CartHeader
             {
                 var userIdAsGuid = Guid.Parse(userId.Value);
                 var username = context.HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserName).Value;
-                var numProductsInCart = await customerRepository.CountProductsInCart(userIdAsGuid);
+                var numProductsInCart = await userRepository.CountProductsInCart(userIdAsGuid);
 
                 controller.ViewData[K.UserName] = username;
                 controller.ViewData[K.NumItemsInCart] = numProductsInCart;
