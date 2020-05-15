@@ -33,7 +33,7 @@ namespace StoreApp.Controllers
             this._services = services;
         }
 
-        [Route("Cart/View")]
+        [Route("Cart")]
         [Authorize(Roles = Auth.Role.Customer)]
         public async Task<IActionResult> Index()
         {
