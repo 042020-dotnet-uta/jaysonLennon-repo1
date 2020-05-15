@@ -27,14 +27,30 @@ namespace StoreApp.Repository
         /// <summary>Order rejected because the order ID does not exist.</summary>
         OrderNotFound,
     }
+
+    public enum AddLineItemResult
+    {
+        Ok,
+        ExceedsStock,
+        ProductMissing,
+        OrderMissing
+    }
+
+    public enum SetLineItemQuantityResult
+    {
+        Ok,
+        ExceedsStock,
+        ProductMissing,
+    }
+
     public interface IOrder
     {
         Task<PlaceOrderResult> PlaceOrder(Guid customerId, Guid orderId);
         IEnumerable<Tuple<Order, int>> GetSubmittedOrders(Guid customerId);
         IEnumerable<OrderLineItem> GetOrderLines(Guid customerId, Guid orderId);
         Task<bool> DeleteLineItem(Guid customerId, Order order, Guid productId);
-        Task<bool> SetLineItemQuantity(Guid customerId, Order order, Guid productId, int newQuantity);
-        Task<bool> AddLineItem(Guid customerId, Order order, Product product, int quantity);
+        Task<SetLineItemQuantityResult> SetLineItemQuantity(Guid customerId, Order order, Guid productId, int newQuantity);
+        Task<AddLineItemResult> AddLineItem(Guid customerId, Order order, Product product, int quantity);
         Task<Order> GetOrderById(Guid customerId, Guid orderId);
     }
 
@@ -47,9 +63,10 @@ namespace StoreApp.Repository
             this._context = context;
         }
 
-        async Task<bool> IOrder.AddLineItem(Guid customerId, Order order, Product product, int quantity)
+        async Task<AddLineItemResult> IOrder.AddLineItem(Guid customerId, Order order, Product product, int quantity)
         {
-            if (order == null || product == null) return false;
+            if (order == null) return AddLineItemResult.OrderMissing;
+            if (product == null) return AddLineItemResult.ProductMissing;
 
             // Check if this product is already part of the order.
             var currentOrderLine = await _context.OrderLineItems
@@ -59,23 +76,32 @@ namespace StoreApp.Repository
                 .Select(li => li)
                 .SingleOrDefaultAsync();
 
+            var inStock = await _context.LocationInventories
+                .Where(li => li.Product.ProductId == product.ProductId)
+                .Where(li => li.Location.LocationId == order.Location.LocationId)
+                .SumAsync(li => li.Quantity);
+
             if (currentOrderLine == null)
             {
                 // When the product is not in the order, we will create
                 // a new line item.
                 var orderLine = new OrderLineItem(order, product);
-                orderLine.Quantity = quantity;
+                orderLine.Quantity = quantity > inStock ? inStock : quantity;
                 _context.Add(orderLine);
             }
             else
             {
                 // When the product is already in the order, we will adjust
                 // the product quantity.
-                var orderLine = currentOrderLine.Quantity += quantity;
+                currentOrderLine.Quantity += quantity;
+                if (currentOrderLine.Quantity > inStock)
+                {
+                    return AddLineItemResult.ExceedsStock;
+                }
             }
-            await _context.SaveChangesAsync();
 
-            return true;
+            await _context.SaveChangesAsync();
+            return AddLineItemResult.Ok;
         }
 
         async Task<bool> IOrder.DeleteLineItem(Guid customerId, Order order, Guid productId)
@@ -180,16 +206,22 @@ namespace StoreApp.Repository
             return PlaceOrderResult.Ok;
         }
 
-        async Task<bool> IOrder.SetLineItemQuantity(Guid customerId, Order order, Guid productId, int newQuantity)
+        async Task<SetLineItemQuantityResult> IOrder.SetLineItemQuantity(Guid customerId, Order order, Guid productId, int newQuantity)
         {
             var lineItem = await _context.OrderLineItems
+                .Include(li => li.Product)
                 .Where(li => li.Product.ProductId == productId)
                 .Where(li => li.Order.OrderId == order.OrderId)
                 .Where(li => li.Order.Customer.CustomerId == customerId)
                 .Select(li => li)
                 .SingleOrDefaultAsync();
 
-            if (lineItem == null) return false;
+            var inStock = await _context.LocationInventories
+                .Where(li => li.Product.ProductId == lineItem.Product.ProductId)
+                .Where(li => li.Location.LocationId == order.Location.LocationId)
+                .SumAsync(li => li.Quantity);
+
+            if (lineItem == null) return SetLineItemQuantityResult.ProductMissing;
 
             if (newQuantity <= 0)
             {
@@ -198,11 +230,14 @@ namespace StoreApp.Repository
             else
             {
                 lineItem.Quantity = newQuantity;
-
+                if (lineItem.Quantity > inStock)
+                {
+                    return SetLineItemQuantityResult.ExceedsStock;
+                }
             }
-            await _context.SaveChangesAsync();
 
-            return true;
+            await _context.SaveChangesAsync();
+            return SetLineItemQuantityResult.Ok;
         }
 
     }

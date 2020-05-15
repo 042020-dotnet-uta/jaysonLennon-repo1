@@ -138,6 +138,7 @@ namespace StoreApp.Repository
         async Task<Order> ICustomer.GetOpenOrder(Customer customer, Location location)
         {
             var currentOrder = await _context.Orders
+                                             .Include(o => o.Location)
                                              .Where(o => o.Customer.CustomerId == customer.CustomerId)
                                              .Where(o => o.TimeSubmitted == null)
                                              .Where(o => o.Location.LocationId == location.LocationId)

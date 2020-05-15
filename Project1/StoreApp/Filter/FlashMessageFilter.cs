@@ -63,7 +63,7 @@ namespace StoreApp.FlashMessage
     /// </summary>
     public static class K
     {
-        public const string FlashInfo = FlashMessageExtension.FlashOkKey;
+        public const string FlashInfo = FlashMessageExtension.FlashInfoKey;
         public const string FlashOk = FlashMessageExtension.FlashOkKey;
         public const string FlashError = FlashMessageExtension.FlashErrorKey;
     }

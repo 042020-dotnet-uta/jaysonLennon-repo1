@@ -100,19 +100,40 @@ namespace StoreApp.Controllers
             var product = await productRepo.GetProductById(model.ItemId);
 
             var currentOrder = await customerRepo.GetOpenOrder(customer, location);
-            var added = await orderRepo.AddLineItem(customerId, currentOrder, product, model.ItemQuantity);
-            if (!added)
+            var addStatus = await orderRepo.AddLineItem(customerId, currentOrder, product, model.ItemQuantity);
+            switch (addStatus)
             {
-                this.SetFlashError("There was a problem adding this item to your cart. Please try again.");
-                return Redirect($"/ItemDetail/View/{model.ItemId}");
+                case Repository.AddLineItemResult.Ok:
+                {
+                    _logger.LogTrace($" call add to cart with id {model.ItemId} and quantity {model.ItemQuantity}");
+                    var okModel = new Model.View.CartAddOk();
+                    okModel.ItemId = model.ItemId;
+                    okModel.ItemQuantity = model.ItemQuantity;
+
+                    return RedirectToAction("CartAddOk", "Cart", okModel);
+                }
+                case Repository.AddLineItemResult.ExceedsStock:
+                {
+                    this.SetFlashError("Unable to add the item to your order: The amount requested exceeds the amount available in stock.");
+                    return Redirect($"/ItemDetail/View/{model.ItemId}");
+                }
+                case Repository.AddLineItemResult.OrderMissing:
+                {
+                    this.SetFlashError("There was a problem adding this item to your cart. Please try again.");
+                    return Redirect($"/ItemDetail/View/{model.ItemId}");
+                }
+                case Repository.AddLineItemResult.ProductMissing:
+                {
+                    this.SetFlashError("There was a problem adding this item to your cart. Please try again.");
+                    return Redirect($"/ItemDetail/View/{model.ItemId}");
+                }
+                default:
+                {
+                    this.SetFlashError("There was a problem adding this item to your cart. Please try again.");
+                    return Redirect($"/ItemDetail/View/{model.ItemId}");
+                }
             }
 
-            _logger.LogTrace($" call add to cart with id {model.ItemId} and quantity {model.ItemQuantity}");
-            var okModel = new Model.View.CartAddOk();
-            okModel.ItemId = model.ItemId;
-            okModel.ItemQuantity = model.ItemQuantity;
-
-            return RedirectToAction("CartAddOk", "Cart", okModel);
         }
 
         [Route("Cart/AddOk")]
@@ -174,22 +195,30 @@ namespace StoreApp.Controllers
                     foreach (var i in model.Items)
                     {
                         _logger.LogTrace($"new item info={i.Id}::{i.Quantity}");
-                        var updated = await orderRepo.SetLineItemQuantity(customerId, order, i.Id, i.Quantity);
-                        if (!updated)
+                        var updateStatus = await orderRepo.SetLineItemQuantity(customerId, order, i.Id, i.Quantity);
+                        switch (updateStatus)
                         {
-                            this.SetFlashError("There was an error updating the items quantities in your order. Please try again.");
-                            return RedirectToAction("Index", "Cart");
+                            case Repository.SetLineItemQuantityResult.ExceedsStock:
+                            {
+                                this.SetFlashError("Unable to update the quantities in your order: The amount requested exceeds the amount available in stock.");
+                                return RedirectToAction("Index", "Cart");
+                            }
+                            case Repository.SetLineItemQuantityResult.ProductMissing:
+                            {
+                                this.SetFlashError("There was an error updating the item quantities in your order. Please try again.");
+                                return RedirectToAction("Index", "Cart");
+                            }
                         }
                     }
                 }
             }
             else
             {
-                this.SetFlashError("There was an error updating the items quantities in your order. Please try again.");
+                this.SetFlashError("There was an error updating the item quantities in your order. Please try again.");
                 return RedirectToAction("Index", "Cart");
             }
 
-            this.SetFlashOk("Items updated successfully.");
+            this.SetFlashOk("Items quantities updated successfully.");
             return RedirectToAction("Index", "Cart");
         }
 
