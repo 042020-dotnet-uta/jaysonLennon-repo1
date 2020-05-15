@@ -77,7 +77,8 @@ namespace StoreApp
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
+                app.UseExceptionHandler("/Error");
             }
             else
             {
