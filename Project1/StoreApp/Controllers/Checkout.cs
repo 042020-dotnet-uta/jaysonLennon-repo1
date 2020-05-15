@@ -41,7 +41,7 @@ namespace StoreApp.Controllers
 
             var currentOrder = await customerRepo.GetOpenOrder(customer, location);
             _logger.LogDebug($"current order obj={currentOrder}");
-            var orderLines = orderRepo.GetOrderLines(currentOrder);
+            var orderLines = orderRepo.GetOrderLines(customerId, currentOrder.OrderId);
 
             var model = new Models.Checkout();
 
@@ -79,7 +79,7 @@ namespace StoreApp.Controllers
             _logger.LogDebug($"location obj={location}");
 
             var currentOrder = await customerRepo.GetOpenOrder(customer, location);
-            var orderPlaced = await orderRepo.PlaceOrder(currentOrder.OrderId);
+            var orderPlaced = await orderRepo.PlaceOrder(customerId, currentOrder.OrderId);
             switch (orderPlaced)
             {
                 case StoreApp.Repository.PlaceOrderResult.Ok:

@@ -29,14 +29,13 @@ namespace StoreApp.Repository
     }
     public interface IOrder
     {
-        Task<PlaceOrderResult> PlaceOrder(Guid orderId);
+        Task<PlaceOrderResult> PlaceOrder(Guid customerId, Guid orderId);
         IEnumerable<Tuple<Order, int>> GetSubmittedOrders(Guid customerId);
-        IEnumerable<OrderLineItem> GetOrderLines(Order order);
         IEnumerable<OrderLineItem> GetOrderLines(Guid customerId, Guid orderId);
-        Task<bool> DeleteLineItem(Order order, Guid productId);
-        Task<bool> SetLineItemQuantity(Order order, Guid productId, int newQuantity);
-        Task<bool> AddLineItem(Order order, Product product, int quantity);
-        Task<Order> GetOrderById(Guid id);
+        Task<bool> DeleteLineItem(Guid customerId, Order order, Guid productId);
+        Task<bool> SetLineItemQuantity(Guid customerId, Order order, Guid productId, int newQuantity);
+        Task<bool> AddLineItem(Guid customerId, Order order, Product product, int quantity);
+        Task<Order> GetOrderById(Guid customerId, Guid orderId);
     }
 
     public class OrderRepository : IOrder
@@ -48,7 +47,7 @@ namespace StoreApp.Repository
             this._context = context;
         }
 
-        async Task<bool> IOrder.AddLineItem(Order order, Product product, int quantity)
+        async Task<bool> IOrder.AddLineItem(Guid customerId, Order order, Product product, int quantity)
         {
             if (order == null || product == null) return false;
 
@@ -56,6 +55,7 @@ namespace StoreApp.Repository
             var currentOrderLine = await _context.OrderLineItems
                 .Where(li => li.Product.ProductId == product.ProductId)
                 .Where(li => li.Order.OrderId == order.OrderId)
+                .Where(li => li.Order.Customer.CustomerId == customerId)
                 .Select(li => li)
                 .SingleOrDefaultAsync();
 
@@ -78,10 +78,11 @@ namespace StoreApp.Repository
             return true;
         }
 
-        async Task<bool> IOrder.DeleteLineItem(Order order, Guid productId)
+        async Task<bool> IOrder.DeleteLineItem(Guid customerId, Order order, Guid productId)
         {
             var lineItem = await _context.OrderLineItems
                                    .Where(li => li.Order.OrderId == order.OrderId)
+                                   .Where(li => li.Order.Customer.CustomerId == customerId)
                                    .Where(li => li.Product.ProductId == productId)
                                    .Select(li => li)
                                    .SingleOrDefaultAsync();
@@ -94,11 +95,12 @@ namespace StoreApp.Repository
             return true;
         }
 
-        async Task<Order> IOrder.GetOrderById(Guid id)
+        async Task<Order> IOrder.GetOrderById(Guid customerId, Guid orderId)
         {
             return await _context.Orders
                 .Include(o => o.Location)
-                .Where(o => o.OrderId == id)
+                .Where(o => o.OrderId == orderId)
+                .Where(o => o.Customer.CustomerId == customerId)
                 .SingleOrDefaultAsync();
         }
 
@@ -118,14 +120,6 @@ namespace StoreApp.Repository
                 .AsEnumerable();
         }
 
-        IEnumerable<OrderLineItem> IOrder.GetOrderLines(Order order)
-        {
-            return _context.OrderLineItems
-                           .Include(li => li.Product)
-                           .Where(li => li.Order.OrderId == order.OrderId)
-                           .AsEnumerable();
-        }
-
         IEnumerable<OrderLineItem> IOrder.GetOrderLines(Guid customerId, Guid orderId)
         {
             return _context.OrderLineItems
@@ -137,13 +131,14 @@ namespace StoreApp.Repository
                 .AsEnumerable();
         }
 
-        async Task<PlaceOrderResult> IOrder.PlaceOrder(Guid orderId)
+        async Task<PlaceOrderResult> IOrder.PlaceOrder(Guid customerId, Guid orderId)
         {
             var order = await _context.Orders
                 .Include(o => o.Location)
                 .Include(o => o.OrderLineItems)
                     .ThenInclude(li => li.Product)
                 .Where(o => o.OrderId == orderId)
+                .Where(o => o.Customer.CustomerId == customerId)
                 .SingleOrDefaultAsync();
 
             if (order == null) return PlaceOrderResult.OrderNotFound;
@@ -184,11 +179,12 @@ namespace StoreApp.Repository
             return PlaceOrderResult.Ok;
         }
 
-        async Task<bool> IOrder.SetLineItemQuantity(Order order, Guid productId, int newQuantity)
+        async Task<bool> IOrder.SetLineItemQuantity(Guid customerId, Order order, Guid productId, int newQuantity)
         {
             var lineItem = await _context.OrderLineItems
                 .Where(li => li.Product.ProductId == productId)
                 .Where(li => li.Order.OrderId == order.OrderId)
+                .Where(li => li.Order.Customer.CustomerId == customerId)
                 .Select(li => li)
                 .SingleOrDefaultAsync();
 

@@ -51,7 +51,7 @@ namespace StoreApp.Controllers
 
             var currentOrder = await customerRepo.GetOpenOrder(customer, location);
             _logger.LogDebug($"current order obj={currentOrder}");
-            var orderLines = orderRepo.GetOrderLines(currentOrder);
+            var orderLines = orderRepo.GetOrderLines(customerId, currentOrder.OrderId);
             _logger.LogDebug($"order lines obj={orderLines}");
 
             var model = new Models.Cart();
@@ -97,7 +97,7 @@ namespace StoreApp.Controllers
             var product = await productRepo.GetProductById(model.ItemId);
 
             var currentOrder = await customerRepo.GetOpenOrder(customer, location);
-            var added = await orderRepo.AddLineItem(currentOrder, product, model.ItemQuantity);
+            var added = await orderRepo.AddLineItem(customerId, currentOrder, product, model.ItemQuantity);
             if (!added)
             {
                 return View("CartAddError");
@@ -145,7 +145,7 @@ namespace StoreApp.Controllers
                     if ((int)removeIndex < model.Items.Count)
                     {
                         _logger.LogTrace($"remove item at index {removeIndex}");
-                        var removed = await orderRepo.DeleteLineItem(order, model.Items[(int)removeIndex].Id);
+                        var removed = await orderRepo.DeleteLineItem(customerId, order, model.Items[(int)removeIndex].Id);
                         if (!removed)
                         {
                             model.ErrorMessage = "There was an error removing an item from your order. Please try again.";
@@ -159,7 +159,7 @@ namespace StoreApp.Controllers
                     foreach (var i in model.Items)
                     {
                         _logger.LogTrace($"new item info={i.Id}::{i.Quantity}");
-                        var updated = await orderRepo.SetLineItemQuantity(order, i.Id, i.Quantity);
+                        var updated = await orderRepo.SetLineItemQuantity(customerId, order, i.Id, i.Quantity);
                         if (!updated)
                         {
                             model.ErrorMessage = "There was an error updating the items quantities in your order. Please try again.";

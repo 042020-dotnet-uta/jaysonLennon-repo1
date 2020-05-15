@@ -150,7 +150,7 @@ namespace StoreApp.Controllers
             var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
             var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
             var orderLines = orderRepo.GetOrderLines(customerId, orderId);
-            var order = await orderRepo.GetOrderById(orderId);
+            var order = await orderRepo.GetOrderById(customerId, orderId);
 
             var model = new Models.CustomerOrderHistoryDetail(order);
 
