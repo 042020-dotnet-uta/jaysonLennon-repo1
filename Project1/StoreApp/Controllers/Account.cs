@@ -94,7 +94,7 @@ namespace StoreApp.Controllers
             var location = await locationRepo.GetById(defaultLocationId);
             customerRepo.SetDefaultLocation(customer, location);
 
-            var updateOk = await customerRepo.UpdateCustomerInfo(customer.CustomerId, model);
+            var updateOk = await customerRepo.UpdateCustomerInfo(customer.UserId, model);
             if (!updateOk)
             {
                 this.SetFlashError("There was an error saving your information. Please try again.");
@@ -207,12 +207,12 @@ namespace StoreApp.Controllers
                     return View("CreateAccount", model);
                 }
 
-                var customer = new Entity.Customer();
+                var customer = new Entity.User();
                 customer.Login = model.UserName;
                 customer.Password = model.Password;
                 await customerRepo.Add(customer);
 
-                var loginOk = await DoLogin(customer.CustomerId);
+                var loginOk = await DoLogin(customer.UserId);
                 _logger.LogTrace($"loginok={loginOk}");
 
                 return RedirectToAction("Index", "Storefront");
@@ -277,7 +277,7 @@ namespace StoreApp.Controllers
                 return RedirectToAction("LoginIndex", loginRedirect);
             }
 
-            await DoLogin(customer.CustomerId);
+            await DoLogin(customer.UserId);
 
             this._logger.LogDebug($"return url={model.ReturnUrl}");
 

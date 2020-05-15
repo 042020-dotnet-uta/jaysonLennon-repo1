@@ -1,16 +1,23 @@
 using System;
+using System.Collections.Generic;
 
 namespace StoreApp.Entity
 {
+    public enum Role
+    {
+        Customer,
+        Admin
+    }
+
     /// <summary>
     /// Contains all customer-related information such as name, phone number, and address.
     /// </summary>
-    public class Customer
+    public class User
     {
         /// <summary>
         /// The ID for this <c>Customer</c> object.
         /// </summary>
-        public Guid CustomerId { get; set; }
+        public Guid UserId { get; set; }
 
         /// <summary>
         /// The <c>Login</c> name for this customer.
@@ -49,9 +56,11 @@ namespace StoreApp.Entity
         /// <value>If this is null, then the customer has not set a default <c>Location</c>.</value>
         public virtual Location DefaultLocation { get; set; }
 
+        public Role Role { get; set; }
+
         /// <summary>
         /// Needed for EF.
         /// </summary>
-        public Customer(){}
+        public User(){}
     }
 }

@@ -39,17 +39,17 @@ namespace StoreApp.Repository
 
     public interface ICustomer
     {
-        Task<Customer> GetCustomerByLogin(string login);
-        Task<Customer> GetCustomerById(Guid customerId);
+        Task<User> GetCustomerByLogin(string login);
+        Task<User> GetCustomerById(Guid customerId);
         Task<Address> GetAddressByCustomerId(Guid customerId);
         Task<bool> LoginExists(string login);
-        Task<CreateUserAccountResult> Add(Customer customer);
+        Task<CreateUserAccountResult> Add(User customer);
         Task<bool> VerifyUserLogin(string login);
-        void SetDefaultLocation(Customer customer, Location location);
-        Task<Location> GetDefaultLocation(Customer customer);
+        void SetDefaultLocation(User customer, Location location);
+        Task<Location> GetDefaultLocation(User customer);
         Task<Location> GetDefaultLocation(Guid customerId);
-        Task<Order> GetOpenOrder(Customer customer, Location location);
-        Task<Customer> VerifyCredentials(string login, string plainPassword);
+        Task<Order> GetOpenOrder(User customer, Location location);
+        Task<User> VerifyCredentials(string login, string plainPassword);
         Task<bool> UpdateCustomerInfo(Guid customerId, ICustomerData newData);
         Task<int> CountProductsInCart(Guid customerId);
     }
@@ -64,32 +64,32 @@ namespace StoreApp.Repository
             this._context = context;
         }
 
-        public async Task<Location> GetDefaultLocation(Customer customer)
+        public async Task<Location> GetDefaultLocation(User customer)
         {
-            return await _context.Customers
+            return await _context.Users
                                  .Include(c => c.DefaultLocation)
-                                 .Where(c => c.CustomerId == customer.CustomerId)
+                                 .Where(c => c.UserId == customer.UserId)
                                  .Select(c => c.DefaultLocation)
                                  .SingleOrDefaultAsync();
         }
 
         async Task<Location> ICustomer.GetDefaultLocation(Guid customerId)
         {
-            return await _context.Customers
+            return await _context.Users
                 .Include(c => c.DefaultLocation)
-                .Where(c => c.CustomerId == customerId)
+                .Where(c => c.UserId == customerId)
                 .Select(c => c.DefaultLocation)
                 .SingleOrDefaultAsync();
         }
 
-        async Task<CreateUserAccountResult> ICustomer.Add(Customer customer)
+        async Task<CreateUserAccountResult> ICustomer.Add(User customer)
         {
             var hashed = StoreApp.Util.Hash.Sha256(customer.Password);
             customer.Password = hashed;
             if (String.IsNullOrEmpty(customer.Login)) return CreateUserAccountResult.MissingLogin;
             if (String.IsNullOrEmpty(customer.Password)) return CreateUserAccountResult.MissingPassword;
 
-            var loginExists = await _context.Customers.Where(c => c.Login == customer.Login.ToLower()).SingleOrDefaultAsync();
+            var loginExists = await _context.Users.Where(c => c.Login == customer.Login.ToLower()).SingleOrDefaultAsync();
             if (loginExists != null) return CreateUserAccountResult.AccountNameExists;
 
             await _context.AddAsync(customer);
@@ -97,29 +97,29 @@ namespace StoreApp.Repository
             return CreateUserAccountResult.Ok;
         }
 
-        async Task<Customer> ICustomer.GetCustomerById(Guid id)
+        async Task<User> ICustomer.GetCustomerById(Guid id)
         {
-            return await _context.Customers
-                                 .Where(c => c.CustomerId == id)
+            return await _context.Users
+                                 .Where(c => c.UserId == id)
                                  .Select(c => c)
                                  .SingleOrDefaultAsync();
         }
 
-        async Task<Customer> ICustomer.GetCustomerByLogin(string login)
+        async Task<User> ICustomer.GetCustomerByLogin(string login)
         {
             login = login.ToLower();
-            return await _context.Customers
+            return await _context.Users
                                  .Where(c => c.Login.ToLower() == login)
                                  .Select(c => c)
                                  .SingleOrDefaultAsync();
         }
 
 
-        async Task<Order> ICustomer.GetOpenOrder(Customer customer, Location location)
+        async Task<Order> ICustomer.GetOpenOrder(User customer, Location location)
         {
             var currentOrder = await _context.Orders
                                              .Include(o => o.Location)
-                                             .Where(o => o.Customer.CustomerId == customer.CustomerId)
+                                             .Where(o => o.Customer.UserId == customer.UserId)
                                              .Where(o => o.TimeSubmitted == null)
                                              .Where(o => o.Location.LocationId == location.LocationId)
                                              .Select(o => o)
@@ -138,23 +138,23 @@ namespace StoreApp.Repository
         async Task<bool> ICustomer.LoginExists(string login)
         {
             login = login.ToLower();
-            return await _context.Customers
+            return await _context.Users
                            .Where(c => c.Login.ToLower() == login)
                            .Select(c => c)
                            .SingleOrDefaultAsync() != null;
         }
 
-        async void ICustomer.SetDefaultLocation(Customer customer, Location location)
+        async void ICustomer.SetDefaultLocation(User customer, Location location)
         {
             customer.DefaultLocation = location;
             await _context.SaveChangesAsync();
         }
 
-        async Task<Customer> ICustomer.VerifyCredentials(string login, string plainPassword)
+        async Task<User> ICustomer.VerifyCredentials(string login, string plainPassword)
         {
             login = login.ToLower();
             var hashed = StoreApp.Util.Hash.Sha256(plainPassword);
-            return await _context.Customers
+            return await _context.Users
                                  .Where(c => c.Login.ToLower() == login)
                                  .Where(c => c.Password == hashed)
                                  .Select(c => c)
@@ -166,7 +166,7 @@ namespace StoreApp.Repository
             if (String.IsNullOrEmpty(login)) return false;
             login = login.ToLower();
             // TODO: additional validation rules
-            var exists = await _context.Customers
+            var exists = await _context.Users
                                        .Where(c => c.Login.ToLower() == login)
                                        .SingleOrDefaultAsync();
             return exists == null;
@@ -260,7 +260,7 @@ namespace StoreApp.Repository
                 }
             }
 
-            var customer = await _context.Customers
+            var customer = await _context.Users
                 .Include(c => c.Address)
                     .ThenInclude(a => a.City)
                 .Include(c => c.Address)
@@ -271,7 +271,7 @@ namespace StoreApp.Repository
                     .ThenInclude(a => a.Line1)
                 .Include(c => c.Address)
                     .ThenInclude(a => a.Line2)
-                .Where(c => c.CustomerId == customerId)
+                .Where(c => c.UserId == customerId)
                 .Select(c => c)
                 .SingleOrDefaultAsync();
 
@@ -307,7 +307,7 @@ namespace StoreApp.Repository
 
         async Task<Address> ICustomer.GetAddressByCustomerId(Guid customerId)
         {
-            return await _context.Customers
+            return await _context.Users
                 .Include(c => c.Address)
                     .ThenInclude(a => a.City)
                 .Include(c => c.Address)
@@ -318,7 +318,7 @@ namespace StoreApp.Repository
                     .ThenInclude(a => a.Line1)
                 .Include(c => c.Address)
                     .ThenInclude(a => a.Line2)
-                .Where(c => c.CustomerId == customerId)
+                .Where(c => c.UserId == customerId)
                 .Select(c => c.Address)
                 .SingleOrDefaultAsync();
         }
@@ -327,7 +327,7 @@ namespace StoreApp.Repository
         {
             return await _context.OrderLineItems
                 .Where(ol => ol.Order.TimeSubmitted == null)
-                .Where(ol => ol.Order.Customer.CustomerId == customerId)
+                .Where(ol => ol.Order.Customer.UserId == customerId)
                 .SumAsync(ol => ol.Quantity);
         }
     }

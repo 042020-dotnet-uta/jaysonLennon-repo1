@@ -9,8 +9,8 @@ using StoreApp.Data;
 namespace StoreApp.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20200515012648_Seed")]
-    partial class Seed
+    [Migration("20200515215605_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -96,42 +96,6 @@ namespace StoreApp.Migrations
                     b.ToTable("Cities");
                 });
 
-            modelBuilder.Entity("StoreApp.Entity.Customer", b =>
-                {
-                    b.Property<Guid>("CustomerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("AddressId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("DefaultLocationLocationId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Login")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("CustomerId");
-
-                    b.HasIndex("AddressId");
-
-                    b.HasIndex("DefaultLocationLocationId");
-
-                    b.ToTable("Customers");
-                });
-
             modelBuilder.Entity("StoreApp.Entity.Location", b =>
                 {
                     b.Property<Guid>("LocationId")
@@ -184,7 +148,7 @@ namespace StoreApp.Migrations
                     b.Property<double?>("AmountPaid")
                         .HasColumnType("REAL");
 
-                    b.Property<Guid?>("CustomerId")
+                    b.Property<Guid?>("CustomerUserId")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid?>("LocationId")
@@ -201,7 +165,7 @@ namespace StoreApp.Migrations
 
                     b.HasKey("OrderId");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("CustomerUserId");
 
                     b.HasIndex("LocationId");
 
@@ -269,6 +233,46 @@ namespace StoreApp.Migrations
                     b.ToTable("States");
                 });
 
+            modelBuilder.Entity("StoreApp.Entity.User", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("AddressId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("DefaultLocationLocationId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Login")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("AddressId");
+
+                    b.HasIndex("DefaultLocationLocationId");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("StoreApp.Entity.ZipCode", b =>
                 {
                     b.Property<Guid>("ZipCodeId")
@@ -306,17 +310,6 @@ namespace StoreApp.Migrations
                         .HasForeignKey("ZipCodeId");
                 });
 
-            modelBuilder.Entity("StoreApp.Entity.Customer", b =>
-                {
-                    b.HasOne("StoreApp.Entity.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
-
-                    b.HasOne("StoreApp.Entity.Location", "DefaultLocation")
-                        .WithMany()
-                        .HasForeignKey("DefaultLocationLocationId");
-                });
-
             modelBuilder.Entity("StoreApp.Entity.Location", b =>
                 {
                     b.HasOne("StoreApp.Entity.Address", "Address")
@@ -337,9 +330,9 @@ namespace StoreApp.Migrations
 
             modelBuilder.Entity("StoreApp.Entity.Order", b =>
                 {
-                    b.HasOne("StoreApp.Entity.Customer", "Customer")
+                    b.HasOne("StoreApp.Entity.User", "Customer")
                         .WithMany()
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerUserId");
 
                     b.HasOne("StoreApp.Entity.Location", "Location")
                         .WithMany()
@@ -355,6 +348,17 @@ namespace StoreApp.Migrations
                     b.HasOne("StoreApp.Entity.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId");
+                });
+
+            modelBuilder.Entity("StoreApp.Entity.User", b =>
+                {
+                    b.HasOne("StoreApp.Entity.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId");
+
+                    b.HasOne("StoreApp.Entity.Location", "DefaultLocation")
+                        .WithMany()
+                        .HasForeignKey("DefaultLocationLocationId");
                 });
 #pragma warning restore 612, 618
         }

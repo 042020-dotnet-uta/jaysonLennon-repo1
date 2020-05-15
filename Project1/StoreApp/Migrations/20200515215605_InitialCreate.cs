@@ -147,36 +147,6 @@ namespace StoreApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Customers",
-                columns: table => new
-                {
-                    CustomerId = table.Column<Guid>(nullable: false),
-                    Login = table.Column<string>(nullable: true),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    AddressId = table.Column<Guid>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
-                    DefaultLocationLocationId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Customers", x => x.CustomerId);
-                    table.ForeignKey(
-                        name: "FK_Customers_Addresses_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Addresses",
-                        principalColumn: "AddressId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Customers_Locations_DefaultLocationLocationId",
-                        column: x => x.DefaultLocationLocationId,
-                        principalTable: "Locations",
-                        principalColumn: "LocationId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "LocationInventories",
                 columns: table => new
                 {
@@ -203,11 +173,42 @@ namespace StoreApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(nullable: false),
+                    Login = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    AddressId = table.Column<Guid>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
+                    DefaultLocationLocationId = table.Column<Guid>(nullable: true),
+                    Role = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.UserId);
+                    table.ForeignKey(
+                        name: "FK_Users_Addresses_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Addresses",
+                        principalColumn: "AddressId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Users_Locations_DefaultLocationLocationId",
+                        column: x => x.DefaultLocationLocationId,
+                        principalTable: "Locations",
+                        principalColumn: "LocationId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
                     OrderId = table.Column<Guid>(nullable: false),
-                    CustomerId = table.Column<Guid>(nullable: true),
+                    CustomerUserId = table.Column<Guid>(nullable: true),
                     LocationId = table.Column<Guid>(nullable: true),
                     TimeCreated = table.Column<DateTime>(nullable: true),
                     TimeSubmitted = table.Column<DateTime>(nullable: true),
@@ -218,10 +219,10 @@ namespace StoreApp.Migrations
                 {
                     table.PrimaryKey("PK_Orders", x => x.OrderId);
                     table.ForeignKey(
-                        name: "FK_Orders_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "CustomerId",
+                        name: "FK_Orders_Users_CustomerUserId",
+                        column: x => x.CustomerUserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Orders_Locations_LocationId",
@@ -284,16 +285,6 @@ namespace StoreApp.Migrations
                 column: "ZipCodeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Customers_AddressId",
-                table: "Customers",
-                column: "AddressId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Customers_DefaultLocationLocationId",
-                table: "Customers",
-                column: "DefaultLocationLocationId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_LocationInventories_LocationId",
                 table: "LocationInventories",
                 column: "LocationId");
@@ -319,14 +310,24 @@ namespace StoreApp.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_CustomerId",
+                name: "IX_Orders_CustomerUserId",
                 table: "Orders",
-                column: "CustomerId");
+                column: "CustomerUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_LocationId",
                 table: "Orders",
                 column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_AddressId",
+                table: "Users",
+                column: "AddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_DefaultLocationLocationId",
+                table: "Users",
+                column: "DefaultLocationLocationId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -344,7 +345,7 @@ namespace StoreApp.Migrations
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Customers");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Locations");

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace StoreApp.Data
 {
@@ -11,7 +12,7 @@ namespace StoreApp.Data
         public DbSet<Entity.Product> Products { get; set; }
 
         /// <summary>The Customers table.</summary>
-        public DbSet<Entity.Customer> Customers { get; set; }
+        public DbSet<Entity.User> Users { get; set; }
 
         /// <summary>The Locations table.</summary>
         public DbSet<Entity.Location> Locations { get; set; }
@@ -60,7 +61,13 @@ namespace StoreApp.Data
         /// <param name="modelBuilder">Provided by EF.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
-            modelBuilder.Entity<Entity.Order>().Property(t => t.TimeCreated).IsRequired(false);
+            modelBuilder.Entity<Entity.Order>()
+                .Property(t => t.TimeCreated)
+                .IsRequired(false);
+
+            modelBuilder.Entity<Entity.User>()
+                .Property(u => u.Role)
+                .HasConversion(new EnumToStringConverter<Entity.Role>());
         }
     }
 }

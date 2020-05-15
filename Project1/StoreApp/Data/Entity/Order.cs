@@ -19,7 +19,7 @@ namespace StoreApp.Entity
         /// <summary>
         /// <c>Customer</c> that placed the <c>Order</c>.
         /// </summary>
-        public virtual Customer Customer { get; set; }
+        public virtual User Customer { get; set; }
 
         /// <summary>
         /// <c>Location</c> in which the <c>Order</c> was placed.
@@ -64,7 +64,7 @@ namespace StoreApp.Entity
         /// </summary>
         /// <param name="customer">The <c>Customer</c> that created this Order.</param>
         /// <param name="location">The <c>Location</c> where this <c>Order</c> was placed.</param>
-        public Order(Customer customer, Location location)
+        public Order(User customer, Location location)
         {
             this.OrderId = Guid.NewGuid();
             this.TimeCreated = DateTime.Now;
