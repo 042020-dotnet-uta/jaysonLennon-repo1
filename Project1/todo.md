@@ -75,6 +75,9 @@
 - [X] Use data from db
 - [ ] styles
 
+# Error page
+- [ ] stlyes
+
 # General
 - [X] Add redirects for POST-only URLs to appropriate location (cart main, storefront, etc)
 - [X] fix logger generics in all controllers
@@ -84,7 +87,7 @@
 - [X] remove unused imports
 - [X] separate models into view and submission
 - [X] grep for unimplemented interfaces
-- [ ] exception handling (drop the db to test)
+- [X] exception handling (drop the db to test)
 - [X] require customer ids in queries
 - [X] model binding check
 - [X] use tempdata for informational message passing
