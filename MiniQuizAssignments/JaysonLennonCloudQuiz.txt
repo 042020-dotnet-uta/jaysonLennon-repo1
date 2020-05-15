@@ -1,0 +1,29 @@
+1. Which cloud model is the most appropriate when control over the operating system is required, but managing hardware is not desired?
+- Platform as a Service (PaaS)
+- (CORRECT) Infrastucture as a Service (IaaS)
+- Software as a Service (SaaS)
+- Hybrid Cloud
+
+2. Online document editing solutions such as Google Docs is an example of which type of cloud model?
+- Platform as a Service (PaaS)
+- Infrastucture as a Service (IaaS)
+- (CORRECT) Software as a Service (SaaS)
+- Hybrid Cloud
+
+3. When designing a cloud-based solution using the Infrastructure as a Service model (IaaS), what is the best way to achieve maximum fault-tolerance?
+- (CORRECT) Deploy nodes in different regions
+- Ensure fault-tolerance is noted in the SLA
+- Perform regular backups
+- Hire cloud consultants
+
+4. When an application is deployed using the Software as a Service model (Saas), who is responsible for managing the software?
+- The end user
+- (CORRECT) The software vendor
+- The ISP
+- The datacenter operator
+
+5. What is a reason to favor horizontal scaling over vertical scaling?
+- (CORRECT) Horizontal scaling allows for greater fault tolerance
+- Horizontally-scaled compute nodes have higher system specs
+- Horizontal scaling requires less management
+- It is easier to configure horizontally-scaled applications
