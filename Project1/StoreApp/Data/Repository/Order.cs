@@ -109,6 +109,7 @@ namespace StoreApp.Repository
             Console.WriteLine($"getting orders for {customerId}");
             return _context.Orders
                 .Where(o => o.Customer.CustomerId == customerId)
+                .Where(o => o.TimeSubmitted != null)
                 .Select(o =>
                     new Tuple<Order, int>(
                         o,
