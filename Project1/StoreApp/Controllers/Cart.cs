@@ -181,8 +181,8 @@ namespace StoreApp.Controllers
             }
             else
             {
-                // TODO: display error on broken model
-                _logger.LogTrace($"broken model");
+                this.SetFlashError("There was an error updating the items quantities in your order. Please try again.");
+                return RedirectToAction("Index", "Cart");
             }
 
             this.SetFlashOk("Items updated successfully.");
