@@ -63,7 +63,7 @@ namespace StoreApp.Migrations
 
                     b.HasKey("AddressLine1Id");
 
-                    b.ToTable("AddressLine1");
+                    b.ToTable("AddressLine1s");
                 });
 
             modelBuilder.Entity("StoreApp.Entity.AddressLine2", b =>
@@ -77,7 +77,7 @@ namespace StoreApp.Migrations
 
                     b.HasKey("AddressLine2Id");
 
-                    b.ToTable("AddressLine2");
+                    b.ToTable("AddressLine2s");
                 });
 
             modelBuilder.Entity("StoreApp.Entity.City", b =>
@@ -91,7 +91,7 @@ namespace StoreApp.Migrations
 
                     b.HasKey("CityId");
 
-                    b.ToTable("City");
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("StoreApp.Entity.Customer", b =>
@@ -264,7 +264,7 @@ namespace StoreApp.Migrations
 
                     b.HasKey("StateId");
 
-                    b.ToTable("State");
+                    b.ToTable("States");
                 });
 
             modelBuilder.Entity("StoreApp.Entity.ZipCode", b =>
@@ -278,7 +278,7 @@ namespace StoreApp.Migrations
 
                     b.HasKey("ZipCodeId");
 
-                    b.ToTable("ZipCode");
+                    b.ToTable("ZipCodes");
                 });
 
             modelBuilder.Entity("StoreApp.Entity.Address", b =>

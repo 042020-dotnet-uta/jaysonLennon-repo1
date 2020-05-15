@@ -27,6 +27,11 @@ namespace StoreApp.Data
         /// <summary>The Addresses table.</summary>
 
         public DbSet<Entity.Address> Addresses { get; set; }
+        public DbSet<Entity.AddressLine1> AddressLine1s { get; set; }
+        public DbSet<Entity.AddressLine2> AddressLine2s { get; set; }
+        public DbSet<Entity.ZipCode> ZipCodes { get; set; }
+        public DbSet<Entity.State> States { get; set; }
+        public DbSet<Entity.City> Cities { get; set; }
 
         /// <summary>Needed for EF.</summary>
         public StoreContext() { }

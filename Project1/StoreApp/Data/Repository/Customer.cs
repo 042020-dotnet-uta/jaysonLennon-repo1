@@ -5,6 +5,7 @@ using StoreApp.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace StoreApp.Repository
 {
@@ -26,13 +27,25 @@ namespace StoreApp.Repository
         MissingPassword,
     }
 
+    public interface ICustomerData
+    {
+        string GetFirstName();
+        string GetLastName();
+        string GetAddressLine1();
+        string GetAddressLine2();
+        string GetCity();
+        string GetState();
+        string GetZip();
+    }
+
     public interface ICustomer
     {
         IEnumerable<Customer> FindCustomerByFirstName(string firstName);
         IEnumerable<Customer> FindCustomerByLastName(string lastName);
         IEnumerable<Customer> FindCustomerByName(string name);
         Task<Customer> GetCustomerByLogin(string login);
-        Task<Customer> GetCustomerById(Guid id);
+        Task<Customer> GetCustomerById(Guid customerId);
+        Task<Address> GetAddressByCustomerId(Guid customerId);
         Task<bool> LoginExists(string login);
         Task<CreateUserAccountResult> Add(Customer customer);
         Task<bool> VerifyUserLogin(string login);
@@ -42,6 +55,7 @@ namespace StoreApp.Repository
         IEnumerable<Order> GetOrderHistory(Customer customer);
         Task<Order> GetOpenOrder(Customer customer, Location location);
         Task<Customer> VerifyCredentials(string login, string plainPassword);
+        Task<bool> UpdateCustomerInfo(Guid customerId, ICustomerData newData);
     }
 
 
@@ -60,7 +74,7 @@ namespace StoreApp.Repository
                                  .Include(c => c.DefaultLocation)
                                  .Where(c => c.CustomerId == customer.CustomerId)
                                  .Select(c => c.DefaultLocation)
-                                 .FirstOrDefaultAsync();
+                                 .SingleOrDefaultAsync();
         }
 
         async Task<Location> ICustomer.GetDefaultLocation(Guid customerId)
@@ -69,7 +83,7 @@ namespace StoreApp.Repository
                 .Include(c => c.DefaultLocation)
                 .Where(c => c.CustomerId == customerId)
                 .Select(c => c.DefaultLocation)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync();
         }
 
         async Task<CreateUserAccountResult> ICustomer.Add(Customer customer)
@@ -107,7 +121,7 @@ namespace StoreApp.Repository
             return await _context.Customers
                                  .Where(c => c.CustomerId == id)
                                  .Select(c => c)
-                                 .FirstOrDefaultAsync();
+                                 .SingleOrDefaultAsync();
         }
 
         async Task<Customer> ICustomer.GetCustomerByLogin(string login)
@@ -116,7 +130,7 @@ namespace StoreApp.Repository
             return await _context.Customers
                                  .Where(c => c.Login.ToLower() == login)
                                  .Select(c => c)
-                                 .FirstOrDefaultAsync();
+                                 .SingleOrDefaultAsync();
         }
 
 
@@ -127,7 +141,7 @@ namespace StoreApp.Repository
                                              .Where(o => o.TimeSubmitted == null)
                                              .Where(o => o.Location.LocationId == location.LocationId)
                                              .Select(o => o)
-                                             .FirstOrDefaultAsync();
+                                             .SingleOrDefaultAsync();
             if (currentOrder == null)
             {
                 var newOrder = new Entity.Order(customer, location);
@@ -179,6 +193,157 @@ namespace StoreApp.Repository
                                        .Where(c => c.Login.ToLower() == login)
                                        .SingleOrDefaultAsync();
             return exists == null;
+        }
+
+        async Task<bool> ICustomer.UpdateCustomerInfo(Guid customerId, ICustomerData newData)
+        {
+            // TODO: make this function less terrible
+
+            var cityString = newData.GetCity();
+            Entity.City cityEntity = null;
+            if (cityString != null)
+            {
+                cityEntity = await _context.Addresses
+                    .Where(a => a.City.Name.ToLower() == cityString.ToLower().Trim())
+                    .Select(a => a.City)
+                    .SingleOrDefaultAsync();
+                if (cityEntity == null)
+                {
+                    cityEntity = new Entity.City();
+                    cityEntity.Name = cityString.Trim();
+                }
+            }
+
+            // TODO: validate states
+            var stateString = newData.GetState();
+            Entity.State stateEntity = null;
+            if (stateString != null)
+            {
+                stateEntity = await _context.Addresses
+                    .Where(a => a.State.Name.ToLower() == stateString.ToLower().Trim())
+                    .Select(a => a.State)
+                    .SingleOrDefaultAsync();
+                if (stateEntity == null)
+                {
+                    stateEntity = new Entity.State();
+                    stateEntity.Name = stateString.Trim();
+                }
+            }
+
+
+            var zipString = newData.GetZip();
+            if (zipString != null)
+            {
+                // Match any amount of numbers, optionally followed by a dash and any amount of numbers.
+                var zipValidator = new Regex(@"^[0-9]{5}(-?[0-9]{4})?$");
+                if (!zipValidator.IsMatch(newData.GetZip().Trim())) return false;
+            }
+
+            Entity.ZipCode zipEntity = null;
+            if (zipString != null)
+            {
+                zipEntity = await _context.Addresses
+                    .Where(a => a.Zip.Zip == zipString.Trim())
+                    .Select(a => a.Zip)
+                    .SingleOrDefaultAsync();
+                if (zipEntity == null)
+                {
+                    zipEntity = new Entity.ZipCode();
+                    zipEntity.Zip = zipString.Trim();
+                }
+            }
+
+            var addressLine1String = newData.GetAddressLine1();
+            Entity.AddressLine1 addressLine1Entity = null;
+            if (addressLine1String != null)
+            {
+                addressLine1Entity = await _context.AddressLine1s
+                    .Where(l => l.Data.ToLower() == addressLine1String.ToLower().Trim())
+                    .Select(l => l)
+                    .SingleOrDefaultAsync();
+                if (addressLine1Entity == null)
+                {
+                    addressLine1Entity = new Entity.AddressLine1();
+                    addressLine1Entity.Data = addressLine1String.Trim();
+                }
+            }
+
+            var addressLine2String = newData.GetAddressLine2();
+            Entity.AddressLine2 addressLine2Entity = null;
+            if (addressLine2String != null)
+            {
+                addressLine2Entity = await _context.AddressLine2s
+                    .Where(l => l.Data.ToLower() == addressLine2String.ToLower().Trim())
+                    .Select(l => l)
+                    .SingleOrDefaultAsync();
+                if (addressLine2Entity == null)
+                {
+                    addressLine2Entity = new Entity.AddressLine2();
+                    addressLine2Entity.Data = addressLine2String.Trim();
+                }
+            }
+
+            var customer = await _context.Customers
+                .Include(c => c.Address)
+                    .ThenInclude(a => a.City)
+                .Include(c => c.Address)
+                    .ThenInclude(a => a.State)
+                .Include(c => c.Address)
+                    .ThenInclude(a => a.Zip)
+                .Include(c => c.Address)
+                    .ThenInclude(a => a.Line1)
+                .Include(c => c.Address)
+                    .ThenInclude(a => a.Line2)
+                .Where(c => c.CustomerId == customerId)
+                .Select(c => c)
+                .SingleOrDefaultAsync();
+
+            Entity.Address address = null;
+            if (customer.Address == null)
+            {
+                address = new Entity.Address();
+                _context.Add(address);
+                customer.Address = address;
+            } else {
+                address = await _context.Addresses
+                    .Where(a => a.AddressId == customer.Address.AddressId)
+                    .Select(a => a)
+                    .SingleOrDefaultAsync();
+            }
+
+            if (newData.GetFirstName() != null) customer.FirstName = newData.GetFirstName().Trim();
+            else customer.FirstName = null;
+
+            if (newData.GetLastName() != null) customer.LastName = newData.GetLastName().Trim();
+            else customer.LastName = null;
+
+            address.City = cityEntity;
+            address.State = stateEntity;
+            address.Zip = zipEntity;
+            address.Line1 = addressLine1Entity;
+            address.Line2 = addressLine2Entity;
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        async Task<Address> ICustomer.GetAddressByCustomerId(Guid customerId)
+        {
+            return await _context.Customers
+                .Include(c => c.Address)
+                    .ThenInclude(a => a.City)
+                .Include(c => c.Address)
+                    .ThenInclude(a => a.State)
+                .Include(c => c.Address)
+                    .ThenInclude(a => a.Zip)
+                .Include(c => c.Address)
+                    .ThenInclude(a => a.Line1)
+                .Include(c => c.Address)
+                    .ThenInclude(a => a.Line2)
+                .Where(c => c.CustomerId == customerId)
+                .Select(c => c.Address)
+                .SingleOrDefaultAsync();
         }
     }
 }

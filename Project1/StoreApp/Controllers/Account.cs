@@ -46,11 +46,25 @@ namespace StoreApp.Controllers
             var allLocations = locationRepo.GetLocations();
 
             var model = new Models.AccountManagement();
-            model.DefaultStore = defaultLocation.LocationId.ToString();
+            model.StorePicked = defaultLocation.LocationId.ToString();
 
             foreach(var loc in allLocations)
             {
                 model.Stores.Add( new SelectListItem { Value = loc.LocationId.ToString(), Text = loc.Name });
+            }
+
+            var customer = await customerRepo.GetCustomerById(customerId);
+            model.FirstName = customer.FirstName;
+            model.LastName = customer.LastName;
+
+            var userAddress = await customerRepo.GetAddressByCustomerId(customerId);
+            if (userAddress != null)
+            {
+                model.AddressLine1 = userAddress.Line1 != null ? userAddress.Line1.Data : null;
+                model.AddressLine2 = userAddress.Line2 != null ? userAddress.Line2.Data : null;
+                model.City = userAddress.City != null ? userAddress.City.Name : null;
+                model.StatePicked = userAddress.State != null ? userAddress.State.Name : null;
+                model.Zip = userAddress.Zip != null ? userAddress.Zip.Zip : null;
             }
 
             model.OkMessage = this.GetFlashInfo();
@@ -70,7 +84,7 @@ namespace StoreApp.Controllers
             }
 
             Guid defaultLocationId;
-            if (!Guid.TryParse(model.DefaultStore, out defaultLocationId))
+            if (!Guid.TryParse(model.StorePicked, out defaultLocationId))
             {
                 this.SetFlashError("Unable to find the selected store. Please choose another store.");
                 return RedirectToAction("Manage");
@@ -83,6 +97,13 @@ namespace StoreApp.Controllers
             var customer = await customerRepo.GetCustomerById(customerId);
             var location = await locationRepo.GetById(defaultLocationId);
             customerRepo.SetDefaultLocation(customer, location);
+
+            var updateOk = await customerRepo.UpdateCustomerInfo(customer.CustomerId, model);
+            if (!updateOk)
+            {
+                this.SetFlashError("There was an error saving your information. Please try again.");
+                return RedirectToAction("Manage");
+            }
 
             var allLocations = locationRepo.GetLocations();
 
@@ -191,8 +212,46 @@ namespace StoreApp.Controllers
                 customer.Login = model.UserName;
                 customer.Password = model.Password;
                 await customerRepo.Add(customer);
+
+                var loginOk = await DoLogin(customer.CustomerId);
+                _logger.LogTrace($"loginok={loginOk}");
+
                 return Redirect("/Storefront");
             }
+        }
+
+        private async Task<bool> DoLogin(Guid customerId)
+        {
+            var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
+            var customer = await customerRepo.GetCustomerById(customerId);
+            if (customer == null)
+            {
+                return false;
+            }
+
+            var claims = new List<Claim>
+            {
+                new Claim(Auth.Claim.UserName, customer.Login),
+                new Claim(ClaimTypes.Role, Auth.Role.Customer),
+                new Claim(Auth.Claim.UserId, customerId.ToString()),
+                // TODO: Check user permissions regularly in case they get revoked.
+            };
+
+            var claimsIdentity = new ClaimsIdentity(
+                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var authProperties = new AuthenticationProperties
+            {
+                AllowRefresh = true,
+                RedirectUri = "/Storefront"
+            };
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties);
+
+            return true;
         }
 
         [Route("Account/TryLogin")]
@@ -219,27 +278,7 @@ namespace StoreApp.Controllers
                 return RedirectToAction("LoginIndex", loginRedirect);
             }
 
-            var claims = new List<Claim>
-            {
-                new Claim(Auth.Claim.UserName, model.UserName),
-                new Claim(ClaimTypes.Role, Auth.Role.Customer),
-                new Claim(Auth.Claim.UserId, customer.CustomerId.ToString()),
-                // TODO: Check user permissions regularly in case they get revoked.
-            };
-
-            var claimsIdentity = new ClaimsIdentity(
-                claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            var authProperties = new AuthenticationProperties
-            {
-                AllowRefresh = true,
-                RedirectUri = "/Storefront"
-            };
-
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity),
-                authProperties);
+            await DoLogin(customer.CustomerId);
 
             this._logger.LogDebug($"return url={model.ReturnUrl}");
 

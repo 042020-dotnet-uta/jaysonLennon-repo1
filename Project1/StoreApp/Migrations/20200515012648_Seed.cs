@@ -359,8 +359,6 @@ namespace StoreApp.Migrations
             migrationBuilder.Sql("INSERT INTO Customers (CustomerId, PhoneNumber, FirstName, LastName) VALUES ('d6ddae3d-46c1-46ad-8b05-9848efac26bf', '424-365-4772', 'Kirby', 'Kruchten')");
             migrationBuilder.Sql("INSERT INTO Customers (CustomerId, PhoneNumber, FirstName, LastName) VALUES ('2136dd30-a52a-49ab-a82f-7fafed0fd376', '649-819-8503', 'Magali', 'Pertuit')");
             migrationBuilder.Sql("INSERT INTO Customers (CustomerId, PhoneNumber, FirstName, LastName) VALUES ('f75b6395-6acb-46e1-81f7-0ef6e077d1e6', '783-090-3150', 'Aleen', 'Scruggs')");
-  
-
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

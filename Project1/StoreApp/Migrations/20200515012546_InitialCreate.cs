@@ -8,7 +8,7 @@ namespace StoreApp.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AddressLine1",
+                name: "AddressLine1s",
                 columns: table => new
                 {
                     AddressLine1Id = table.Column<Guid>(nullable: false),
@@ -16,11 +16,11 @@ namespace StoreApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AddressLine1", x => x.AddressLine1Id);
+                    table.PrimaryKey("PK_AddressLine1s", x => x.AddressLine1Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AddressLine2",
+                name: "AddressLine2s",
                 columns: table => new
                 {
                     AddressLine2Id = table.Column<Guid>(nullable: false),
@@ -28,11 +28,11 @@ namespace StoreApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AddressLine2", x => x.AddressLine2Id);
+                    table.PrimaryKey("PK_AddressLine2s", x => x.AddressLine2Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "City",
+                name: "Cities",
                 columns: table => new
                 {
                     CityId = table.Column<Guid>(nullable: false),
@@ -40,7 +40,7 @@ namespace StoreApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_City", x => x.CityId);
+                    table.PrimaryKey("PK_Cities", x => x.CityId);
                 });
 
             migrationBuilder.CreateTable(
@@ -58,7 +58,7 @@ namespace StoreApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "State",
+                name: "States",
                 columns: table => new
                 {
                     StateId = table.Column<Guid>(nullable: false),
@@ -66,11 +66,11 @@ namespace StoreApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_State", x => x.StateId);
+                    table.PrimaryKey("PK_States", x => x.StateId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ZipCode",
+                name: "ZipCodes",
                 columns: table => new
                 {
                     ZipCodeId = table.Column<Guid>(nullable: false),
@@ -78,7 +78,7 @@ namespace StoreApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ZipCode", x => x.ZipCodeId);
+                    table.PrimaryKey("PK_ZipCodes", x => x.ZipCodeId);
                 });
 
             migrationBuilder.CreateTable(
@@ -96,33 +96,33 @@ namespace StoreApp.Migrations
                 {
                     table.PrimaryKey("PK_Addresses", x => x.AddressId);
                     table.ForeignKey(
-                        name: "FK_Addresses_City_CityId",
+                        name: "FK_Addresses_Cities_CityId",
                         column: x => x.CityId,
-                        principalTable: "City",
+                        principalTable: "Cities",
                         principalColumn: "CityId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Addresses_AddressLine1_Line1AddressLine1Id",
+                        name: "FK_Addresses_AddressLine1s_Line1AddressLine1Id",
                         column: x => x.Line1AddressLine1Id,
-                        principalTable: "AddressLine1",
+                        principalTable: "AddressLine1s",
                         principalColumn: "AddressLine1Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Addresses_AddressLine2_Line2AddressLine2Id",
+                        name: "FK_Addresses_AddressLine2s_Line2AddressLine2Id",
                         column: x => x.Line2AddressLine2Id,
-                        principalTable: "AddressLine2",
+                        principalTable: "AddressLine2s",
                         principalColumn: "AddressLine2Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Addresses_State_StateId",
+                        name: "FK_Addresses_States_StateId",
                         column: x => x.StateId,
-                        principalTable: "State",
+                        principalTable: "States",
                         principalColumn: "StateId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Addresses_ZipCode_ZipCodeId",
+                        name: "FK_Addresses_ZipCodes_ZipCodeId",
                         column: x => x.ZipCodeId,
-                        principalTable: "ZipCode",
+                        principalTable: "ZipCodes",
                         principalColumn: "ZipCodeId",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -353,19 +353,19 @@ namespace StoreApp.Migrations
                 name: "Addresses");
 
             migrationBuilder.DropTable(
-                name: "City");
+                name: "Cities");
 
             migrationBuilder.DropTable(
-                name: "AddressLine1");
+                name: "AddressLine1s");
 
             migrationBuilder.DropTable(
-                name: "AddressLine2");
+                name: "AddressLine2s");
 
             migrationBuilder.DropTable(
-                name: "State");
+                name: "States");
 
             migrationBuilder.DropTable(
-                name: "ZipCode");
+                name: "ZipCodes");
         }
     }
 }
