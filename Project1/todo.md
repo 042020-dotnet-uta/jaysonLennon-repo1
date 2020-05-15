@@ -96,4 +96,5 @@
 - [ ] model binding check
 - [ ] use tempdata for informational message passing
 - [ ] post requests should redirect to get
+- [ ] add flash message display to all pages
 

@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 
 using StoreApp.Data;
+using StoreApp.Util;
 
 namespace StoreApp.Controllers
 {
@@ -100,13 +101,16 @@ namespace StoreApp.Controllers
             var added = await orderRepo.AddLineItem(customerId, currentOrder, product, model.ItemQuantity);
             if (!added)
             {
-                return View("CartAddError");
+                this.SetFlashError("There was a problem adding this item to your cart. Please try again.");
+                return Redirect($"/ItemDetail/View/{model.ItemId}");
             }
 
             _logger.LogTrace($" call add to cart with id {model.ItemId} and quantity {model.ItemQuantity}");
             var okModel = new Models.CartAddOk();
             okModel.ItemId = model.ItemId;
             okModel.ItemQuantity = model.ItemQuantity;
+
+            // TODO: redirect instead of returning view
             return View("CartAddOk", okModel);
         }
 
@@ -115,7 +119,7 @@ namespace StoreApp.Controllers
         [Authorize(Roles = Auth.Role.Customer)]
         public IActionResult RedirectCartAdd(Models.Cart model)
         {
-            return Redirect("/Cart/View");
+            return RedirectToAction("Index", "Cart");
         }
 
         [Route("Cart/Update")]
@@ -148,8 +152,8 @@ namespace StoreApp.Controllers
                         var removed = await orderRepo.DeleteLineItem(customerId, order, model.Items[(int)removeIndex].Id);
                         if (!removed)
                         {
-                            model.ErrorMessage = "There was an error removing an item from your order. Please try again.";
-                            return View("Cart", model);
+                            this.SetFlashError("There was an error removing an item from your order. Please try again.");
+                            return RedirectToAction("Index", "Cart");
                         }
                     }
                 }
@@ -162,8 +166,8 @@ namespace StoreApp.Controllers
                         var updated = await orderRepo.SetLineItemQuantity(customerId, order, i.Id, i.Quantity);
                         if (!updated)
                         {
-                            model.ErrorMessage = "There was an error updating the items quantities in your order. Please try again.";
-                            return View("Cart", model);
+                            this.SetFlashError("There was an error updating the items quantities in your order. Please try again.");
+                            return RedirectToAction("Index", "Cart");
                         }
                     }
                 }
@@ -174,7 +178,8 @@ namespace StoreApp.Controllers
                 _logger.LogTrace($"broken model");
             }
 
-            return Redirect("/Cart/View");
+            this.SetFlashOk("Items updated successfully.");
+            return RedirectToAction("Index", "Cart");
         }
 
         [Route("Cart/Update")]
@@ -182,7 +187,7 @@ namespace StoreApp.Controllers
         [Authorize(Roles = Auth.Role.Customer)]
         public IActionResult RedirectCartUpdated(Models.Cart model)
         {
-            return Redirect("/Cart/View");
+            return RedirectToAction("Index", "Cart");
         }
     }
 }

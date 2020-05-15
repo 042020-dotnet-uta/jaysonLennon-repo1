@@ -186,7 +186,8 @@ namespace StoreApp.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return Redirect("LogoutOk");
+            this.SetFlashOk("You are now logged out.");
+            return RedirectToAction("LoginIndex");
         }
 
         [HttpPost]
@@ -216,7 +217,7 @@ namespace StoreApp.Controllers
                 var loginOk = await DoLogin(customer.CustomerId);
                 _logger.LogTrace($"loginok={loginOk}");
 
-                return Redirect("/Storefront");
+                return RedirectToAction("Index", "Storefront");
             }
         }
 
@@ -288,7 +289,7 @@ namespace StoreApp.Controllers
             }
             else
             {
-                return Redirect("/Storefront");
+                return RedirectToAction("Index", "StoreFront");
             }
         }
 

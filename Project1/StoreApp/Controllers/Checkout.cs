@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using StoreApp.Models;
 using Microsoft.AspNetCore.Authorization;
 
+using StoreApp.Util;
+
 namespace StoreApp.Controllers
 {
     public class Checkout : Controller
@@ -84,23 +86,28 @@ namespace StoreApp.Controllers
             {
                 case StoreApp.Repository.PlaceOrderResult.Ok:
                 {
-                    return View("PlaceOrderOk");
+                    this.SetFlashOk("Order placed successfully.");
+                    return RedirectToAction("PlaceOrderOk", "Checkout");
                 }
                 case StoreApp.Repository.PlaceOrderResult.OutOfStock:
                 {
-                    return View("PlaceOrderFailOutOfStock");
+                    this.SetFlashError("Unable to place order: Some items are out of stock.");
+                    return RedirectToAction("PlaceOrderError", "Checkout");
                 }
                 case StoreApp.Repository.PlaceOrderResult.NoLineItems:
                 {
-                    return View("PlaceOrderFailNoLineItems");
+                    this.SetFlashError("Unable to place order: There are no items in your order.");
+                    return RedirectToAction("PlaceOrderError", "Checkout");
                 }
                 case StoreApp.Repository.PlaceOrderResult.OrderNotFound:
                 {
-                    return View("PlaceOrderFailOrderNotFound");
+                    this.SetFlashError("Unable to place order: No order was found.");
+                    return RedirectToAction("PlaceOrderError", "Checkout");
                 }
                 default:
                 {
-                    return View("PlaceOrderFail");
+                    this.SetFlashError("Unable to place order. Please try again.");
+                    return RedirectToAction("PlaceOrderError", "Checkout");
                 }
 
             }
@@ -111,6 +118,20 @@ namespace StoreApp.Controllers
         public IActionResult RedirectPlaceOrder()
         {
             return Redirect("/Checkout");
+        }
+
+        [Route("Checkout/PlaceOrderOk")]
+        [HttpGet]
+        public IActionResult PlaceOrderOk()
+        {
+            return View("PlaceOrderOk");
+        }
+
+        [Route("Checkout/PlaceOrderError")]
+        [HttpGet]
+        public IActionResult PlaceOrderError()
+        {
+            return View("PlaceOrderError");
         }
     }
 }
