@@ -236,6 +236,11 @@ namespace StoreApp.Controllers
                 // TODO: Check user permissions regularly in case they get revoked.
             };
 
+            if (customer.Role == Entity.Role.Admin)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, Auth.Role.Administrator));
+            }
+
             var claimsIdentity = new ClaimsIdentity(
                 claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
