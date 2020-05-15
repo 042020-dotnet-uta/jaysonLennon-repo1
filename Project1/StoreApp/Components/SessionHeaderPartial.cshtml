@@ -8,6 +8,7 @@
     <a asp-Controller="Account" asp-action="CreateAccountIndex">Create Account</a>
 } else {
     <div>
+        <div>Items in cart: @ViewData[K.NumItemsInCart]</div>
         <a asp-controller="Cart" asp-action="Index">View Cart</a>
         <br>
         <a asp-controller="Account" asp-action="Manage">manage account: @ViewData[K.UserName]</a>

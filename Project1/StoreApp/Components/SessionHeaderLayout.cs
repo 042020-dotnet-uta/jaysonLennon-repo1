@@ -39,22 +39,21 @@ namespace StoreApp.SessionLayout
 
         async Task IAsyncActionFilter.OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            //var customerRepository = (Repository.ICustomer)_services.GetService(typeof(Repository.ICustomer));
+            var customerRepository = (Repository.ICustomer)_services.GetService(typeof(Repository.ICustomer));
 
-            // Use claims system to get username for display.
-            // Can also query the database via customer context for additional info.
-            var username = context.HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserName);
+            var customerId = context.HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId);
 
             var controller = (Controller)context.Controller;
-
             controller.ViewData[K.UseSessionLayout] = true;
 
-            if (username != null)
+            if (customerId != null)
             {
-                controller.ViewData[K.UserName] = username.Value;
-            }
-            else
-            {
+                var customerIdAsGuid = Guid.Parse(customerId.Value);
+                var username = context.HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserName).Value;
+                var numProductsInCart = await customerRepository.CountProductsInCart(customerIdAsGuid);
+
+                controller.ViewData[K.UserName] = username;
+                controller.ViewData[K.NumItemsInCart] = numProductsInCart;
             }
 
             await next();

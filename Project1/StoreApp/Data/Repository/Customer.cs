@@ -56,6 +56,7 @@ namespace StoreApp.Repository
         Task<Order> GetOpenOrder(Customer customer, Location location);
         Task<Customer> VerifyCredentials(string login, string plainPassword);
         Task<bool> UpdateCustomerInfo(Guid customerId, ICustomerData newData);
+        Task<int> CountProductsInCart(Guid customerId);
     }
 
 
@@ -344,6 +345,14 @@ namespace StoreApp.Repository
                 .Where(c => c.CustomerId == customerId)
                 .Select(c => c.Address)
                 .SingleOrDefaultAsync();
+        }
+
+        async Task<int> ICustomer.CountProductsInCart(Guid customerId)
+        {
+            return await _context.OrderLineItems
+                .Where(ol => ol.Order.TimeSubmitted == null)
+                .Where(ol => ol.Order.Customer.CustomerId == customerId)
+                .SumAsync(ol => ol.Quantity);
         }
     }
 }
