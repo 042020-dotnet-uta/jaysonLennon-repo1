@@ -8,18 +8,17 @@
 # Storefront page
 - [X] Display products from selected store or default store
 - [X] Redirect to account management page on product click if not logged in
-- [ ] Show which store's items are being displayed
-- [ ] calculate stock based on items in order
+- [X] Show which store's items are being displayed
 - [X] Click items to go to detail page
 - [ ] Use data from db
 - [ ] styles
 
 # Account Management Page
-- [ ] Use data from db
+- [X] Use data from db
 - [X] Order history link
-- [ ] Store selector
-- [ ] Personal info form
-- [ ] Save personal info
+- [X] Store selector
+- [X] Personal info form
+- [X] Save personal info
 - [ ] styles
 
 # Order History page
