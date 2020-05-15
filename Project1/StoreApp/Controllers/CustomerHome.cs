@@ -19,11 +19,11 @@ namespace StoreApp.Controllers
     public class CustomerHome : Controller
     {
         private StoreContext _context;
-        private ILogger<HelloWorldController> _logger;
+        private ILogger<CustomerHome> _logger;
 
         public CustomerHome(
             StoreContext context,
-            ILogger<HelloWorldController> logger
+            ILogger<CustomerHome> logger
             )
         {
             this._context = context;

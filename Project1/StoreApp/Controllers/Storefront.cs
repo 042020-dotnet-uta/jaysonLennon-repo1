@@ -15,12 +15,12 @@ namespace StoreApp.Controllers
     public class Storefront : Controller
     {
         private StoreContext _context;
-        private ILogger<HelloWorldController> _logger;
+        private ILogger<CustomerHome> _logger;
         private IServiceProvider _services;
 
         public Storefront(
             StoreContext context,
-            ILogger<HelloWorldController> logger,
+            ILogger<CustomerHome> logger,
             IServiceProvider services
             )
         {
