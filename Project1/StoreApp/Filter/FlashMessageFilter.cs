@@ -1,16 +1,6 @@
-using System.Runtime.CompilerServices;
-using System.Security.Claims;
-using System.Net.Security;
 using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using System.Text.Encodings.Web;
-using Microsoft.Extensions.Logging;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
-
-using StoreApp.Data;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace StoreApp.FlashMessageExtension

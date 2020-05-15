@@ -2,10 +2,8 @@ using System;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using System.Text.Encodings.Web;
 using Microsoft.Extensions.Logging;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 using StoreApp.Data;
 using System.Collections.Generic;
@@ -13,9 +11,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
-using StoreApp.Util;
 using StoreApp.FlashMessageExtension;
-using StoreApp.Model;
 
 namespace StoreApp.Controllers
 {

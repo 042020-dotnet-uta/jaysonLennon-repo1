@@ -1,15 +1,9 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using System.Text.Encodings.Web;
 using Microsoft.Extensions.Logging;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
-using System.Collections.Generic;
-using System.Security.Claims;
 
 using StoreApp.Data;
 using StoreApp.FlashMessageExtension;

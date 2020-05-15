@@ -1,14 +1,10 @@
-using System.Net;
 using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using System.Text.Encodings.Web;
 using Microsoft.Extensions.Logging;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 using StoreApp.Data;
-using Microsoft.AspNetCore.Authorization;
 
 namespace StoreApp.Controllers
 {

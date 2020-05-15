@@ -81,7 +81,7 @@
 - [ ] apply async where appropriate
 - [ ] autofocus
 - [ ] ensure appropriate routes are authorize-gated
-- [ ] remove unused imports
+- [X] remove unused imports
 - [X] separate models into view and submission
 - [X] grep for unimplemented interfaces
 - [ ] exception handling (drop the db to test)
