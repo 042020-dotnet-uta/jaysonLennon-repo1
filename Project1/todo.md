@@ -69,10 +69,10 @@
 - [X] "update quantities" redirects to cart view when session expires
 - [X] Disallow ordering more than the max
 - [X] show maximum possible to order for each item
-- [ ] show different data when the cart is empty
+- [X] show different data when the cart is empty
 - [ ] display error on broken model
-- [ ] "Checkout" link
-- [ ] Use data from db
+- [X] "Checkout" link
+- [X] Use data from db
 - [ ] styles
 
 # General
