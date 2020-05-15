@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using StoreApp.Util;
-using StoreApp.FlashMessageExtention;
+using StoreApp.FlashMessageExtension;
 
 namespace StoreApp.Controllers
 {
@@ -37,7 +37,7 @@ namespace StoreApp.Controllers
 
         [Route("Account/Manage")]
         [Authorize(Roles = Auth.Role.Customer)]
-        [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))] // Change the layout to include session info.
+        [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public async Task<IActionResult> Manage()
         {
             var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
@@ -124,6 +124,7 @@ namespace StoreApp.Controllers
 
         [Route("Account/OrderHistory")]
         [Authorize(Roles = Auth.Role.Customer)]
+        [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public async Task<IActionResult> OrderHistory()
         {
             var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
@@ -143,6 +144,7 @@ namespace StoreApp.Controllers
 
         [Route("Account/OrderHistoryDetail")]
         [Authorize(Roles = Auth.Role.Customer)]
+        [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public async Task<IActionResult> OrderHistoryDetail(Guid orderId)
         {
             var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
@@ -162,6 +164,7 @@ namespace StoreApp.Controllers
         }
 
         [Route("Account/Create")]
+        [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public async Task<IActionResult> CreateAccountIndex()
         {
             var model = new Models.CreateAccount();
@@ -169,6 +172,7 @@ namespace StoreApp.Controllers
         }
 
         [Route("Account/Login")]
+        [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public async Task<IActionResult> LoginIndex(Models.LoginRedirect loginRedirectModel)
         {
             // LoginRedirectModel is used for redirection requests.
@@ -293,6 +297,7 @@ namespace StoreApp.Controllers
         [Route("Account/AccessDenied")]
         [HttpGet]
         [ValidateAntiForgeryToken]
+        [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public async Task<IActionResult> AccessDenied(string returnUrl)
         {
             this._logger.LogTrace($"access denied: return={returnUrl}");

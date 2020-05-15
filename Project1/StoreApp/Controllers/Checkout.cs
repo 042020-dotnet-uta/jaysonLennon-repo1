@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using StoreApp.Models;
 using Microsoft.AspNetCore.Authorization;
 
-using StoreApp.Util;
+using StoreApp.FlashMessageExtension;
 
 namespace StoreApp.Controllers
 {
@@ -28,6 +28,8 @@ namespace StoreApp.Controllers
 
         [Route("Checkout")]
         [Authorize(Roles = Auth.Role.Customer)]
+        [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
+        [ServiceFilter(typeof(CartHeader.CartHeaderFilter))]
         public async Task<IActionResult> Index()
         {
             var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
@@ -122,6 +124,7 @@ namespace StoreApp.Controllers
 
         [Route("Checkout/PlaceOrderOk")]
         [HttpGet]
+        [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public IActionResult PlaceOrderOk()
         {
             return View("PlaceOrderOk");
@@ -129,6 +132,7 @@ namespace StoreApp.Controllers
 
         [Route("Checkout/PlaceOrderError")]
         [HttpGet]
+        [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public IActionResult PlaceOrderError()
         {
             return View("PlaceOrderError");

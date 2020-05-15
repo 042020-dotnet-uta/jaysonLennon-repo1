@@ -2,12 +2,7 @@
 
 <h1>This is the account management page</h1>
 
-@if (@Model.OkMessage != null) {
-    <div style="background: cyan;">Information: @Model.OkMessage</div>
-}
-@if (@Model.ErrorMessage != null) {
-    <div style="background: red;">Error: @Model.ErrorMessage</div>
-}
+<partial name="/Views/Partials/FlashMessagePartial.cshtml" />
 
 <a asp-controller="Account" asp-action="OrderHistory">Order history</a>
 

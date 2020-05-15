@@ -1,4 +1,4 @@
-﻿@{ string sessionLayoutKey = StoreApp.SessionLayout.K.UseSessionLayout; }
+﻿@{ string cartHeaderKey = StoreApp.CartHeader.K.UseCartHeader; }
 @{
-    Layout = ViewData.ContainsKey(sessionLayoutKey) ? "_LayoutWithSessionHeader" : "_Layout";
+    Layout = ViewData.ContainsKey(cartHeaderKey) ? "_LayoutWithCartHeader" : "_Layout";
 }

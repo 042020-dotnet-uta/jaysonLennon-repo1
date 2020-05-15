@@ -2,11 +2,7 @@
 
 <h1>Create Account page</h1>
 
-@if (Model.ErrorMessage != null)
-{
-    <div style="background: red;">@Model.ErrorMessage</div>
-}
-
+<partial name="/Views/Partials/FlashMessagePartial.cshtml" />
 <form asp-controller="Account" asp-action="TryCreate" method="POST">
     <div>
         <label asp-for="UserName"></label>

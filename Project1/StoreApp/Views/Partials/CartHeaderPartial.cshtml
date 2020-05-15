@@ -1,7 +1,7 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@namespace StoreApp.SessionLayout
+@namespace StoreApp.CartHeader
 
-<div style="text-decoration: underline;">this is the session header partial</div>
+<div style="text-decoration: underline;">this is the cart header partial</div>
 
 @if (!ViewData.ContainsKey(K.UserName)){
     <a asp-controller="Account" asp-action="LoginIndex">Login</a>

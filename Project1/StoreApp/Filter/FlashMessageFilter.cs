@@ -13,9 +13,9 @@ using StoreApp.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace StoreApp.FlashMessageExtention
+namespace StoreApp.FlashMessageExtension
 {
-    public static class FlashMessageExtention
+    public static class FlashMessageExtension
     {
         public const string FlashInfoKey = "_FLASH_FlashInfo";
         public const string FlashOkKey = "_FLASH_FlashOk";
@@ -33,6 +33,7 @@ namespace StoreApp.FlashMessageExtention
 
         public static void SetFlashError(this Controller controller, string message)
         {
+            Console.WriteLine($"set flash error to {message}");
             controller.TempData[FlashErrorKey] = message;
         }
 
@@ -52,18 +53,19 @@ namespace StoreApp.FlashMessageExtention
         }
     }
 }
+
 namespace StoreApp.FlashMessage
 {
-    using StoreApp.FlashMessageExtention;
+    using StoreApp.FlashMessageExtension;
 
     /// <summary>
     /// Constants used as Keys for the ViewData dictionary in the view.
     /// </summary>
     public static class K
     {
-        public const string FlashInfo = FlashMessageExtention.FlashOkKey;
-        public const string FlashOk = FlashMessageExtention.FlashOkKey;
-        public const string FlashError = FlashMessageExtention.FlashErrorKey;
+        public const string FlashInfo = FlashMessageExtension.FlashOkKey;
+        public const string FlashOk = FlashMessageExtension.FlashOkKey;
+        public const string FlashError = FlashMessageExtension.FlashErrorKey;
     }
 
     /// <summary>
@@ -82,10 +84,15 @@ namespace StoreApp.FlashMessage
         async Task IAsyncActionFilter.OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var controller = (Controller)context.Controller;
+            Console.WriteLine("building flash info in filter...");
 
             controller.ViewData[K.FlashInfo] = controller.GetFlashInfo();
             controller.ViewData[K.FlashOk] = controller.GetFlashOk();
             controller.ViewData[K.FlashError] = controller.GetFlashError();
+
+            Console.WriteLine($"flashinfo = {controller.ViewData[K.FlashInfo]}");
+            Console.WriteLine($"flashok = {controller.ViewData[K.FlashOk]}");
+            Console.WriteLine($"flasherror = {controller.ViewData[K.FlashError]}");
 
             await next();
         }

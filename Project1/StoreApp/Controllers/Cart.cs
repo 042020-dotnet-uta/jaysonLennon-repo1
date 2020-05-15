@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 
 using StoreApp.Data;
-using StoreApp.Util;
+using StoreApp.FlashMessageExtension;
 
 namespace StoreApp.Controllers
 {
@@ -35,6 +35,8 @@ namespace StoreApp.Controllers
 
         [Route("Cart")]
         [Authorize(Roles = Auth.Role.Customer)]
+        [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
+        [ServiceFilter(typeof(CartHeader.CartHeaderFilter))]
         public async Task<IActionResult> Index()
         {
             var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
@@ -116,6 +118,8 @@ namespace StoreApp.Controllers
         [Route("Cart/AddOk")]
         [HttpGet]
         [Authorize(Roles = Auth.Role.Customer)]
+        [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
+        [ServiceFilter(typeof(CartHeader.CartHeaderFilter))]
         public IActionResult CartAddOk(Models.CartAddOk model)
         {
             return View("CartAddOk", model);

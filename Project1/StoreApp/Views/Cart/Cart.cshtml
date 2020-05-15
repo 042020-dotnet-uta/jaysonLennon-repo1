@@ -1,5 +1,6 @@
 @model StoreApp.Models.Cart
 <h1>This is the view cart page</h1>
+<partial name="/Views/Partials/FlashMessagePartial.cshtml" />
 
 @if (@Model.Items.Count == 0) {
     <partial name="/Views/Cart/EmptyCartPartial.cshtml" />

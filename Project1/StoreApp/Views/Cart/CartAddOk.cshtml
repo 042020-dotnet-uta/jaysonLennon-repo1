@@ -1,6 +1,7 @@
 @model StoreApp.Models.CartAddOk
 
 <h1>Cart add OK page</h1>
+<partial name="/Views/Partials/FlashMessagePartial.cshtml" />
 <div>item added = @Model.ItemId</div>
 <div>quantity = @Model.ItemQuantity</div>
 <a asp-controller="Storefront" asp-action="Index">Continue Shopping</a>

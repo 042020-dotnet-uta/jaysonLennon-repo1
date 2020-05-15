@@ -2,10 +2,7 @@
 
 <h1>Login Page</h1>
 
-@if (Model.ErrorMessage != null)
-{
-    <div style="background: red;">@Model.ErrorMessage</div>
-}
+<partial name="/Views/Partials/FlashMessagePartial.cshtml" />
 <form asp-controller="Account" asp-action="TryLogin" method="POST">
     <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl">
     <div>

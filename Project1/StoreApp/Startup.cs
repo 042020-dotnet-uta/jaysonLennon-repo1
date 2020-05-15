@@ -68,7 +68,8 @@ namespace StoreApp
 
             StartupUtil.Repos.AddRepositories(services);
 
-            services.AddScoped<SessionLayout.SessionLayoutFilter>();
+            services.AddScoped<CartHeader.CartHeaderFilter>();
+            services.AddScoped<FlashMessage.FlashMessageFilter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

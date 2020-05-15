@@ -1,6 +1,7 @@
 @model StoreApp.Models.Checkout
 
 <h1>this is the checkout page</h1>
+<partial name="/Views/Partials/FlashMessagePartial.cshtml" />
 
 @if (@Model.Items.Count == 0) {
     <partial name="/Views/Cart/EmptyCartPartial.cshtml" />

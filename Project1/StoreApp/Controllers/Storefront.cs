@@ -32,7 +32,8 @@ namespace StoreApp.Controllers
         }
 
         [Route("Storefront")]
-        [ServiceFilter(typeof(SessionLayout.SessionLayoutFilter))] // Change the layout to include session info.
+        [ServiceFilter(typeof(CartHeader.CartHeaderFilter))]
+        [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public async Task<IActionResult> Index()
         {
             var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));

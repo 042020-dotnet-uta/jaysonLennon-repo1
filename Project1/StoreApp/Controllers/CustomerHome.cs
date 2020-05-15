@@ -31,6 +31,8 @@ namespace StoreApp.Controllers
         }
 
         [Route("Customer/Home")]
+        [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
+        [ServiceFilter(typeof(CartHeader.CartHeaderFilter))]
         public async Task<IActionResult> Home()
         {
             return View("Index");

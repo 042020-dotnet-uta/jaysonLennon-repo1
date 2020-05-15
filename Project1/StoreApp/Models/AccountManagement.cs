@@ -10,12 +10,6 @@ namespace StoreApp.Models
     // TODO: Add constraints
     public class AccountManagement : Repository.ICustomerData
     {
-        [BindNever]
-        public string ErrorMessage { get; set; }
-
-        [BindNever]
-        public string OkMessage { get; set; }
-
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string AddressLine1 { get; set; }
