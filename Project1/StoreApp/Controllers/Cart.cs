@@ -110,8 +110,15 @@ namespace StoreApp.Controllers
             okModel.ItemId = model.ItemId;
             okModel.ItemQuantity = model.ItemQuantity;
 
-            // TODO: redirect instead of returning view
-            return View("CartAddOk", okModel);
+            return RedirectToAction("CartAddOk", "Cart", okModel);
+        }
+
+        [Route("Cart/AddOk")]
+        [HttpGet]
+        [Authorize(Roles = Auth.Role.Customer)]
+        public IActionResult CartAddOk(Models.CartAddOk model)
+        {
+            return View("CartAddOk", model);
         }
 
         [Route("Cart/Add")]
