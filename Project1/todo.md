@@ -78,6 +78,10 @@
 # Error page
 - [ ] stlyes
 
+# Admin pages
+- [ ] view location orders
+- [ ] search for customers
+
 # General
 - [X] Add redirects for POST-only URLs to appropriate location (cart main, storefront, etc)
 - [X] fix logger generics in all controllers
