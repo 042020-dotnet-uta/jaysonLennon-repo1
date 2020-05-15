@@ -90,4 +90,5 @@
 - [X] use tempdata for informational message passing
 - [X] post requests should redirect to get
 - [ ] add flash message display to all pages
+- [ ] style flash messages
 

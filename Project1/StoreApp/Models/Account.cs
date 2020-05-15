@@ -15,7 +15,6 @@ namespace StoreApp.Models
         [Display(Name = "Password", Description = "Password used to log in.")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        public string ErrorMessage { get; set; }
     }
 
     /// <summary>
@@ -33,7 +32,6 @@ namespace StoreApp.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
         public string ReturnUrl { get; set; }
-        public string ErrorMessage { get; set; }
     }
 
 
@@ -49,6 +47,5 @@ namespace StoreApp.Models
     public class LoginRedirect
     {
         public string ReturnUrl { get; set; }
-        public string ErrorMessage { get; set; }
     }
 }

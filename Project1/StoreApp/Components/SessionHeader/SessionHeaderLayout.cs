@@ -28,11 +28,11 @@ namespace StoreApp.SessionLayout
     /// Populates the appropriate fields to transform the layout to include
     /// session information in the header.
     /// </summary>
-    public class UseLayout : IAsyncActionFilter
+    public class SessionLayoutFilter : IAsyncActionFilter
     {
         private IServiceProvider _services;
 
-        public UseLayout(IServiceProvider services)
+        public SessionLayoutFilter(IServiceProvider services)
         {
             this._services = services;
         }

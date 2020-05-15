@@ -5,42 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace StoreApp.Util
 {
-    public static class Flash
-    {
-        public const string FlashInfoKey = "FlashInfo";
-        public const string FlashOkKey = "FlashOk";
-        public const string FlashErrorKey = "FlashError";
-
-        public static void SetFlashInfo(this Controller controller, string message)
-        {
-            controller.TempData[FlashInfoKey] = message;
-        }
-
-        public static void SetFlashOk(this Controller controller, string message)
-        {
-            controller.TempData[FlashOkKey] = message;
-        }
-
-        public static void SetFlashError(this Controller controller, string message)
-        {
-            controller.TempData[FlashErrorKey] = message;
-        }
-
-        public static string GetFlashInfo(this Controller controller)
-        {
-            return controller.TempData[FlashInfoKey] as string;
-        }
-
-        public static string GetFlashOk(this Controller controller)
-        {
-            return controller.TempData[FlashOkKey] as string;
-        }
-
-        public static string GetFlashError(this Controller controller)
-        {
-            return controller.TempData[FlashErrorKey] as string;
-        }
-    }
 
     public static class Hash
     {

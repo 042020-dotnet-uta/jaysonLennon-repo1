@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using StoreApp.Util;
+using StoreApp.FlashMessageExtention;
 
 namespace StoreApp.Controllers
 {
@@ -36,6 +37,7 @@ namespace StoreApp.Controllers
 
         [Route("Account/Manage")]
         [Authorize(Roles = Auth.Role.Customer)]
+        [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))] // Change the layout to include session info.
         public async Task<IActionResult> Manage()
         {
             var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
@@ -66,9 +68,6 @@ namespace StoreApp.Controllers
                 model.StatePicked = userAddress.State != null ? userAddress.State.Name : null;
                 model.Zip = userAddress.Zip != null ? userAddress.Zip.Zip : null;
             }
-
-            model.OkMessage = this.GetFlashInfo();
-            model.ErrorMessage = this.GetFlashError();
 
             return View("Manage", model);
         }
@@ -172,11 +171,9 @@ namespace StoreApp.Controllers
         [Route("Account/Login")]
         public async Task<IActionResult> LoginIndex(Models.LoginRedirect loginRedirectModel)
         {
-            // LoginRedirectModel is used to forward error messages and redirection requests.
-            // It should always be mapped to a LoginUser before returning the Login view.
+            // LoginRedirectModel is used for redirection requests.
             var loginUser = new Models.LoginUser();
             loginUser.ReturnUrl = loginRedirectModel.ReturnUrl;
-            loginUser.ErrorMessage = loginRedirectModel.ErrorMessage;
             this._logger.LogDebug($"return url={loginUser.ReturnUrl}");
             return View("Login", loginUser);
         }
@@ -205,7 +202,7 @@ namespace StoreApp.Controllers
                 var loginExists = await customerRepo.LoginExists(model.UserName);
                 if (loginExists)
                 {
-                    model.ErrorMessage = "That user name is unavailable.";
+                    this.SetFlashError("That user name is unavailable.");
                     return View("CreateAccount", model);
                 }
 
@@ -274,7 +271,7 @@ namespace StoreApp.Controllers
             if (customer == null) 
             {
                 var loginRedirect = new Models.LoginRedirect();
-                loginRedirect.ErrorMessage = "Invalid login credentials";
+                this.SetFlashError("Invalid login credentials");
                 loginRedirect.ReturnUrl = model.ReturnUrl;
                 return RedirectToAction("LoginIndex", loginRedirect);
             }
