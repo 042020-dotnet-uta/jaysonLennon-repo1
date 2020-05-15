@@ -31,17 +31,17 @@ namespace StoreApp.Controllers
             var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
             var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
 
-            var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
-            _logger.LogDebug($"customer id={customerId}");
+            var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
+            _logger.LogDebug($"customer id={userId}");
 
-            var customer = await customerRepo.GetCustomerById(customerId);
+            var customer = await customerRepo.GetCustomerById(userId);
             _logger.LogDebug($"customer obj={customer}");
             var location = await customerRepo.GetDefaultLocation(customer);
             _logger.LogDebug($"location obj={location}");
 
             var currentOrder = await customerRepo.GetOpenOrder(customer, location);
             _logger.LogDebug($"current order obj={currentOrder}");
-            var orderLines = orderRepo.GetOrderLines(customerId, currentOrder.OrderId);
+            var orderLines = orderRepo.GetOrderLines(userId, currentOrder.OrderId);
 
             var model = new Model.View.Checkout();
 
@@ -70,16 +70,16 @@ namespace StoreApp.Controllers
             var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
             var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
 
-            var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
-            _logger.LogDebug($"customer id={customerId}");
+            var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
+            _logger.LogDebug($"customer id={userId}");
 
-            var customer = await customerRepo.GetCustomerById(customerId);
+            var customer = await customerRepo.GetCustomerById(userId);
             _logger.LogDebug($"customer obj={customer}");
             var location = await customerRepo.GetDefaultLocation(customer);
             _logger.LogDebug($"location obj={location}");
 
             var currentOrder = await customerRepo.GetOpenOrder(customer, location);
-            var orderPlaced = await orderRepo.PlaceOrder(customerId, currentOrder.OrderId);
+            var orderPlaced = await orderRepo.PlaceOrder(userId, currentOrder.OrderId);
             switch (orderPlaced)
             {
                 case StoreApp.Repository.PlaceOrderResult.Ok:

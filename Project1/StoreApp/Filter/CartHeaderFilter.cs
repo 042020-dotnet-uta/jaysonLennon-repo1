@@ -32,16 +32,16 @@ namespace StoreApp.CartHeader
         {
             var customerRepository = (Repository.ICustomer)_services.GetService(typeof(Repository.ICustomer));
 
-            var customerId = context.HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId);
+            var userId = context.HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId);
 
             var controller = (Controller)context.Controller;
             controller.ViewData[K.UseCartHeader] = true;
 
-            if (customerId != null)
+            if (userId != null)
             {
-                var customerIdAsGuid = Guid.Parse(customerId.Value);
+                var userIdAsGuid = Guid.Parse(userId.Value);
                 var username = context.HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserName).Value;
-                var numProductsInCart = await customerRepository.CountProductsInCart(customerIdAsGuid);
+                var numProductsInCart = await customerRepository.CountProductsInCart(userIdAsGuid);
 
                 controller.ViewData[K.UserName] = username;
                 controller.ViewData[K.NumItemsInCart] = numProductsInCart;

@@ -38,17 +38,17 @@ namespace StoreApp.Controllers
             var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
             var productRepo = (Repository.IProduct)this._services.GetService(typeof(Repository.IProduct));
 
-            var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
-            _logger.LogDebug($"customer id={customerId}");
+            var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
+            _logger.LogDebug($"customer id={userId}");
 
-            var customer = await customerRepo.GetCustomerById(customerId);
+            var customer = await customerRepo.GetCustomerById(userId);
             _logger.LogDebug($"customer obj={customer}");
             var location = await customerRepo.GetDefaultLocation(customer);
             _logger.LogDebug($"location obj={location}");
 
             var currentOrder = await customerRepo.GetOpenOrder(customer, location);
             _logger.LogDebug($"current order obj={currentOrder}");
-            var orderLines = orderRepo.GetOrderLines(customerId, currentOrder.OrderId);
+            var orderLines = orderRepo.GetOrderLines(userId, currentOrder.OrderId);
             _logger.LogDebug($"order lines obj={orderLines}");
 
             var model = new Model.Input.Cart();
@@ -87,14 +87,14 @@ namespace StoreApp.Controllers
             var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
             var productRepo = (Repository.IProduct)this._services.GetService(typeof(Repository.IProduct));
 
-            var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
+            var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
 
-            var customer = await customerRepo.GetCustomerById(customerId);
+            var customer = await customerRepo.GetCustomerById(userId);
             var location = await customerRepo.GetDefaultLocation(customer);
             var product = await productRepo.GetProductById(model.ItemId);
 
             var currentOrder = await customerRepo.GetOpenOrder(customer, location);
-            var addStatus = await orderRepo.AddLineItem(customerId, currentOrder, product, model.ItemQuantity);
+            var addStatus = await orderRepo.AddLineItem(userId, currentOrder, product, model.ItemQuantity);
             switch (addStatus)
             {
                 case Repository.AddLineItemResult.Ok:
@@ -157,8 +157,8 @@ namespace StoreApp.Controllers
             var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
             var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
 
-            var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
-            var customer = await customerRepo.GetCustomerById(customerId);
+            var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
+            var customer = await customerRepo.GetCustomerById(userId);
             var location = await customerRepo.GetDefaultLocation(customer);
 
             var order = await customerRepo.GetOpenOrder(customer, location);
@@ -175,7 +175,7 @@ namespace StoreApp.Controllers
                     if ((int)removeIndex < model.Items.Count)
                     {
                         _logger.LogTrace($"remove item at index {removeIndex}");
-                        var removed = await orderRepo.DeleteLineItem(customerId, order, model.Items[(int)removeIndex].Id);
+                        var removed = await orderRepo.DeleteLineItem(userId, order, model.Items[(int)removeIndex].Id);
                         if (!removed)
                         {
                             this.SetFlashError("There was an error removing an item from your order. Please try again.");
@@ -189,7 +189,7 @@ namespace StoreApp.Controllers
                     foreach (var i in model.Items)
                     {
                         _logger.LogTrace($"new item info={i.Id}::{i.Quantity}");
-                        var updateStatus = await orderRepo.SetLineItemQuantity(customerId, order, i.Id, i.Quantity);
+                        var updateStatus = await orderRepo.SetLineItemQuantity(userId, order, i.Id, i.Quantity);
                         switch (updateStatus)
                         {
                             case Repository.SetLineItemQuantityResult.ExceedsStock:

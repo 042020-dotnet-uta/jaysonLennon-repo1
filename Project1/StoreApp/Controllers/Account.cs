@@ -37,11 +37,11 @@ namespace StoreApp.Controllers
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public async Task<IActionResult> Manage()
         {
-            var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
+            var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
             var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
             var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
 
-            var defaultLocation = await customerRepo.GetDefaultLocation(customerId);
+            var defaultLocation = await customerRepo.GetDefaultLocation(userId);
             var allLocations = locationRepo.GetLocations();
 
             var model = new Model.Input.AccountManagement();
@@ -52,11 +52,11 @@ namespace StoreApp.Controllers
                 model.Stores.Add( new SelectListItem { Value = loc.LocationId.ToString(), Text = loc.Name });
             }
 
-            var customer = await customerRepo.GetCustomerById(customerId);
+            var customer = await customerRepo.GetCustomerById(userId);
             model.FirstName = customer.FirstName;
             model.LastName = customer.LastName;
 
-            var userAddress = await customerRepo.GetAddressByCustomerId(customerId);
+            var userAddress = await customerRepo.GetAddressByuserId(userId);
             if (userAddress != null)
             {
                 model.AddressLine1 = userAddress.Line1 != null ? userAddress.Line1.Data : null;
@@ -86,11 +86,11 @@ namespace StoreApp.Controllers
                 return RedirectToAction("Manage");
             }
 
-            var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
+            var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
             var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
             var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
 
-            var customer = await customerRepo.GetCustomerById(customerId);
+            var customer = await customerRepo.GetCustomerById(userId);
             var location = await locationRepo.GetById(defaultLocationId);
             customerRepo.SetDefaultLocation(customer, location);
 
@@ -124,9 +124,9 @@ namespace StoreApp.Controllers
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public async Task<IActionResult> OrderHistory()
         {
-            var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
+            var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
             var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
-            var orders = orderRepo.GetSubmittedOrders(customerId);
+            var orders = orderRepo.GetSubmittedOrders(userId);
             _logger.LogTrace($"num orders={orders.Count()}");
 
             var model = new Model.View.CustomerOrderHistory();
@@ -144,11 +144,11 @@ namespace StoreApp.Controllers
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public async Task<IActionResult> OrderHistoryDetail(Guid orderId)
         {
-            var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
+            var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
             var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
             var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
-            var orderLines = orderRepo.GetOrderLines(customerId, orderId);
-            var order = await orderRepo.GetOrderById(customerId, orderId);
+            var orderLines = orderRepo.GetOrderLines(userId, orderId);
+            var order = await orderRepo.GetOrderById(userId, orderId);
 
             var model = new Model.View.CustomerOrderHistoryDetail(order);
 
@@ -219,10 +219,10 @@ namespace StoreApp.Controllers
             }
         }
 
-        private async Task<bool> DoLogin(Guid customerId)
+        private async Task<bool> DoLogin(Guid userId)
         {
             var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
-            var customer = await customerRepo.GetCustomerById(customerId);
+            var customer = await customerRepo.GetCustomerById(userId);
             if (customer == null)
             {
                 return false;
@@ -232,7 +232,7 @@ namespace StoreApp.Controllers
             {
                 new Claim(Auth.Claim.UserName, customer.Login),
                 new Claim(ClaimTypes.Role, Auth.Role.Customer),
-                new Claim(Auth.Claim.UserId, customerId.ToString()),
+                new Claim(Auth.Claim.UserId, userId.ToString()),
                 // TODO: Check user permissions regularly in case they get revoked.
             };
 

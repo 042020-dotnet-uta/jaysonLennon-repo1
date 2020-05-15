@@ -40,18 +40,18 @@ namespace StoreApp.Repository
     public interface ICustomer
     {
         Task<User> GetCustomerByLogin(string login);
-        Task<User> GetCustomerById(Guid customerId);
-        Task<Address> GetAddressByCustomerId(Guid customerId);
+        Task<User> GetCustomerById(Guid userId);
+        Task<Address> GetAddressByuserId(Guid userId);
         Task<bool> LoginExists(string login);
         Task<CreateUserAccountResult> Add(User customer);
         Task<bool> VerifyUserLogin(string login);
         void SetDefaultLocation(User customer, Location location);
         Task<Location> GetDefaultLocation(User customer);
-        Task<Location> GetDefaultLocation(Guid customerId);
+        Task<Location> GetDefaultLocation(Guid userId);
         Task<Order> GetOpenOrder(User customer, Location location);
         Task<User> VerifyCredentials(string login, string plainPassword);
-        Task<bool> UpdateCustomerInfo(Guid customerId, ICustomerData newData);
-        Task<int> CountProductsInCart(Guid customerId);
+        Task<bool> UpdateCustomerInfo(Guid userId, ICustomerData newData);
+        Task<int> CountProductsInCart(Guid userId);
     }
 
 
@@ -73,11 +73,11 @@ namespace StoreApp.Repository
                                  .SingleOrDefaultAsync();
         }
 
-        async Task<Location> ICustomer.GetDefaultLocation(Guid customerId)
+        async Task<Location> ICustomer.GetDefaultLocation(Guid userId)
         {
             return await _context.Users
                 .Include(c => c.DefaultLocation)
-                .Where(c => c.UserId == customerId)
+                .Where(c => c.UserId == userId)
                 .Select(c => c.DefaultLocation)
                 .SingleOrDefaultAsync();
         }
@@ -172,7 +172,7 @@ namespace StoreApp.Repository
             return exists == null;
         }
 
-        async Task<bool> ICustomer.UpdateCustomerInfo(Guid customerId, ICustomerData newData)
+        async Task<bool> ICustomer.UpdateCustomerInfo(Guid userId, ICustomerData newData)
         {
             // TODO: make this function less terrible
 
@@ -271,7 +271,7 @@ namespace StoreApp.Repository
                     .ThenInclude(a => a.Line1)
                 .Include(c => c.Address)
                     .ThenInclude(a => a.Line2)
-                .Where(c => c.UserId == customerId)
+                .Where(c => c.UserId == userId)
                 .Select(c => c)
                 .SingleOrDefaultAsync();
 
@@ -305,7 +305,7 @@ namespace StoreApp.Repository
             return true;
         }
 
-        async Task<Address> ICustomer.GetAddressByCustomerId(Guid customerId)
+        async Task<Address> ICustomer.GetAddressByuserId(Guid userId)
         {
             return await _context.Users
                 .Include(c => c.Address)
@@ -318,16 +318,16 @@ namespace StoreApp.Repository
                     .ThenInclude(a => a.Line1)
                 .Include(c => c.Address)
                     .ThenInclude(a => a.Line2)
-                .Where(c => c.UserId == customerId)
+                .Where(c => c.UserId == userId)
                 .Select(c => c.Address)
                 .SingleOrDefaultAsync();
         }
 
-        async Task<int> ICustomer.CountProductsInCart(Guid customerId)
+        async Task<int> ICustomer.CountProductsInCart(Guid userId)
         {
             return await _context.OrderLineItems
                 .Where(ol => ol.Order.TimeSubmitted == null)
-                .Where(ol => ol.Order.Customer.UserId == customerId)
+                .Where(ol => ol.Order.Customer.UserId == userId)
                 .SumAsync(ol => ol.Quantity);
         }
     }

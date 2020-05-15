@@ -52,10 +52,10 @@ namespace StoreApp.Controllers
             var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
             var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
 
-            var customerId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
-            _logger.LogDebug($"customer id={customerId}");
+            var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
+            _logger.LogDebug($"customer id={userId}");
 
-            var location = await customerRepo.GetDefaultLocation(customerId);
+            var location = await customerRepo.GetDefaultLocation(userId);
             _logger.LogDebug($"location obj={location}");
 
             var quantityInStock = await locationRepo.GetStock(location, product);
