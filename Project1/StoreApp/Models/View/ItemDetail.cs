@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace StoreApp.Models
+namespace StoreApp.Model.View
 {
     public class ItemDetail {
         public Guid Id { get; set; }

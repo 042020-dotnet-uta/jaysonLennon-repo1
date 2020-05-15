@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using StoreApp.Repository;
 
-namespace StoreApp.Models
+namespace StoreApp.Model.Input
 {
     // TODO: Add constraints
     public class AccountManagement : Repository.ICustomerData

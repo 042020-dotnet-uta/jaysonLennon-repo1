@@ -38,7 +38,7 @@ namespace StoreApp.Controllers
         {
             var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
             var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
-            var model = new Models.Storefront();
+            var model = new Model.View.Storefront();
 
             // Determine which location's inventory we should display.
             Entity.Location location = null;

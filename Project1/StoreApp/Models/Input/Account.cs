@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace StoreApp.Models
+namespace StoreApp.Model.Input
 {
     public class CreateAccount {
 

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace StoreApp.Models
+namespace StoreApp.Model.View
 {
     public class CustomerOrderHistoryItem {
         public Guid OrderId { get; set; }

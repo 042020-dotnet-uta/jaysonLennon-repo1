@@ -57,7 +57,7 @@ namespace StoreApp.Controllers
             var orderLines = orderRepo.GetOrderLines(customerId, currentOrder.OrderId);
             _logger.LogDebug($"order lines obj={orderLines}");
 
-            var model = new Models.Cart();
+            var model = new Model.Input.Cart();
 
             var allStock = locationRepo.GetStock(currentOrder.OrderId);
 
@@ -69,7 +69,7 @@ namespace StoreApp.Controllers
                     .Select(s => s.Item2)
                     .FirstOrDefault();
 
-                var cartItem = new Models.CartItem();
+                var cartItem = new Model.Input.CartItem();
                 cartItem.Id = item.Product.ProductId;
                 cartItem.Name = item.Product.Name;
                 cartItem.UnitPrice = item.Product.Price;
@@ -86,7 +86,7 @@ namespace StoreApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = Auth.Role.Customer)]
-        public async Task<IActionResult> AddToCart(Models.CartAdd model)
+        public async Task<IActionResult> AddToCart(Model.Input.CartAdd model)
         {
             var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
             var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
@@ -108,7 +108,7 @@ namespace StoreApp.Controllers
             }
 
             _logger.LogTrace($" call add to cart with id {model.ItemId} and quantity {model.ItemQuantity}");
-            var okModel = new Models.CartAddOk();
+            var okModel = new Model.View.CartAddOk();
             okModel.ItemId = model.ItemId;
             okModel.ItemQuantity = model.ItemQuantity;
 
@@ -120,7 +120,7 @@ namespace StoreApp.Controllers
         [Authorize(Roles = Auth.Role.Customer)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         [ServiceFilter(typeof(CartHeader.CartHeaderFilter))]
-        public IActionResult CartAddOk(Models.CartAddOk model)
+        public IActionResult CartAddOk(Model.View.CartAddOk model)
         {
             return View("CartAddOk", model);
         }
@@ -128,7 +128,7 @@ namespace StoreApp.Controllers
         [Route("Cart/Add")]
         [HttpGet]
         [Authorize(Roles = Auth.Role.Customer)]
-        public IActionResult RedirectCartAdd(Models.Cart model)
+        public IActionResult RedirectCartAdd(Model.Input.Cart model)
         {
             return RedirectToAction("Index", "Cart");
         }
@@ -137,7 +137,7 @@ namespace StoreApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = Auth.Role.Customer)]
-        public async Task<IActionResult> Update(Models.Cart model)
+        public async Task<IActionResult> Update(Model.Input.Cart model)
         {
             var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
             var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
@@ -196,7 +196,7 @@ namespace StoreApp.Controllers
         [Route("Cart/Update")]
         [HttpGet]
         [Authorize(Roles = Auth.Role.Customer)]
-        public IActionResult RedirectCartUpdated(Models.Cart model)
+        public IActionResult RedirectCartUpdated(Model.Input.Cart model)
         {
             return RedirectToAction("Index", "Cart");
         }

@@ -1,6 +1,6 @@
 using System;
 
-namespace StoreApp.Models
+namespace StoreApp.Model.View
 {
     public class CartAddOk {
         public Guid ItemId { get; set; }

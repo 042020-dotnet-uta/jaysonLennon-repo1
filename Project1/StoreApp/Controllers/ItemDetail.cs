@@ -43,14 +43,14 @@ namespace StoreApp.Controllers
         [ServiceFilter(typeof(CartHeader.CartHeaderFilter))]
         public async Task<IActionResult> ShowDetail(Guid id)
         {
-            if (!ModelState.IsValid) return View("ItemDetail", Models.ItemDetail.ItemNotFound());
+            if (!ModelState.IsValid) return View("ItemDetail", Model.View.ItemDetail.ItemNotFound());
 
             var productRepo = (Repository.IProduct)this._services.GetService(typeof(Repository.IProduct));
 
             var product = await productRepo.GetProductById(id);
             if (product == null)
             {
-                return View("ItemDetail", Models.ItemDetail.ItemNotFound());
+                return View("ItemDetail", Model.View.ItemDetail.ItemNotFound());
             }
 
             var customerRepo = (Repository.ICustomer)this._services.GetService(typeof(Repository.ICustomer));
@@ -64,7 +64,7 @@ namespace StoreApp.Controllers
 
             var quantityInStock = await locationRepo.GetStock(location, product);
 
-            var model = new Models.ItemDetail();
+            var model = new Model.View.ItemDetail();
             model.Id = product.ProductId;
             model.Name = product.Name;
             model.ImageName = product.ImageName;

@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using StoreApp.Util;
 using StoreApp.FlashMessageExtension;
+using StoreApp.Model;
 
 namespace StoreApp.Controllers
 {
@@ -47,7 +48,7 @@ namespace StoreApp.Controllers
             var defaultLocation = await customerRepo.GetDefaultLocation(customerId);
             var allLocations = locationRepo.GetLocations();
 
-            var model = new Models.AccountManagement();
+            var model = new Model.Input.AccountManagement();
             model.StorePicked = defaultLocation.LocationId.ToString();
 
             foreach(var loc in allLocations)
@@ -74,7 +75,7 @@ namespace StoreApp.Controllers
 
         [HttpPost]
         [Route("Account/Update")]
-        public async Task<IActionResult> UpdateAccountInfo(Models.AccountManagement model)
+        public async Task<IActionResult> UpdateAccountInfo(Model.Input.AccountManagement model)
         {
             if (!ModelState.IsValid)
             {
@@ -117,7 +118,7 @@ namespace StoreApp.Controllers
 
         [HttpGet]
         [Route("Account/Update")]
-        public async Task<IActionResult> RedirectUpdateAccountInfo(Models.AccountManagement model)
+        public async Task<IActionResult> RedirectUpdateAccountInfo(Model.Input.AccountManagement model)
         {
             return RedirectToAction("Manage");
         }
@@ -132,7 +133,7 @@ namespace StoreApp.Controllers
             var orders = orderRepo.GetSubmittedOrders(customerId);
             _logger.LogTrace($"num orders={orders.Count()}");
 
-            var model = new Models.CustomerOrderHistory();
+            var model = new Model.View.CustomerOrderHistory();
 
             foreach(var o in orders)
             {
@@ -153,7 +154,7 @@ namespace StoreApp.Controllers
             var orderLines = orderRepo.GetOrderLines(customerId, orderId);
             var order = await orderRepo.GetOrderById(customerId, orderId);
 
-            var model = new Models.CustomerOrderHistoryDetail(order);
+            var model = new Model.View.CustomerOrderHistoryDetail(order);
 
             foreach(var line in orderLines)
             {
@@ -167,16 +168,16 @@ namespace StoreApp.Controllers
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public async Task<IActionResult> CreateAccountIndex()
         {
-            var model = new Models.CreateAccount();
+            var model = new Model.Input.CreateAccount();
             return View("CreateAccount", model);
         }
 
         [Route("Account/Login")]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
-        public async Task<IActionResult> LoginIndex(Models.LoginRedirect loginRedirectModel)
+        public async Task<IActionResult> LoginIndex(Model.Input.LoginRedirect loginRedirectModel)
         {
             // LoginRedirectModel is used for redirection requests.
-            var loginUser = new Models.LoginUser();
+            var loginUser = new Model.Input.LoginUser();
             loginUser.ReturnUrl = loginRedirectModel.ReturnUrl;
             this._logger.LogDebug($"return url={loginUser.ReturnUrl}");
             return View("Login", loginUser);
@@ -194,7 +195,7 @@ namespace StoreApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Account/TryCreate")]
-        public async Task<IActionResult> TryCreate(Models.CreateAccount model)
+        public async Task<IActionResult> TryCreate(Model.Input.CreateAccount model)
         {
             if (!ModelState.IsValid)
             {
@@ -259,7 +260,7 @@ namespace StoreApp.Controllers
         [Route("Account/TryLogin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> TryLogin(Models.LoginUser model)
+        public async Task<IActionResult> TryLogin(Model.Input.LoginUser model)
         {
             if (!ModelState.IsValid)
             {
@@ -274,7 +275,7 @@ namespace StoreApp.Controllers
             // Not finding a customer means their credentials could not be verified.
             if (customer == null) 
             {
-                var loginRedirect = new Models.LoginRedirect();
+                var loginRedirect = new Model.Input.LoginRedirect();
                 this.SetFlashError("Invalid login credentials");
                 loginRedirect.ReturnUrl = model.ReturnUrl;
                 return RedirectToAction("LoginIndex", loginRedirect);

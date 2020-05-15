@@ -47,12 +47,12 @@ namespace StoreApp.Controllers
             _logger.LogDebug($"current order obj={currentOrder}");
             var orderLines = orderRepo.GetOrderLines(customerId, currentOrder.OrderId);
 
-            var model = new Models.Checkout();
+            var model = new Model.View.Checkout();
 
             foreach(var item in orderLines)
             {
                 _logger.LogDebug($"iterate through item {item.Product.ProductId}");
-                var checkoutItem = new Models.CartItem();
+                var checkoutItem = new Model.Input.CartItem();
                 checkoutItem.Id = item.Product.ProductId;
                 checkoutItem.Name = item.Product.Name;
                 checkoutItem.UnitPrice = item.Product.Price;
