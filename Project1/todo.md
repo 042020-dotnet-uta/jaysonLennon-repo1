@@ -52,7 +52,7 @@
 - [X] Display total for order
 - [X] 'Purchase' button
 - [X] Use data from db
-- [ ] Display different information when cart is empty
+- [X] Display different information when cart is empty
 - [ ] Remove purchase button when cart empty
 - [ ] styles
 
