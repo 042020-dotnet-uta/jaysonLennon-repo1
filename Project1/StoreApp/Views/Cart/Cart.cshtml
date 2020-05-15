@@ -1,22 +1,26 @@
 @model StoreApp.Models.Cart
 <h1>This is the view cart page</h1>
 
-<div>total cost = @Model.TotalCost()</div>
-<a asp-controller="Checkout" asp-action="Index">Checkout</a>
+@if (@Model.Items.Count == 0) {
+    <h2>your cart is empty: go shopping!</h2>
+} else {
+    <div>total cost = @Model.TotalCost()</div>
+    <a asp-controller="Checkout" asp-action="Index">Checkout</a>
 
-<form asp-controller="Cart" asp-action="Update" method="POST">
-    <button type="submit" value="update" name="action">Update Quantities</button>
-    @for (var i = 0; i < @Model.Items.Count; i++)
-    {
-        CartItem item = Model.Items[i];
-        <div>
-            <input type="hidden" name="Items[@i].Id" value="@item.Id">
-            <div>Item name: @item.Name</div>
-            <input type="number" name="Items[@i].Quantity" value="@item.Quantity" min="0" max="@item.Stock" placeholder="Quantity">
-            <div>Item unit price: @item.UnitPrice</div>
-            <div>Price for @item.Quantity items: @item.TotalPrice()</div>
-            <button type="submit" value="RemoveItem.@i" name="action">Remove Item</button>
-            <hr>
-        </div>
-    }
-</form>
+    <form asp-controller="Cart" asp-action="Update" method="POST">
+        <button type="submit" value="update" name="action">Update Quantities</button>
+        @for (var i = 0; i < @Model.Items.Count; i++)
+        {
+            CartItem item = Model.Items[i];
+            <div>
+                <input type="hidden" name="Items[@i].Id" value="@item.Id">
+                <div>Item name: @item.Name</div>
+                <input type="number" name="Items[@i].Quantity" value="@item.Quantity" min="0" max="@item.Stock" placeholder="Quantity">
+                <div>Item unit price: @item.UnitPrice</div>
+                <div>Price for @item.Quantity items: @item.TotalPrice()</div>
+                <button type="submit" value="RemoveItem.@i" name="action">Remove Item</button>
+                <hr>
+            </div>
+        }
+    </form>
+}

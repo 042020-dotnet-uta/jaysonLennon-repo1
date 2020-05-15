@@ -10,7 +10,7 @@
 - [X] Redirect to account management page on product click if not logged in
 - [X] Show which store's items are being displayed
 - [X] Click items to go to detail page
-- [ ] Use data from db
+- [X] Use data from db
 - [ ] styles
 
 # Account Management Page
@@ -54,7 +54,6 @@
 - [X] Use data from db
 - [ ] Display different information when cart is empty
 - [ ] Remove purchase button when cart empty
-- [ ] add links to various order placement failure pages
 - [ ] styles
 
 ## Purchase OK page
@@ -76,14 +75,8 @@
 - [ ] Use data from db
 - [ ] styles
 
-# Account authentication page
-- [ ] Login button
-- [ ] Create account button
-- [ ] styles
-- [ ] Use data from db
-
 # General
-- [ ] Add redirects for POST-only URLs to appropriate location (cart main, storefront, etc)
+- [X] Add redirects for POST-only URLs to appropriate location (cart main, storefront, etc)
 - [ ] fix logger generics in all controllers
 - [ ] apply async where appropriate
 - [ ] autofocus
@@ -92,9 +85,9 @@
 - [ ] separate models into view and submission
 - [ ] grep for unimplemented exceptions
 - [ ] exception handling (drop the db to test)
-- [ ] require customer ids in queries
-- [ ] model binding check
-- [ ] use tempdata for informational message passing
-- [ ] post requests should redirect to get
+- [X] require customer ids in queries
+- [X] model binding check
+- [X] use tempdata for informational message passing
+- [X] post requests should redirect to get
 - [ ] add flash message display to all pages
 
