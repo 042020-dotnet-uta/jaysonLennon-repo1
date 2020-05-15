@@ -2,7 +2,7 @@
 <h1>This is the view cart page</h1>
 
 @if (@Model.Items.Count == 0) {
-    <h2>your cart is empty: go shopping!</h2>
+    <partial name="/Views/Cart/EmptyCartPartial.cshtml" />
 } else {
     <div>total cost = @Model.TotalCost()</div>
     <a asp-controller="Checkout" asp-action="Index">Checkout</a>
