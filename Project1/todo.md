@@ -53,7 +53,7 @@
 - [X] 'Purchase' button
 - [X] Use data from db
 - [X] Display different information when cart is empty
-- [ ] Remove purchase button when cart empty
+- [X] Remove purchase button when cart empty
 - [ ] styles
 
 ## Purchase OK page
