@@ -2,7 +2,7 @@
 - [X] Change data based on login status
 - [X] "Not logged in" state
 - [X] "Logged in" state
-- [ ] Use data from db
+- [X] Use data from db
 - [ ] styles
 
 # Storefront page
@@ -68,7 +68,7 @@
 - [X] "update quantities" button
 - [X] "update quantities" redirects to cart view when session expires
 - [X] Disallow ordering more than the max
-- [ ] show maximum possible to order for each item
+- [X] show maximum possible to order for each item
 - [ ] show different data when the cart is empty
 - [ ] display error on broken model
 - [ ] "Checkout" link
