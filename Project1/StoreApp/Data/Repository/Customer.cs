@@ -40,9 +40,6 @@ namespace StoreApp.Repository
 
     public interface ICustomer
     {
-        IEnumerable<Customer> FindCustomerByFirstName(string firstName);
-        IEnumerable<Customer> FindCustomerByLastName(string lastName);
-        IEnumerable<Customer> FindCustomerByName(string name);
         Task<Customer> GetCustomerByLogin(string login);
         Task<Customer> GetCustomerById(Guid customerId);
         Task<Address> GetAddressByCustomerId(Guid customerId);
@@ -52,7 +49,6 @@ namespace StoreApp.Repository
         void SetDefaultLocation(Customer customer, Location location);
         Task<Location> GetDefaultLocation(Customer customer);
         Task<Location> GetDefaultLocation(Guid customerId);
-        IEnumerable<Order> GetOrderHistory(Customer customer);
         Task<Order> GetOpenOrder(Customer customer, Location location);
         Task<Customer> VerifyCredentials(string login, string plainPassword);
         Task<bool> UpdateCustomerInfo(Guid customerId, ICustomerData newData);
@@ -102,21 +98,6 @@ namespace StoreApp.Repository
             return CreateUserAccountResult.Ok;
         }
 
-        IEnumerable<Customer> ICustomer.FindCustomerByFirstName(string firstName)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<Customer> ICustomer.FindCustomerByLastName(string lastName)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<Customer> ICustomer.FindCustomerByName(string name)
-        {
-            throw new NotImplementedException();
-        }
-
         async Task<Customer> ICustomer.GetCustomerById(Guid id)
         {
             return await _context.Customers
@@ -153,11 +134,6 @@ namespace StoreApp.Repository
             } else {
                 return currentOrder;
             }
-        }
-
-        IEnumerable<Order> ICustomer.GetOrderHistory(Customer customer)
-        {
-            throw new NotImplementedException();
         }
 
         async Task<bool> ICustomer.LoginExists(string login)
