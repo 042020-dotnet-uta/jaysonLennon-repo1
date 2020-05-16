@@ -208,7 +208,7 @@ namespace StoreApp.Migrations
                 columns: table => new
                 {
                     OrderId = table.Column<Guid>(nullable: false),
-                    UserUserId = table.Column<Guid>(nullable: true),
+                    UserId = table.Column<Guid>(nullable: true),
                     LocationId = table.Column<Guid>(nullable: true),
                     TimeCreated = table.Column<DateTime>(nullable: true),
                     TimeSubmitted = table.Column<DateTime>(nullable: true),
@@ -219,16 +219,16 @@ namespace StoreApp.Migrations
                 {
                     table.PrimaryKey("PK_Orders", x => x.OrderId);
                     table.ForeignKey(
-                        name: "FK_Orders_Users_UserUserId",
-                        column: x => x.UserUserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Orders_Locations_LocationId",
                         column: x => x.LocationId,
                         principalTable: "Locations",
                         principalColumn: "LocationId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Orders_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -310,14 +310,14 @@ namespace StoreApp.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_UserUserId",
-                table: "Orders",
-                column: "UserUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Orders_LocationId",
                 table: "Orders",
                 column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_UserId",
+                table: "Orders",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_AddressId",

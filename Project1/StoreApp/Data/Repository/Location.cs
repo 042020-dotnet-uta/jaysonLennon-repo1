@@ -17,6 +17,8 @@ namespace StoreApp.Repository
         IEnumerable<Tuple<Product, int>> GetAllProducts(Location location);
         Task<int> GetStock(Location location, Product product);
         IEnumerable<Tuple<Guid, int>> GetStock(Guid orderId);
+        IEnumerable<Tuple<Order, int>> GetOrders(Guid locationId);
+        IEnumerable<OrderLineItem> GetOrderLineItems(Guid orderId);
     }
 
     public class LocationRepository : ILocation
@@ -109,6 +111,30 @@ namespace StoreApp.Repository
             join ol in _context.OrderLineItems on li.Product.ProductId equals ol.Product.ProductId
             where li.Location.LocationId == order.Location.LocationId
             select new Tuple<Guid, int>(li.Product.ProductId, li.Quantity);
+        }
+
+        IEnumerable<Tuple<Order, int>> ILocation.GetOrders(Guid locationId)
+        {
+            return _context.Orders
+                .Where(o => o.Location.LocationId == locationId)
+                .Where(o => o.TimeSubmitted != null)
+                .Select(o =>
+                    new Tuple<Order, int>(
+                        o,
+                        _context.OrderLineItems
+                            .Where(ol => ol.Order.OrderId == o.OrderId)
+                            .Sum(ol => ol.Quantity)
+                    )
+                )
+                .AsEnumerable();
+        }
+
+        IEnumerable<OrderLineItem> ILocation.GetOrderLineItems(Guid orderId)
+        {
+            return _context.OrderLineItems
+                .Include(ol => ol.Product)
+                .Where(ol => ol.Order.OrderId == orderId)
+                .Select(ol => ol);
         }
     }
 }

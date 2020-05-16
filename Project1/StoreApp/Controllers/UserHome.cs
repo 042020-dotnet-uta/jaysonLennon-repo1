@@ -7,7 +7,7 @@ using StoreApp.Data;
 
 namespace StoreApp.Controllers
 {
-    [Authorize(Roles = Auth.Role.User)]
+    [Authorize(Roles = Auth.Role.Customer)]
     public class UserHome : Controller
     {
         private StoreContext _context;

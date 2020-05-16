@@ -5,7 +5,7 @@ namespace StoreApp.Entity
 {
     public enum Role
     {
-        User,
+        Customer,
         Admin
     }
 

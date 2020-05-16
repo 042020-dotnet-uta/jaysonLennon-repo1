@@ -33,7 +33,7 @@ namespace StoreApp.Controllers
         }
 
         [Route("Account/Manage")]
-        [Authorize(Roles = Auth.Role.User)]
+        [Authorize(Roles = Auth.Role.Customer)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public async Task<IActionResult> Manage()
         {
@@ -120,7 +120,7 @@ namespace StoreApp.Controllers
         }
 
         [Route("Account/OrderHistory")]
-        [Authorize(Roles = Auth.Role.User)]
+        [Authorize(Roles = Auth.Role.Customer)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public async Task<IActionResult> OrderHistory()
         {
@@ -140,7 +140,7 @@ namespace StoreApp.Controllers
         }
 
         [Route("Account/OrderHistoryDetail")]
-        [Authorize(Roles = Auth.Role.User)]
+        [Authorize(Roles = Auth.Role.Customer)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public async Task<IActionResult> OrderHistoryDetail(Guid orderId)
         {
@@ -231,7 +231,7 @@ namespace StoreApp.Controllers
             var claims = new List<Claim>
             {
                 new Claim(Auth.Claim.UserName, user.Login),
-                new Claim(ClaimTypes.Role, Auth.Role.User),
+                new Claim(ClaimTypes.Role, Auth.Role.Customer),
                 new Claim(Auth.Claim.UserId, userId.ToString()),
                 // TODO: Check user permissions regularly in case they get revoked.
             };
@@ -298,7 +298,6 @@ namespace StoreApp.Controllers
 
         [Route("Account/AccessDenied")]
         [HttpGet]
-        [ValidateAntiForgeryToken]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public async Task<IActionResult> AccessDenied(string returnUrl)
         {

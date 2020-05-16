@@ -52,6 +52,7 @@ namespace StoreApp.Repository
         Task<SetLineItemQuantityResult> SetLineItemQuantity(Guid userId, Order order, Guid productId, int newQuantity);
         Task<AddLineItemResult> AddLineItem(Guid userId, Order order, Product product, int quantity);
         Task<Order> GetOrderById(Guid userId, Guid orderId);
+        Task<bool> Exists(Guid orderId);
     }
 
     public class OrderRepository : IOrder
@@ -240,5 +241,12 @@ namespace StoreApp.Repository
             return SetLineItemQuantityResult.Ok;
         }
 
+        async Task<bool> IOrder.Exists(Guid orderId)
+        {
+            return await _context.Orders
+                .Where(o => o.OrderId == orderId)
+                .Select(o => o)
+                .FirstOrDefaultAsync() != null;
+        }
     }
 }

@@ -146,9 +146,6 @@ namespace StoreApp.Migrations
                     b.Property<double?>("AmountPaid")
                         .HasColumnType("REAL");
 
-                    b.Property<Guid?>("UserUserId")
-                        .HasColumnType("TEXT");
-
                     b.Property<Guid?>("LocationId")
                         .HasColumnType("TEXT");
 
@@ -161,11 +158,14 @@ namespace StoreApp.Migrations
                     b.Property<DateTime?>("TimeSubmitted")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("OrderId");
 
-                    b.HasIndex("UserUserId");
-
                     b.HasIndex("LocationId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -328,13 +328,13 @@ namespace StoreApp.Migrations
 
             modelBuilder.Entity("StoreApp.Entity.Order", b =>
                 {
-                    b.HasOne("StoreApp.Entity.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserUserId");
-
                     b.HasOne("StoreApp.Entity.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId");
+
+                    b.HasOne("StoreApp.Entity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("StoreApp.Entity.OrderLineItem", b =>

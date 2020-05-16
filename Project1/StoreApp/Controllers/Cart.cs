@@ -28,7 +28,7 @@ namespace StoreApp.Controllers
         }
 
         [Route("Cart")]
-        [Authorize(Roles = Auth.Role.User)]
+        [Authorize(Roles = Auth.Role.Customer)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         [ServiceFilter(typeof(CartHeader.CartHeaderFilter))]
         public async Task<IActionResult> Index()
@@ -79,7 +79,7 @@ namespace StoreApp.Controllers
         [Route("Cart/Add")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = Auth.Role.User)]
+        [Authorize(Roles = Auth.Role.Customer)]
         public async Task<IActionResult> AddToCart(Model.Input.CartAdd model)
         {
             var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
@@ -132,7 +132,7 @@ namespace StoreApp.Controllers
 
         [Route("Cart/AddOk")]
         [HttpGet]
-        [Authorize(Roles = Auth.Role.User)]
+        [Authorize(Roles = Auth.Role.Customer)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         [ServiceFilter(typeof(CartHeader.CartHeaderFilter))]
         public IActionResult CartAddOk(Model.View.CartAddOk model)
@@ -142,7 +142,7 @@ namespace StoreApp.Controllers
 
         [Route("Cart/Add")]
         [HttpGet]
-        [Authorize(Roles = Auth.Role.User)]
+        [Authorize(Roles = Auth.Role.Customer)]
         public IActionResult RedirectCartAdd(Model.Input.Cart model)
         {
             return RedirectToAction("Index", "Cart");
@@ -151,7 +151,7 @@ namespace StoreApp.Controllers
         [Route("Cart/Update")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = Auth.Role.User)]
+        [Authorize(Roles = Auth.Role.Customer)]
         public async Task<IActionResult> Update(Model.Input.Cart model)
         {
             var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
@@ -218,7 +218,7 @@ namespace StoreApp.Controllers
 
         [Route("Cart/Update")]
         [HttpGet]
-        [Authorize(Roles = Auth.Role.User)]
+        [Authorize(Roles = Auth.Role.Customer)]
         public IActionResult RedirectCartUpdated(Model.Input.Cart model)
         {
             return RedirectToAction("Index", "Cart");

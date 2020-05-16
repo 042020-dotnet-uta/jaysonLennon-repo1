@@ -23,7 +23,7 @@ namespace StoreApp.Controllers
         }
 
         [Route("Checkout")]
-        [Authorize(Roles = Auth.Role.User)]
+        [Authorize(Roles = Auth.Role.Customer)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         [ServiceFilter(typeof(CartHeader.CartHeaderFilter))]
         public async Task<IActionResult> Index()
@@ -63,7 +63,7 @@ namespace StoreApp.Controllers
         [Route("Checkout/PlaceOrder")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = Auth.Role.User)]
+        [Authorize(Roles = Auth.Role.Customer)]
         public async Task<IActionResult> PlaceOrder()
         {
             _logger.LogTrace($"call placeorder");

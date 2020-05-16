@@ -59,7 +59,7 @@ namespace StoreApp
                     .AddCookie(options =>
                     {
                         options.Cookie.HttpOnly = true;
-                        options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
 
                         options.LoginPath = "/Account/Login";
                         options.AccessDeniedPath = "/Account/AccessDenied";
@@ -77,8 +77,8 @@ namespace StoreApp
         {
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage();
-                app.UseExceptionHandler("/Error");
+                app.UseDeveloperExceptionPage();
+                //app.UseExceptionHandler("/Error");
             }
             else
             {

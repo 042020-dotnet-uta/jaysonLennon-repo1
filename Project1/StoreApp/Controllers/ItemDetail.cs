@@ -34,7 +34,7 @@ namespace StoreApp.Controllers
         }
 
         [Route("ItemDetail/View/{id}")]
-        [Authorize(Roles = Auth.Role.User)]
+        [Authorize(Roles = Auth.Role.Customer)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         [ServiceFilter(typeof(CartHeader.CartHeaderFilter))]
         public async Task<IActionResult> ShowDetail(Guid id)
