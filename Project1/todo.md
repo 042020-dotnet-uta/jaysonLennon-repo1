@@ -100,4 +100,5 @@
 - [ ] add 404 page
 - [ ] style flash messages
 - [ ] style access denied page
+- [ ] remove .AsEnumerable calls in repos
 

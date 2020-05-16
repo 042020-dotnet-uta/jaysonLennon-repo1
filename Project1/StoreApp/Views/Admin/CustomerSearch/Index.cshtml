@@ -1,0 +1,66 @@
+<h1>this is the customer search page</h1>
+<partial name="/Views/Partials/FlashMessagePartial.cshtml" />
+
+<label>
+    <span>Customer search</span>
+    <input type="text" id="customer-search-input" placeholder="Customer Name">
+</label>
+
+<div id="customer-search-results-container">
+
+</div>
+
+<script>
+window.addEventListener("load", function() {
+    let resultsContainer = document.getElementById("customer-search-results-container");
+    let searchInput = document.getElementById("customer-search-input");
+    if (!resultsContainer || !searchInput) { console.error("missing elements required to search customers"); }
+
+    let searchInputDebounceTime = 200;   // in ms
+
+    let resultFormatter = function(searchResults) {
+        if (searchResults.users === undefined) {
+            resultsContainer.innerHTML = "No users found";
+            return;
+        }
+        resultsContainer.innerHTML = "";
+        for(let i = 0; i < searchResults.users.length; i++) {
+            let result = searchResults.users[i];
+            let container = document.createElement("div");
+
+            let revenue = document.createElement("span");
+            revenue.innerText = "revenue = $" + result.revenue + " -- ";
+            container.appendChild(revenue);
+
+            let name = document.createElement("span");
+            name.innerText = "name:" + result.firstName + " " + result.lastName;
+            container.appendChild(name);
+
+            resultsContainer.appendChild(container);
+            console.log("in loop=" + result);
+        }
+
+        console.log("result formatter called with value=" + searchResults);
+    };
+
+    let getNewResults = function() {
+        let query = searchInput.value;
+        asyncReq("GET", "/Admin/CustomerSearch/api/search?nameQuery=" + query, {}, function() {
+            if (this.readyState === XMLHttpRequest.DONE) {
+                if (this.status === 200) {
+                    resultFormatter(JSON.parse(this.response));
+                } else {
+                // TODO: error notification to user
+                }
+            } else {
+                // TODO: add spinners
+            }
+        });
+
+    };
+
+    let doSearch = debounce(getNewResults, searchInputDebounceTime);
+
+    searchInput.addEventListener("input", doSearch);
+});
+</script>

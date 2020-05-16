@@ -1,4 +1,3 @@
-/*
 using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -10,15 +9,15 @@ using StoreApp.Data;
 
 namespace StoreApp.AdminControllers
 {
-    public class CustomerSearch : Controller
+    public class AdminCustomerSearch : Controller
     {
         private StoreContext _context;
-        private ILogger<CustomerSearch> _logger;
+        private ILogger<AdminCustomerSearch> _logger;
         private IServiceProvider _services;
 
-        public CustomerSearch(
+        public AdminCustomerSearch(
             StoreContext context,
-            ILogger<CustomerSearch> logger,
+            ILogger<AdminCustomerSearch> logger,
             IServiceProvider services
             )
         {
@@ -26,18 +25,47 @@ namespace StoreApp.AdminControllers
             this._logger = logger;
             this._services = services;
 
-            this._logger.LogTrace("instantiate admin home");
+            this._logger.LogTrace("instantiate admin customer search");
         }
 
-        [Route("Admin")]
+        [Route("Admin/CustomerSearch")]
         [Authorize(Roles = Auth.Role.Administrator)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public async Task<IActionResult> Index()
         {
-            var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
+            var customerRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
 
-            return View("Index", model);
+            return View("/Views/Admin/CustomerSearch/Index.cshtml");
+        }
+
+        [Route("Admin/CustomerSearch/api/search")]
+        [Authorize(Roles = Auth.Role.Administrator)]
+        [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
+        public async Task<IActionResult> ApiSearch(string nameQuery)
+        {
+            if (String.IsNullOrEmpty(nameQuery)) return Json(new object());
+
+            var userRepo = (Repository.IUser)this._services.GetService(typeof(Repository.IUser));
+            var results = userRepo.FindUserQueryIncludeRevenue(nameQuery);
+            var response = new AdminModel.CustomerSearchResult();
+            response.QueryItem1 = results.QueryItem1;
+            response.QueryItem2 = results.QueryItem2;
+            response.IsOmniQuery = results.IsOmniQuery;
+
+            var entries = results.Users
+                .Select(r => new AdminModel.CustomerSearchResultEntry {
+                    UserId = r.Item1.UserId,
+                    FirstName = r.Item1.FirstName,
+                    LastName = r.Item1.LastName,
+                    Revenue = r.Item2,
+                })
+                .OrderBy(u => u.LastName)
+                .Take(30)
+                .ToList();
+
+            response.Users = entries;
+
+            return Json(response);
         }
     }
 }
-*/

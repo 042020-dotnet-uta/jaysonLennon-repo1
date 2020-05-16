@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace StoreApp.Repository
 {
@@ -37,21 +38,46 @@ namespace StoreApp.Repository
         string GetZip();
     }
 
+    public class UserQueryResultWithRevenue
+    {
+        /// <summary>Used to highlight results.</summary>
+        public string QueryItem1 { get; set; }
+
+        /// <summary>Used to highlight results.</summary>
+        public string QueryItem2 { get; set; }
+
+        /// <summary>
+        /// Whether this query searches both first and last name, or specific fields.
+        /// 
+        /// When this is True, then both the first and last name fields have been searched
+        /// and QueryItem1 and QueryItem2 should be highlighted in either name fields.
+        /// 
+        /// When this is False, QueryItem1 represents the first name of the customer,
+        /// and QueryItem2 represents the last name of the customer. Highlighting should
+        /// occur in the appropriate fields when this is the case.
+        /// </summary>
+        public bool IsOmniQuery { get; set; }
+        public IEnumerable<Tuple<User, double>> Users { get; set; }
+    }
     public interface IUser
     {
-        Task<User> GetUserByLogin(string login);
-        Task<User> GetUserById(Guid userId);
-        Task<Address> GetAddressByuserId(Guid userId);
-        Task<bool> LoginExists(string login);
-        Task<CreateUserAccountResult> Add(User user);
-        Task<bool> VerifyUserLogin(string login);
-        void SetDefaultLocation(User user, Location location);
-        Task<Location> GetDefaultLocation(User user);
-        Task<Location> GetDefaultLocation(Guid userId);
-        Task<Order> GetOpenOrder(User user, Location location);
-        Task<User> VerifyCredentials(string login, string plainPassword);
-        Task<bool> UpdateUserInfo(Guid userId, IUserData newData);
-        Task<int> CountProductsInCart(Guid userId);
+        public IEnumerable<User> FindUserQuery(string nameQuery);
+        public UserQueryResultWithRevenue FindUserQueryIncludeRevenue(string nameQuery);
+        public IEnumerable<User> FindUserByFirstName(string firstName);
+        public IEnumerable<User> FindUserByLastName(string lastName);
+        public Task<User> GetUserByLogin(string login);
+        public Task<User> GetUserById(Guid userId);
+        public Task<Address> GetAddressByuserId(Guid userId);
+        public Task<bool> LoginExists(string login);
+        public Task<CreateUserAccountResult> Add(User user);
+        public Task<bool> VerifyUserLogin(string login);
+        public void SetDefaultLocation(User user, Location location);
+        public Task<Location> GetDefaultLocation(User user);
+        public Task<Location> GetDefaultLocation(Guid userId);
+        public Task<Order> GetOpenOrder(User user, Location location);
+        public Task<User> VerifyCredentials(string login, string plainPassword);
+        public Task<bool> UpdateUserInfo(Guid userId, IUserData newData);
+        public Task<int> CountProductsInCart(Guid userId);
     }
 
 
@@ -73,7 +99,7 @@ namespace StoreApp.Repository
                                  .SingleOrDefaultAsync();
         }
 
-        async Task<Location> IUser.GetDefaultLocation(Guid userId)
+        public async Task<Location> GetDefaultLocation(Guid userId)
         {
             return await _context.Users
                 .Include(c => c.DefaultLocation)
@@ -82,7 +108,7 @@ namespace StoreApp.Repository
                 .SingleOrDefaultAsync();
         }
 
-        async Task<CreateUserAccountResult> IUser.Add(User user)
+        public async Task<CreateUserAccountResult> Add(User user)
         {
             var hashed = StoreApp.Util.Hash.Sha256(user.Password);
             user.Password = hashed;
@@ -97,7 +123,7 @@ namespace StoreApp.Repository
             return CreateUserAccountResult.Ok;
         }
 
-        async Task<User> IUser.GetUserById(Guid id)
+        public async Task<User> GetUserById(Guid id)
         {
             return await _context.Users
                                  .Where(c => c.UserId == id)
@@ -105,7 +131,7 @@ namespace StoreApp.Repository
                                  .SingleOrDefaultAsync();
         }
 
-        async Task<User> IUser.GetUserByLogin(string login)
+        public async Task<User> GetUserByLogin(string login)
         {
             login = login.ToLower();
             return await _context.Users
@@ -115,7 +141,7 @@ namespace StoreApp.Repository
         }
 
 
-        async Task<Order> IUser.GetOpenOrder(User user, Location location)
+        public async Task<Order> GetOpenOrder(User user, Location location)
         {
             var currentOrder = await _context.Orders
                                              .Include(o => o.Location)
@@ -130,12 +156,14 @@ namespace StoreApp.Repository
                 _context.Add(newOrder);
                 await _context.SaveChangesAsync();
                 return newOrder;
-            } else {
+            }
+            else
+            {
                 return currentOrder;
             }
         }
 
-        async Task<bool> IUser.LoginExists(string login)
+        public async Task<bool> LoginExists(string login)
         {
             login = login.ToLower();
             return await _context.Users
@@ -144,13 +172,13 @@ namespace StoreApp.Repository
                            .SingleOrDefaultAsync() != null;
         }
 
-        async void IUser.SetDefaultLocation(User user, Location location)
+        public async void SetDefaultLocation(User user, Location location)
         {
             user.DefaultLocation = location;
             await _context.SaveChangesAsync();
         }
 
-        async Task<User> IUser.VerifyCredentials(string login, string plainPassword)
+        public async Task<User> VerifyCredentials(string login, string plainPassword)
         {
             login = login.ToLower();
             var hashed = StoreApp.Util.Hash.Sha256(plainPassword);
@@ -161,7 +189,7 @@ namespace StoreApp.Repository
                                  .SingleOrDefaultAsync();
         }
 
-        async Task<bool> IUser.VerifyUserLogin(string login)
+        public async Task<bool> VerifyUserLogin(string login)
         {
             if (String.IsNullOrEmpty(login)) return false;
             login = login.ToLower();
@@ -172,7 +200,7 @@ namespace StoreApp.Repository
             return exists == null;
         }
 
-        async Task<bool> IUser.UpdateUserInfo(Guid userId, IUserData newData)
+        public async Task<bool> UpdateUserInfo(Guid userId, IUserData newData)
         {
             // TODO: make this function less terrible
 
@@ -281,7 +309,9 @@ namespace StoreApp.Repository
                 address = new Entity.Address();
                 _context.Add(address);
                 user.Address = address;
-            } else {
+            }
+            else
+            {
                 address = await _context.Addresses
                     .Where(a => a.AddressId == user.Address.AddressId)
                     .Select(a => a)
@@ -305,7 +335,7 @@ namespace StoreApp.Repository
             return true;
         }
 
-        async Task<Address> IUser.GetAddressByuserId(Guid userId)
+        public async Task<Address> GetAddressByuserId(Guid userId)
         {
             return await _context.Users
                 .Include(c => c.Address)
@@ -323,12 +353,131 @@ namespace StoreApp.Repository
                 .SingleOrDefaultAsync();
         }
 
-        async Task<int> IUser.CountProductsInCart(Guid userId)
+        public async Task<int> CountProductsInCart(Guid userId)
         {
             return await _context.OrderLineItems
                 .Where(ol => ol.Order.TimeSubmitted == null)
                 .Where(ol => ol.Order.User.UserId == userId)
                 .SumAsync(ol => ol.Quantity);
+        }
+
+        public IEnumerable<User> FindUserQuery(string nameQuery)
+        {
+            nameQuery = nameQuery.ToLower();
+
+            // Search by either first name or last name when a space is present between two
+            // search terms. Both search terms must be present in either the first or last
+            // name (or both) of the customer in order to be considered a match.
+            var nameComponents = nameQuery.Split(' ', 2);
+            if (nameComponents.Length == 2)
+            {
+                var query1 = FindUserQuery(nameComponents[0].Trim());
+                var query2 = FindUserQuery(nameComponents[1].Trim());
+                return query1.Intersect(query2);
+            }
+
+            // Search for names in a "lastName,firstName" fashion when a comma is present
+            // in the search query.
+            var lastThenFirst = nameQuery.Split(',', 2);
+            if (lastThenFirst.Length == 2)
+            {
+                var query1 = FindUserByLastName(lastThenFirst[0].Trim());
+                var query2 = FindUserByFirstName(lastThenFirst[1].Trim());
+                return query1.Intersect(query2);
+            }
+
+            // Standard single term search checks both first and last names.
+            return _context.Users
+                .Where(u => u.FirstName.ToLower().Contains(nameQuery) || u.LastName.ToLower().Contains(nameQuery))
+                .Select(u => u);
+        }
+
+        public UserQueryResultWithRevenue FindUserQueryIncludeRevenue(string nameQuery)
+        {
+            nameQuery = nameQuery.ToLower();
+
+            // Search by either first name or last name when a space is present between two
+            // search terms. Both search terms must be present in either the first or last
+            // name (or both) of the customer in order to be considered a match.
+            var nameComponents = nameQuery.Split(' ', 2);
+            if (nameComponents.Length == 2)
+            {
+                var queryItem1 = nameComponents[0].Trim();
+                var queryItem2 = nameComponents[1].Trim();
+                var query1 = FindUserQuery(queryItem1);
+                var query2 = FindUserQuery(queryItem2);
+                return new UserQueryResultWithRevenue {
+                    Users = query1.Intersect(query2)
+                            .Select(u => new Tuple<User, double>(
+                                u,
+                                _context.Orders
+                                    .Where(o => o.User.UserId == u.UserId)
+                                    .Sum(o => o.AmountPaid) ?? 0.0
+                                )
+                            ),
+                    QueryItem1 = queryItem1,
+                    QueryItem2 = queryItem2,
+                    IsOmniQuery = true,
+                };
+            }
+
+            // Search for names in a "lastName,firstName" fashion when a comma is present
+            // in the search query.
+            var lastThenFirst = nameQuery.Split(',', 2);
+            if (lastThenFirst.Length == 2)
+            {
+                var queryItem1 = lastThenFirst[0].Trim();
+                var queryItem2 = lastThenFirst[1].Trim();
+                var query1 = FindUserByLastName(queryItem1);
+                var query2 = FindUserByFirstName(queryItem2);
+                return new UserQueryResultWithRevenue {
+                    Users = query1.Intersect(query2)
+                            .Select(u => new Tuple<User, double>(
+                                u,
+                                _context.Orders
+                                    .Where(o => o.User.UserId == u.UserId)
+                                    .Sum(o => o.AmountPaid) ?? 0.0
+                                )
+                            ),
+                    QueryItem1 = queryItem1,
+                    QueryItem2 = queryItem2,
+                    IsOmniQuery = false,
+                };
+            }
+
+            // Standard single term search checks both first and last names.
+            var singleTermResults = _context.Users
+                .Where(u => u.FirstName.ToLower().Contains(nameQuery) || u.LastName.ToLower().Contains(nameQuery))
+                .Select(u => new Tuple<User, double>(
+                    u,
+                    _context.Orders
+                        .Where(o => o.User.UserId == u.UserId)
+                        .Sum(o => o.AmountPaid) ?? 0.0
+                    )
+                );
+
+            return new UserQueryResultWithRevenue {
+                Users = singleTermResults,
+                QueryItem1 = nameQuery,
+                QueryItem2 = null,
+                IsOmniQuery = true,
+            };
+        }
+
+        public IEnumerable<User> FindUserByFirstName(string firstName)
+        {
+            firstName = firstName.ToLower();
+            return _context.Users
+                .Where(u => u.FirstName.ToLower().Contains(firstName))
+                .Select(u => u);
+        }
+
+        public IEnumerable<User> FindUserByLastName(string lastName)
+        {
+            lastName = lastName.ToLower();
+            return _context.Users
+                .Where(u => u.LastName.ToLower().Contains(lastName))
+                .Select(u => u);
         }
     }
 }
