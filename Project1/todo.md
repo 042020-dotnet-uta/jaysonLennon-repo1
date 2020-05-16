@@ -79,7 +79,7 @@
 - [ ] stlyes
 
 # Admin pages
-- [ ] view location orders
+- [X] view location orders
 - [ ] search for customers
 
 # General
