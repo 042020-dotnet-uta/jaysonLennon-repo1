@@ -59,16 +59,16 @@ h6 {
 .font-bold   { font-weight: bold; }
 .font-italic { font-style: italic; }
 
-.text-sm   { font-size: $font-sm; }
-.text-base { font-size: 1rem; }
-.text-lg   { font-size: 1.125rem; }
-.text-xl   { font-size: 1.25rem; }
-.text-2x   { font-size: 1.5rem; }
-.text-3x   { font-size: 1.875rem; }
-.text-3xl  { font-size: 2rem; }
-.text-4x   { font-size: 2.25rem; }
-.text-5x   { font-size: 3rem; }
-.text-6x   { font-size: 4rem; }
+.text-xs   { font-size: $font-size-xs; }
+.text-sm   { font-size: $font-size-sm; }
+.text-base { font-size: $font-size-base; }
+.text-lg   { font-size: $font-size-lg; }
+.text-xl   { font-size: $font-size-xl; }
+.text-2xl  { font-size: $font-size-2xl; }
+.text-3xl  { font-size: $font-size-3xl; }
+.text-4xl  { font-size: $font-size-4xl; }
+.text-5xl  { font-size: $font-size-5xl; }
+.text-6xl  { font-size: $font-size-6xl; }
 
 .underline    { text-decoration: underline; }
 .no-underline { text-decoration: none; }
@@ -84,12 +84,19 @@ h6 {
 .text-gray-800 	{ color: $color-gray-800; }
 .text-gray-900 	{ color: $color-gray-900; }
 
+.text-color-brand { color: $color-brand; }
 .text-color-ok    { color: $color-ok; }
 .text-color-error { color: $color-error; }
 
 .text-center { text-align: center; }
 .text-left   { text-align: left; }
 .text-right  { text-align: right; }
+
+@include break-sm {
+  .sm\:text-center { text-align: center; }
+  .sm\:text-left   { text-align: left; }
+  .sm\:text-right  { text-align: right; }
+}
 
 .text-nowrap { white-space: nowrap; }
 

@@ -104,4 +104,5 @@
 - [ ] remove .AsEnumerable calls in repos
 - [ ] use implicit interface implementations
 - [ ] remove console writelines
+- [ ] add ValidateAntiForgeryToken on POST requests
 

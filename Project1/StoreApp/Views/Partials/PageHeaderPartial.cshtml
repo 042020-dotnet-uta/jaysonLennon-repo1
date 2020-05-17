@@ -1,16 +1,26 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @namespace StoreApp.PageHeader
 
-<div style="text-decoration: underline;">this is the cart header partial</div>
 
-@if (!ViewData.ContainsKey(K.UserName)){
-    <a asp-controller="Account" asp-action="LoginIndex">Login</a>
-    <a asp-Controller="Account" asp-action="CreateAccountIndex">Create Account</a>
-} else {
-    <div>
-        <div>Items in cart: @ViewData[K.NumItemsInCart]</div>
-        <a asp-controller="Cart" asp-action="Index">View Cart</a>
-        <br>
-        <a asp-controller="Account" asp-action="Manage">manage account: @ViewData[K.UserName]</a>
-    </div>
-}
+<div class="flex-col justify-center sm:flex-row sm:justify-between color-bg-brand p4 nav-border">
+    <div class="self-content-center text-gray-50 text-4xl p4">SugarRush</div>
+
+    @if (!ViewData.ContainsKey(K.UserName)){
+        <div class="flex-col justify-center mr3 text-center sm:text-right">
+            <a class="link-white p2 no-underline" asp-Controller="Account" asp-action="CreateAccountIndex">Create Account</a>
+            <a class="link-white p2 no-underline" asp-controller="Account" asp-action="LoginIndex">Login</a>
+        </div>
+    } else {
+        <div class="flex-row justify-between">
+            <div class="flex-col text-left mr4 self-content-center">
+                <div class="text-gray-200">Logged in as @ViewData[K.UserName]</div>
+                <a class="link-white" asp-controller="Account" asp-action="Manage">Manage Account</a>
+            </div>
+            <a asp-controller="Cart" asp-action="Index" class="no-underline flex-col items-center block text-center link-white cart-border p2">
+                <div class="my2">@ViewData[K.NumItemsInCart]</div>
+                <div class="my2">View Cart</div>
+            </a>
+        </div>
+    }
+
+</div>

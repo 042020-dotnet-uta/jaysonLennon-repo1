@@ -1,0 +1,12 @@
+.link-light { color: $color-link-light; }
+.link-dark { color: $color-link-dark; }
+.link-white { color: #ffffff; }
+
+.cart-border {
+    border: 1px solid $color-gray-50;
+    border-radius: $border-radius-sm;
+}
+
+.nav-border {
+    border-bottom: 2px solid $color-nav-border;
+}

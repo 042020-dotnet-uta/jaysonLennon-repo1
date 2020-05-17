@@ -70,6 +70,8 @@ namespace StoreApp.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Auth.Role.Customer)]
+        [ValidateAntiForgeryToken]
         [Route("Account/Update")]
         public async Task<IActionResult> UpdateAccountInfo(Model.Input.AccountManagement model)
         {
