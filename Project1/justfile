@@ -16,7 +16,7 @@ rebuild-migrations:
     cd StoreApp && dotnet ef migrations add InitialCreate
     just migrate
 
-coverage-generate:
+coverage:
     cd Tests && dotnet test --collect:"XPlat Code Coverage"
 
 coverage-report report:
