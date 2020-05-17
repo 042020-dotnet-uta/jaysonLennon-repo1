@@ -132,5 +132,41 @@ namespace TestStoreApp
                 Assert.Equal(stocked, quantityInStock);
             }
         }
+
+        [Fact]
+        public void GetsOrders()
+        {
+            var options = TestUtil.GetMemDbOptions("TestLocationRepository-GetsOrders");
+
+            Location location;
+            Order order;
+
+            using (var db = new StoreContext(options))
+            {
+                var user = TestUtil.NewUser(db);
+                location = TestUtil.NewLocation(db);
+                var product = TestUtil.NewProduct(db, 10);
+                TestUtil.AddToInventory(db, location, product, 10);
+
+                order = TestUtil.NewOrder(db, user, location);
+                order.TimeSubmitted = DateTime.Now;
+                TestUtil.AddToOrder(db, order, product, 5);
+
+                // Second order was not submitted, so should not be in query.
+                var untrackedOrder = TestUtil.NewOrder(db, user, location);
+                TestUtil.AddToOrder(db, untrackedOrder, product, 2);
+
+                db.SaveChanges();
+            }
+
+            using (var db = new StoreContext(options))
+            {
+                var repo = (ILocation) new LocationRepository(db);
+                var orders = repo.GetOrders(location.LocationId);
+                Assert.Equal(1, orders.Count());
+                Assert.Equal(order.OrderId, orders.ElementAt(0).Item1.OrderId);
+
+            }
+        }
     }
 }

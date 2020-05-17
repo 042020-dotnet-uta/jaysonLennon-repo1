@@ -27,8 +27,22 @@ namespace TestStoreApp
             return options;
         }
 
+        public static User NewUser(StoreContext db) {
+            var user = new User();
+            user.FirstName = Guid.NewGuid().ToString();
+            user.LastName = Guid.NewGuid().ToString();
+            user.Login = Guid.NewGuid().ToString();
+            user.Role = Role.Customer;
+
+            db.Add(user);
+            db.SaveChanges();
+
+            return user;
+        }
+
         public static Location NewLocation(StoreContext db) {
             var location = new Location(Guid.NewGuid().ToString());
+
             db.Add(location);
             db.SaveChanges();
             return location;
@@ -36,6 +50,7 @@ namespace TestStoreApp
 
         public static Product NewProduct(StoreContext db, double price) {
             var product = new Product(Guid.NewGuid().ToString(), price);
+
             db.Add(product);
             db.SaveChanges();
             return product;
@@ -43,9 +58,30 @@ namespace TestStoreApp
 
         public static LocationInventory AddToInventory(StoreContext db, Location location, Product product, int quantity) {
             var inventory = new LocationInventory(product, location, quantity);
+
             db.Add(inventory);
             db.SaveChanges();
             return inventory;
+        }
+
+        public static Order NewOrder(StoreContext db, User user, Location location) {
+            var order = new Order();
+            order.Location = location;
+            order.User = user;
+            order.TimeCreated = DateTime.Now;
+
+            db.Add(order);
+            db.SaveChanges();
+            return order;
+        }
+
+        public static OrderLineItem AddToOrder(StoreContext db, Order order, Product product, int quantity) {
+            var lineItem = new OrderLineItem(order, product);
+            lineItem.Quantity = quantity; 
+
+            db.Add(lineItem);
+            db.SaveChanges();
+            return lineItem;
         }
 
         public static void PopulateTestData(StoreContext db)
