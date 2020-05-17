@@ -12,32 +12,54 @@
 
 <script>
 window.addEventListener("load", function() {
-    function highlight(text, arrayOfSubstrToHighlight, styleToApply) {
+    // Applies highlighting to raw text using spans.
+    // Returns a new element that may be inserted into the DOM.
+    //
+    // The highlighter will apply a highlight to every string present
+    // in the arrayOfSubstrToHighlight array.
+    //
+    // classToApply is the clasname to be applied to the highlighted
+    // characters.
+    function highlight(text, arrayOfSubstrToHighlight, classToApply) {
+        // This function works by creating an array of booleans
+        // corresponding to the length of the input text.
+        //
+        // Whenever a letter in the text should be highlighted, the
+        // corresponding index in the boolean array is switched to
+        // true incidating that the letter should be highlighted.
+        //
+        // Once all substrings have been searched in the text,
+        // elements are created for each letter and a
+        // class is applied to the ones with true entries in
+        // the boolean array.
         let container = document.createElement("span");
 
+        // Generate boolean array indicating whether a letter in the
+        // text should be highlighted.
         let highlightIndices = [];
         for (let i = 0; i < text.length; i++) {
             highlightIndices.push(false);
         }
 
+        // Iterate through each substring
         for (let i = 0; i < arrayOfSubstrToHighlight.length; i++) {
-            let substrToHighlight = arrayOfSubstrToHighlight[i];
-            let matchIndex = text.toLowerCase().indexOf(substrToHighlight);
-            console.log("matchindex = " + matchIndex);
-            console.log("text = " + text + "; substr = " + substrToHighlight);
+            let substr = arrayOfSubstrToHighlight[i];
+            let matchIndex = text.toLowerCase().indexOf(substr);
             if (matchIndex != -1) {
-                for (let c = matchIndex; c < matchIndex + substrToHighlight.length; c++) {
-                    console.log("highlight index " + c);
+                // For each letter in the original text, set the corresponding
+                // value in highlightIndices to true.
+                for (let c = matchIndex; c < matchIndex + substr.length; c++) {
                     highlightIndices[c] = true;
                 }
             }
         }
 
+        // Iterate through the text to build the element.
         for (let c = 0; c < text.length; c++) {
             let letter = document.createElement("span");
             letter.innerText = text[c];
             if (highlightIndices[c] === true) {
-                letter.style = styleToApply;
+                letter.classList.add(classToApply);
             }
             container.appendChild(letter);
         }
@@ -49,41 +71,60 @@ window.addEventListener("load", function() {
     let searchInput = document.getElementById("customer-search-input");
     if (!resultsContainer || !searchInput) { console.error("missing elements required to search customers"); }
 
-    let searchInputDebounceTime = 200;   // in ms
+    // Time in ms to wait before sending a query to the server.
+    let searchInputDebounceTime = 200;
 
-    let resultFormatter = function(searchResults) {
-        let highlightStyle = "color: red;";
+    // Function to build the search results into elements.
+    let resultBuilder = function(searchResults) {
+        let highlightClass = "search-result-highlight";
+
         if (searchResults.users === undefined) {
             resultsContainer.innerHTML = "No users found";
             return;
         }
+
+        // Clear out old results first.
         resultsContainer.innerHTML = "";
-        for(let i = 0; i < searchResults.users.length; i++) {
+
+        // Iterate through each result.
+        for (let i = 0; i < searchResults.users.length; i++) {
             let user = searchResults.users[i];
+
             let container = document.createElement("div");
 
+            // Revenue section.
             let revenue = document.createElement("span");
             revenue.innerText = "revenue = $" + user.revenue + " -- ";
             container.appendChild(revenue);
 
+            // Name section.
             let name = document.createElement("span");
-
             if (searchResults.isOmniQuery) {
-                let firstName = highlight(user.firstName, [searchResults.queryTerm1, searchResults.queryTerm2], highlightStyle);
-                let lastName = highlight(user.lastName, [searchResults.queryTerm1, searchResults.queryTerm2], highlightStyle);
+                // Omniqueries check both the first and last name for the search
+                // term(s), so we highlight the terms in both names.
+                let firstName = highlight(user.firstName, [searchResults.queryTerm1, searchResults.queryTerm2], highlightClass);
+                let lastName = highlight(user.lastName, [searchResults.queryTerm1, searchResults.queryTerm2], highlightClass);
+
                 name.appendChild(firstName);
+
                 let space = document.createElement("span");
                 space.innerText = " ";
+
                 name.appendChild(space);
                 name.appendChild(lastName);
 
                 container.appendChild(name);
             } else {
-                let firstName = highlight(user.firstName, searchResults.queryTerm2, highlightStyle);
-                let lastName = highlight(user.lastName, searchResults.queryTerm1, highlightStyle);
+                // Lastname,Firstname queries are specific, so we only highlight the search
+                // term in the relevant name.
+                let firstName = highlight(user.firstName, searchResults.queryTerm2, highlightClass);
+                let lastName = highlight(user.lastName, searchResults.queryTerm1, highlightClass);
+
                 name.appendChild(firstName);
+
                 let space = document.createElement("span");
                 space.innerText = " ";
+
                 name.appendChild(space);
                 name.appendChild(lastName);
 
@@ -91,18 +132,18 @@ window.addEventListener("load", function() {
             }
 
             resultsContainer.appendChild(container);
-            console.log("in loop=" + user);
         }
-
-        console.log("result formatter called with value=" + searchResults);
     };
 
+    // Function to retrieve the search results from the serer.
     let getNewResults = function() {
+
         let query = searchInput.value;
+
         asyncReq("GET", "/Admin/CustomerSearch/api/search?nameQuery=" + query, {}, function() {
             if (this.readyState === XMLHttpRequest.DONE) {
                 if (this.status === 200) {
-                    resultFormatter(JSON.parse(this.response));
+                    resultBuilder(JSON.parse(this.response));
                 } else {
                 // TODO: error notification to user
                 }
@@ -113,8 +154,10 @@ window.addEventListener("load", function() {
 
     };
 
+    // Debounce the search function.
     let doSearch = debounce(getNewResults, searchInputDebounceTime);
 
+    // Search whenever the input changes.
     searchInput.addEventListener("input", doSearch);
 });
 </script>
