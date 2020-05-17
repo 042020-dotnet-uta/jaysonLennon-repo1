@@ -15,3 +15,9 @@ rebuild-migrations:
     rm -Rf StoreApp/Migrations
     cd StoreApp && dotnet ef migrations add InitialCreate
     just migrate
+
+coverage-generate:
+    cd Tests && dotnet test --collect:"XPlat Code Coverage"
+
+coverage-report report:
+    reportgenerator -reports:{{report}} -targetdir:Tests/TestResults/report "-reporttypes:Html;TextSummary"
