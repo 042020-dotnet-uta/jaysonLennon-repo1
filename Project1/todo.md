@@ -103,4 +103,5 @@
 - [ ] style access denied page
 - [ ] remove .AsEnumerable calls in repos
 - [ ] use implicit interface implementations
+- [ ] remove console writelines
 
