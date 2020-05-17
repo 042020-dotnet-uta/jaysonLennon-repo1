@@ -1,7 +1,4 @@
-using System;
-using System.Linq;
 using Xunit;
-using Moq;
 
 using StoreApp.Data;
 using StoreApp.Entity;

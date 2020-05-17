@@ -163,7 +163,7 @@ namespace TestStoreApp
             {
                 var repo = (ILocation) new LocationRepository(db);
                 var orders = repo.GetOrders(location.LocationId);
-                Assert.Equal(1, orders.Count());
+                Assert.Single(orders);
                 Assert.Equal(order.OrderId, orders.ElementAt(0).Item1.OrderId);
 
             }

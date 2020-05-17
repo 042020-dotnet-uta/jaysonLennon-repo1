@@ -41,6 +41,7 @@ namespace StoreApp.Repository
         Ok,
         ExceedsStock,
         ProductMissing,
+        OrderMissing,
     }
 
     public interface IOrder
@@ -69,6 +70,13 @@ namespace StoreApp.Repository
             if (order == null) return AddLineItemResult.OrderMissing;
             if (product == null) return AddLineItemResult.ProductMissing;
 
+            var inStock = await _context.LocationInventories
+                .Where(li => li.Product.ProductId == product.ProductId)
+                .Where(li => li.Location.LocationId == order.Location.LocationId)
+                .SumAsync(li => li.Quantity);
+            
+            if (quantity > inStock) return AddLineItemResult.ExceedsStock;
+
             // Check if this product is already part of the order.
             var currentOrderLine = await _context.OrderLineItems
                 .Where(li => li.Product.ProductId == product.ProductId)
@@ -76,11 +84,6 @@ namespace StoreApp.Repository
                 .Where(li => li.Order.User.UserId == userId)
                 .Select(li => li)
                 .SingleOrDefaultAsync();
-
-            var inStock = await _context.LocationInventories
-                .Where(li => li.Product.ProductId == product.ProductId)
-                .Where(li => li.Location.LocationId == order.Location.LocationId)
-                .SumAsync(li => li.Quantity);
 
             if (currentOrderLine == null)
             {
@@ -107,6 +110,7 @@ namespace StoreApp.Repository
 
         async Task<bool> IOrder.DeleteLineItem(Guid userId, Order order, Guid productId)
         {
+            if (order == null) return false;
             var lineItem = await _context.OrderLineItems
                                    .Where(li => li.Order.OrderId == order.OrderId)
                                    .Where(li => li.Order.User.UserId == userId)
@@ -209,6 +213,8 @@ namespace StoreApp.Repository
 
         async Task<SetLineItemQuantityResult> IOrder.SetLineItemQuantity(Guid userId, Order order, Guid productId, int newQuantity)
         {
+            if (order == null) return SetLineItemQuantityResult.OrderMissing;
+
             var lineItem = await _context.OrderLineItems
                 .Include(li => li.Product)
                 .Where(li => li.Product.ProductId == productId)
@@ -216,11 +222,21 @@ namespace StoreApp.Repository
                 .Where(li => li.Order.User.UserId == userId)
                 .Select(li => li)
                 .SingleOrDefaultAsync();
+            
+            if (lineItem == null) return SetLineItemQuantityResult.ProductMissing;
 
-            var inStock = await _context.LocationInventories
-                .Where(li => li.Product.ProductId == lineItem.Product.ProductId)
-                .Where(li => li.Location.LocationId == order.Location.LocationId)
-                .SumAsync(li => li.Quantity);
+            int inStock;
+            try
+            {
+                inStock = await _context.LocationInventories
+                    .Where(li => li.Product.ProductId == lineItem.Product.ProductId)
+                    .Where(li => li.Location.LocationId == order.Location.LocationId)
+                    .SumAsync(li => li.Quantity);
+            }
+            catch (NullReferenceException)
+            {
+                return SetLineItemQuantityResult.ProductMissing;
+            }
 
             if (lineItem == null) return SetLineItemQuantityResult.ProductMissing;
 
