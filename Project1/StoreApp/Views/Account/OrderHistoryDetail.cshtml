@@ -1,0 +1,21 @@
+@model StoreApp.Model.View.UserOrderHistoryDetail
+
+<h1>this is the order history detail page</h1>
+
+<partial name="/Views/Partials/FlashMessagePartial.cshtml" />
+<div>Order number: @Model.OrderId</div>
+<div>Time submitted: @Model.TimeSubmitted</div>
+<div>Amount paid: $@Model.AmountPaid</div>
+<div>Purchased from store: @Model.StoreName</div>
+
+<h2>Items</h2>
+
+@foreach (var item in @Model.LineItems)
+{
+    <div>
+        <div>Item name: @item.Name</div>
+        <div>Amount charged: @item.AmountCharged</div>
+        <div>Quantity: @item.Quantity</div>
+        <hr>
+    </div>
+}

@@ -1,0 +1,24 @@
+@model StoreApp.Model.View.Checkout
+
+<h1>this is the checkout page</h1>
+<partial name="/Views/Partials/FlashMessagePartial.cshtml" />
+
+@if (@Model.Items.Count == 0) {
+    <partial name="/Views/Cart/EmptyCartPartial.cshtml" />
+} else {
+    <div>total cost = @Model.TotalCost()</div>
+    <form asp-controller="Checkout" asp-action="PlaceOrder" method="POST">
+        <input type="submit" value="Place Order">
+    </form>
+
+    @foreach (var item in @Model.Items)
+    {
+        <div>
+            <div>Item name: @item.Name</div>
+            <div>Item quantity: @item.Quantity</div>
+            <div>Item unit price: @item.UnitPrice</div>
+            <div>Item total price: @item.TotalPrice()</div>
+            <hr>
+        </div>
+    }
+}

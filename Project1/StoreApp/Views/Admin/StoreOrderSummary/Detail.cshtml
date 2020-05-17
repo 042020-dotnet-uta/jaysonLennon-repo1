@@ -1,0 +1,19 @@
+@model StoreApp.AdminModel.StoreOrderDetail
+
+<h1>this is the store order detail page</h1>
+<partial name="/Views/Partials/FlashMessagePartial.cshtml" />
+
+@if (@Model.Items == null) {
+    <div>Invalid item id, please try again. </div>
+} else {
+    <div>Total price = @Model.TotalPrice</div>
+    <div>Total items = @Model.TotalItems</div>
+    <div>
+        @foreach (var lineItem in @Model.Items)
+        {
+            <div>
+                $@lineItem.Price / @lineItem.Quantity : @lineItem.Name
+            </div>
+        }
+    </div>
+}

@@ -1,0 +1,26 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@namespace StoreApp.FlashMessage
+
+<div>
+    <div>Flash message partial here</div>
+    <div>
+    @if (!String.IsNullOrEmpty((string)ViewData[K.FlashInfo])) {
+        <div style="background: yellow;">
+            <div>flash info message: @ViewData[K.FlashInfo]</div>
+        </div>
+    }
+
+    @if (!String.IsNullOrEmpty((string)ViewData[K.FlashOk])) {
+        <div style="background: yellow;">
+            <div>flash ok message: @ViewData[K.FlashOk]</div>
+        </div>
+    }
+
+    @if (!String.IsNullOrEmpty((string)ViewData[K.FlashError])) {
+        <div style="background: yellow;">
+            <div>flash error message: @ViewData[K.FlashError]</div>
+        </div>
+    }
+    </div>
+</div>
+<hr>

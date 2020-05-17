@@ -1,0 +1,18 @@
+@model StoreApp.Model.View.ItemDetail
+
+<h1>this is the item detail view for item number @Model.Id</h1>
+<partial name="/Views/Partials/FlashMessagePartial.cshtml" />
+
+<p>item name=@Model.Name</p>
+<p>item price=@Model.UnitPrice</p>
+<p>item img=@Model.ImageName</p>
+
+@if (Model.NotFound) {
+    <h2>Unable to find that item id.</h2>
+} else {
+    <form asp-controller="Cart" asp-action="AddToCart" method="POST">
+        <input type="hidden" name="ItemId" value="@Model.Id">
+        <input type="number" min="1" max="@Model.Stock" step="1" name="ItemQuantity" value="1">
+        <input type="submit" value="Add to cart">
+    </form>
+}

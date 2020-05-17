@@ -1,0 +1,22 @@
+@model StoreApp.AdminModel.StoreOrderSummary
+
+<h1>this is the store order summary page</h1>
+<partial name="/Views/Partials/FlashMessagePartial.cshtml" />
+
+<h2>order summary for store: @Model.StoreName</h2>
+
+@if (Model.Items.Count == 0) {
+    <div>There are no orders for this store.</div>
+} else {
+    <div>
+        @foreach (var order in @Model.Items)
+        {
+            <a asp-controller="AdminStoreOrderSummary"
+            asp-action="Detail"
+            asp-route-orderId="@order.OrderId"
+            asp-route-storeId="@Model.StoreId">@order.ItemQuantity / $@order.Price / @order.TimeSubmitted</a>
+            <br>
+        }
+    </div>
+
+}

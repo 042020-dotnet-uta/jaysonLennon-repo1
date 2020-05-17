@@ -1,0 +1,11 @@
+@model StoreApp.Model.View.Storefront
+
+<h1>this is the storefront page</h1>
+<partial name="/Views/Partials/FlashMessagePartial.cshtml" />
+<h2>Viewing items from store: @Model.StoreName</h2>
+@foreach (var product in @Model.products)
+{
+    <div>
+        <a href="ItemDetail/View/@product.Item1.ProductId">[Click]</a> Quantity: @product.Item2, product: @product.Item1.Name
+    </div>
+}

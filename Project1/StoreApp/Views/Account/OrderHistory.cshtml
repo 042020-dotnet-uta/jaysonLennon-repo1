@@ -1,0 +1,15 @@
+@model StoreApp.Model.View.UserOrderHistory
+
+<h1>this is the order history page for a user</h1>
+
+<partial name="/Views/Partials/FlashMessagePartial.cshtml" />
+<h2>Orders</h2>
+
+@foreach (var order in @Model.orders)
+{
+    <div>
+        <a asp-controller="Account"
+        asp-action="OrderHistoryDetail"
+        asp-route-orderId="@order.OrderId">@order.ItemQuantity items - $@order.AmountPaid - @order.TimeSubmitted</a>
+    </div>
+}
