@@ -1,3 +1,4 @@
+using System.Globalization;
 using System;
 using System.Collections.Generic;
 using StoreApp.Entity;
@@ -47,17 +48,11 @@ namespace StoreApp.Repository
 
         Location ILocation.GetMostStocked()
         {
-            var locationIds = _context.LocationInventories
-                .Include(loc => loc.Location)
-                .Select( li => new {
-                    LocationId = li.Location.LocationId
-                });
-
-            var locationWithMostProducts = locationIds
-                .GroupBy(l => l.LocationId)
+            var locationWithMostProducts = _context.LocationInventories
+                .GroupBy(li => li.Location.LocationId)
                 .Select( gr => new {
                     LocationId = gr.Key,
-                    Count = gr.Count()
+                    Count = gr.Sum(li => li.Quantity)
                 })
                 .OrderByDescending(gr => gr.Count)
                 .FirstOrDefault();
