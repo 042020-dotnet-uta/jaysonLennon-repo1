@@ -80,7 +80,8 @@
 
 # Admin pages
 - [X] view location orders
-- [ ] search for customers
+- [X] search for customers
+- [ ] stlyes
 
 # General
 - [X] Add redirects for POST-only URLs to appropriate location (cart main, storefront, etc)
@@ -101,4 +102,5 @@
 - [ ] style flash messages
 - [ ] style access denied page
 - [ ] remove .AsEnumerable calls in repos
+- [ ] use implicit interface implementations
 
