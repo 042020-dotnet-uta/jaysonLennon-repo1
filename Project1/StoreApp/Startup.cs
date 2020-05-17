@@ -20,17 +20,10 @@ namespace StoreApp.StartupUtil
     {
         public static void AddRepositories(IServiceCollection services)
         {
-<<<<<<< HEAD:Project1/Startup.cs
-            services.AddScoped<ICustomerRepository, CustomerRepository>();
-            services.AddScoped<ILocationRepository, LocationRepository>();
-            services.AddScoped<IOrderRepository, OrderRepository>();
-            services.AddScoped<IProductRepository, ProductRepository>();
-=======
             services.AddScoped<IUser, UserRepository>();
             services.AddScoped<ILocation, LocationRepository>();
             services.AddScoped<IOrder, OrderRepository>();
             services.AddScoped<IProduct, ProductRepository>();
->>>>>>> develop:Project1/StoreApp/Startup.cs
         }
     }
 }
@@ -62,9 +55,6 @@ namespace StoreApp
                 });
             });
 
-<<<<<<< HEAD:Project1/Startup.cs
-            StartupUtil.Repos.AddRepositories(services);
-=======
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(options =>
                     {
@@ -80,7 +70,6 @@ namespace StoreApp
 
             services.AddScoped<CartHeader.CartHeaderFilter>();
             services.AddScoped<FlashMessage.FlashMessageFilter>();
->>>>>>> develop:Project1/StoreApp/Startup.cs
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
