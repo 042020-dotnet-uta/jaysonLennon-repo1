@@ -11,8 +11,8 @@ namespace StoreApp.AdminModel
     }
 
     public class CustomerSearchResult {
-        public string QueryItem1 { get; set; }
-        public string QueryItem2 { get; set; }
+        public string QueryTerm1 { get; set; }
+        public string QueryTerm2 { get; set; }
         public bool IsOmniQuery { get; set; }
         public List<CustomerSearchResultEntry> Users { get; set; }
     }

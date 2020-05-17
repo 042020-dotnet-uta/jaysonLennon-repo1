@@ -40,22 +40,8 @@ namespace StoreApp.Repository
 
     public class UserQueryResultWithRevenue
     {
-        /// <summary>Used to highlight results.</summary>
-        public string QueryItem1 { get; set; }
-
-        /// <summary>Used to highlight results.</summary>
-        public string QueryItem2 { get; set; }
-
-        /// <summary>
-        /// Whether this query searches both first and last name, or specific fields.
-        /// 
-        /// When this is True, then both the first and last name fields have been searched
-        /// and QueryItem1 and QueryItem2 should be highlighted in either name fields.
-        /// 
-        /// When this is False, QueryItem1 represents the first name of the customer,
-        /// and QueryItem2 represents the last name of the customer. Highlighting should
-        /// occur in the appropriate fields when this is the case.
-        /// </summary>
+        public string QueryTerm1 { get; set; }
+        public string QueryTerm2 { get; set; }
         public bool IsOmniQuery { get; set; }
         public IEnumerable<Tuple<User, double>> Users { get; set; }
     }
@@ -368,7 +354,7 @@ namespace StoreApp.Repository
             // Search by either first name or last name when a space is present between two
             // search terms. Both search terms must be present in either the first or last
             // name (or both) of the customer in order to be considered a match.
-            var nameComponents = nameQuery.Split(' ', 2);
+            var nameComponents = nameQuery.Split(' ');
             if (nameComponents.Length == 2)
             {
                 var query1 = FindUserQuery(nameComponents[0].Trim());
@@ -378,7 +364,7 @@ namespace StoreApp.Repository
 
             // Search for names in a "lastName,firstName" fashion when a comma is present
             // in the search query.
-            var lastThenFirst = nameQuery.Split(',', 2);
+            var lastThenFirst = nameQuery.Split(',');
             if (lastThenFirst.Length == 2)
             {
                 var query1 = FindUserByLastName(lastThenFirst[0].Trim());
@@ -396,34 +382,9 @@ namespace StoreApp.Repository
         {
             nameQuery = nameQuery.ToLower();
 
-            // Search by either first name or last name when a space is present between two
-            // search terms. Both search terms must be present in either the first or last
-            // name (or both) of the customer in order to be considered a match.
-            var nameComponents = nameQuery.Split(' ', 2);
-            if (nameComponents.Length == 2)
-            {
-                var queryItem1 = nameComponents[0].Trim();
-                var queryItem2 = nameComponents[1].Trim();
-                var query1 = FindUserQuery(queryItem1);
-                var query2 = FindUserQuery(queryItem2);
-                return new UserQueryResultWithRevenue {
-                    Users = query1.Intersect(query2)
-                            .Select(u => new Tuple<User, double>(
-                                u,
-                                _context.Orders
-                                    .Where(o => o.User.UserId == u.UserId)
-                                    .Sum(o => o.AmountPaid) ?? 0.0
-                                )
-                            ),
-                    QueryItem1 = queryItem1,
-                    QueryItem2 = queryItem2,
-                    IsOmniQuery = true,
-                };
-            }
-
             // Search for names in a "lastName,firstName" fashion when a comma is present
             // in the search query.
-            var lastThenFirst = nameQuery.Split(',', 2);
+            var lastThenFirst = nameQuery.Split(',');
             if (lastThenFirst.Length == 2)
             {
                 var queryItem1 = lastThenFirst[0].Trim();
@@ -439,12 +400,39 @@ namespace StoreApp.Repository
                                     .Sum(o => o.AmountPaid) ?? 0.0
                                 )
                             ),
-                    QueryItem1 = queryItem1,
-                    QueryItem2 = queryItem2,
+                    QueryTerm1 = queryItem1,
+                    QueryTerm2 = queryItem2,
                     IsOmniQuery = false,
                 };
             }
 
+            // Search by either first name or last name when a space is present between two
+            // search terms. Both search terms must be present in either the first or last
+            // name (or both) of the customer in order to be considered a match.
+            var nameComponents = nameQuery.Split(' ');
+            if (nameComponents.Length == 2)
+            {
+                Console.WriteLine($"component search : {nameQuery}");
+                var queryItem1 = nameComponents[0].Trim();
+                var queryItem2 = nameComponents[1].Trim();
+                var query1 = FindUserQuery(queryItem1);
+                var query2 = FindUserQuery(queryItem2);
+                return new UserQueryResultWithRevenue {
+                    Users = query1.Intersect(query2)
+                            .Select(u => new Tuple<User, double>(
+                                u,
+                                _context.Orders
+                                    .Where(o => o.User.UserId == u.UserId)
+                                    .Sum(o => o.AmountPaid) ?? 0.0
+                                )
+                            ),
+                    QueryTerm1 = queryItem1,
+                    QueryTerm2 = queryItem2,
+                    IsOmniQuery = true,
+                };
+            }
+
+            Console.WriteLine($"standard search with {nameQuery}");
             // Standard single term search checks both first and last names.
             var singleTermResults = _context.Users
                 .Where(u => u.FirstName.ToLower().Contains(nameQuery) || u.LastName.ToLower().Contains(nameQuery))
@@ -458,8 +446,8 @@ namespace StoreApp.Repository
 
             return new UserQueryResultWithRevenue {
                 Users = singleTermResults,
-                QueryItem1 = nameQuery,
-                QueryItem2 = null,
+                QueryTerm1 = nameQuery,
+                QueryTerm2 = null,
                 IsOmniQuery = true,
             };
         }

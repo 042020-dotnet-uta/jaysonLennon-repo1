@@ -12,6 +12,39 @@
 
 <script>
 window.addEventListener("load", function() {
+    function highlight(text, arrayOfSubstrToHighlight, styleToApply) {
+        let container = document.createElement("span");
+
+        let highlightIndices = [];
+        for (let i = 0; i < text.length; i++) {
+            highlightIndices.push(false);
+        }
+
+        for (let i = 0; i < arrayOfSubstrToHighlight.length; i++) {
+            let substrToHighlight = arrayOfSubstrToHighlight[i];
+            let matchIndex = text.toLowerCase().indexOf(substrToHighlight);
+            console.log("matchindex = " + matchIndex);
+            console.log("text = " + text + "; substr = " + substrToHighlight);
+            if (matchIndex != -1) {
+                for (let c = matchIndex; c < matchIndex + substrToHighlight.length; c++) {
+                    console.log("highlight index " + c);
+                    highlightIndices[c] = true;
+                }
+            }
+        }
+
+        for (let c = 0; c < text.length; c++) {
+            let letter = document.createElement("span");
+            letter.innerText = text[c];
+            if (highlightIndices[c] === true) {
+                letter.style = styleToApply;
+            }
+            container.appendChild(letter);
+        }
+
+        return container;
+    }
+
     let resultsContainer = document.getElementById("customer-search-results-container");
     let searchInput = document.getElementById("customer-search-input");
     if (!resultsContainer || !searchInput) { console.error("missing elements required to search customers"); }
@@ -19,25 +52,46 @@ window.addEventListener("load", function() {
     let searchInputDebounceTime = 200;   // in ms
 
     let resultFormatter = function(searchResults) {
+        let highlightStyle = "color: red;";
         if (searchResults.users === undefined) {
             resultsContainer.innerHTML = "No users found";
             return;
         }
         resultsContainer.innerHTML = "";
         for(let i = 0; i < searchResults.users.length; i++) {
-            let result = searchResults.users[i];
+            let user = searchResults.users[i];
             let container = document.createElement("div");
 
             let revenue = document.createElement("span");
-            revenue.innerText = "revenue = $" + result.revenue + " -- ";
+            revenue.innerText = "revenue = $" + user.revenue + " -- ";
             container.appendChild(revenue);
 
             let name = document.createElement("span");
-            name.innerText = "name:" + result.firstName + " " + result.lastName;
-            container.appendChild(name);
+
+            if (searchResults.isOmniQuery) {
+                let firstName = highlight(user.firstName, [searchResults.queryTerm1, searchResults.queryTerm2], highlightStyle);
+                let lastName = highlight(user.lastName, [searchResults.queryTerm1, searchResults.queryTerm2], highlightStyle);
+                name.appendChild(firstName);
+                let space = document.createElement("span");
+                space.innerText = " ";
+                name.appendChild(space);
+                name.appendChild(lastName);
+
+                container.appendChild(name);
+            } else {
+                let firstName = highlight(user.firstName, searchResults.queryTerm2, highlightStyle);
+                let lastName = highlight(user.lastName, searchResults.queryTerm1, highlightStyle);
+                name.appendChild(firstName);
+                let space = document.createElement("span");
+                space.innerText = " ";
+                name.appendChild(space);
+                name.appendChild(lastName);
+
+                container.appendChild(name);
+            }
 
             resultsContainer.appendChild(container);
-            console.log("in loop=" + result);
+            console.log("in loop=" + user);
         }
 
         console.log("result formatter called with value=" + searchResults);

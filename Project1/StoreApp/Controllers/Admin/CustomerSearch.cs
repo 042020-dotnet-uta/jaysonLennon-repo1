@@ -48,8 +48,8 @@ namespace StoreApp.AdminControllers
             var userRepo = (Repository.IUser)this._services.GetService(typeof(Repository.IUser));
             var results = userRepo.FindUserQueryIncludeRevenue(nameQuery);
             var response = new AdminModel.CustomerSearchResult();
-            response.QueryItem1 = results.QueryItem1;
-            response.QueryItem2 = results.QueryItem2;
+            response.QueryTerm1 = results.QueryTerm1;
+            response.QueryTerm2 = results.QueryTerm2;
             response.IsOmniQuery = results.IsOmniQuery;
 
             var entries = results.Users
