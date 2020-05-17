@@ -25,7 +25,7 @@ namespace StoreApp.Controllers
         [Route("Checkout")]
         [Authorize(Roles = Auth.Role.Customer)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
-        [ServiceFilter(typeof(CartHeader.CartHeaderFilter))]
+        [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public async Task<IActionResult> Index()
         {
             var userRepo = (Repository.IUser)this._services.GetService(typeof(Repository.IUser));

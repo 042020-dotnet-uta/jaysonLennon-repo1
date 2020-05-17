@@ -1,0 +1,41 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+html {
+  font-family: $font-family-base, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-size: $font-base;
+  background: $color-background;
+  background-attachment: fixed;
+  color: $color-font;
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  min-height: 100%;
+}
+
+main {
+  margin-left: $space-xl;
+  margin-right: $space-xl;
+  padding-bottom: 4rem;
+  margin-top: 4rem;
+}
+
+
+hr {
+  border-top: 1px solid $color-gray5;
+  border-bottom: none;
+  margin-top: $space-xl;
+  margin-bottom: $space-xl;
+}
+
+a {
+  color: $color-link;
+  font-weight: bold;
+}

@@ -3,27 +3,26 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace StoreApp.CartHeader
+namespace StoreApp.PageHeader
 {
     /// <summary>
     /// Constants used as Keys for the ViewData dictionary in the view.
     /// </summary>
     public static class K
     {
-        public const string UserName = "_CART_HEADER__USER_NAME";
-        public const string NumItemsInCart = "_CART_HEADER__NUM_ITEMS_IN_CART";
-        public const string UseCartHeader = "_CART_HEADER__USE_CART_HEADER";
+        public const string UserName = "_HEADER__USER_NAME";
+        public const string NumItemsInCart = "_HEADER__NUM_ITEMS_IN_CART";
     }
 
     /// <summary>
     /// Populates the appropriate fields to transform the layout to include
     /// session information in the header.
     /// </summary>
-    public class CartHeaderFilter : IAsyncActionFilter
+    public class PopulateHeader : IAsyncActionFilter
     {
         private IServiceProvider _services;
 
-        public CartHeaderFilter(IServiceProvider services)
+        public PopulateHeader(IServiceProvider services)
         {
             this._services = services;
         }
@@ -35,7 +34,6 @@ namespace StoreApp.CartHeader
             var userId = context.HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId);
 
             var controller = (Controller)context.Controller;
-            controller.ViewData[K.UseCartHeader] = true;
 
             if (userId != null)
             {

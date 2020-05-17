@@ -11,12 +11,12 @@ namespace StoreApp.Controllers
     public class Storefront : Controller
     {
         private StoreContext _context;
-        private ILogger<UserHome> _logger;
+        private ILogger<Storefront> _logger;
         private IServiceProvider _services;
 
         public Storefront(
             StoreContext context,
-            ILogger<UserHome> logger,
+            ILogger<Storefront> logger,
             IServiceProvider services
             )
         {
@@ -28,7 +28,7 @@ namespace StoreApp.Controllers
         }
 
         [Route("Storefront")]
-        [ServiceFilter(typeof(CartHeader.CartHeaderFilter))]
+        [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public async Task<IActionResult> Index()
         {

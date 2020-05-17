@@ -30,7 +30,7 @@ namespace StoreApp.Controllers
         [Route("Cart")]
         [Authorize(Roles = Auth.Role.Customer)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
-        [ServiceFilter(typeof(CartHeader.CartHeaderFilter))]
+        [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public async Task<IActionResult> Index()
         {
             var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
@@ -134,7 +134,7 @@ namespace StoreApp.Controllers
         [HttpGet]
         [Authorize(Roles = Auth.Role.Customer)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
-        [ServiceFilter(typeof(CartHeader.CartHeaderFilter))]
+        [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public IActionResult CartAddOk(Model.View.CartAddOk model)
         {
             return View("CartAddOk", model);

@@ -68,7 +68,7 @@ namespace StoreApp
 
             StartupUtil.Repos.AddRepositories(services);
 
-            services.AddScoped<CartHeader.CartHeaderFilter>();
+            services.AddScoped<PageHeader.PopulateHeader>();
             services.AddScoped<FlashMessage.FlashMessageFilter>();
         }
 

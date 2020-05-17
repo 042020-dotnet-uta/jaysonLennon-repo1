@@ -1,19 +1,28 @@
-build:
-    cd StoreApp && dotnet build
+STORE_APP_ROOT := "StoreApp"
 
-run:
-    cd StoreApp && dotnet run
+build-styles:
+    sass {{STORE_APP_ROOT}}/styles/app.scss {{STORE_APP_ROOT}}/wwwroot/css/site.css
+
+build-app:
+    cd {{STORE_APP_ROOT}} && dotnet build
+
+build-all:
+    just build-styles
+    just build-app
+
+run: build-app build-styles
+    cd {{STORE_APP_ROOT}} && dotnet run
 
 migrate:
-    cd StoreApp && dotnet ef database update
+    cd {{STORE_APP_ROOT}} && dotnet ef database update
 
 test:
     cd Tests && dotnet test
 
 rebuild-migrations:
-    rm -f StoreApp/store.sqlite
-    rm -Rf StoreApp/Migrations
-    cd StoreApp && dotnet ef migrations add InitialCreate
+    rm -f {{STORE_APP_ROOT}}/store.sqlite
+    rm -Rf {{STORE_APP_ROOT}}/Migrations
+    cd {{STORE_APP_ROOT}} && dotnet ef migrations add InitialCreate
     just migrate
 
 coverage:

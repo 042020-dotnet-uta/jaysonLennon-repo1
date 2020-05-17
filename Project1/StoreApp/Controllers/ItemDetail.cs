@@ -36,7 +36,7 @@ namespace StoreApp.Controllers
         [Route("ItemDetail/View/{id}")]
         [Authorize(Roles = Auth.Role.Customer)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
-        [ServiceFilter(typeof(CartHeader.CartHeaderFilter))]
+        [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public async Task<IActionResult> ShowDetail(Guid id)
         {
             if (!ModelState.IsValid) return View("ItemDetail", Model.View.ItemDetail.ItemNotFound());
