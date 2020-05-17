@@ -168,5 +168,59 @@ namespace TestStoreApp
 
             }
         }
+
+        [Fact]
+        public void GetsOrderLineItems()
+        {
+            var options = TestUtil.GetMemDbOptions("TestLocationRepository-GetsOrderLineItems");
+
+            Order order;
+            OrderLineItem orderLine1;
+            OrderLineItem orderLine2;
+
+            using (var db = new StoreContext(options))
+            {
+                var user = TestUtil.NewUser(db);
+                var location = TestUtil.NewLocation(db);
+                var product = TestUtil.NewProduct(db, 10);
+                TestUtil.AddToInventory(db, location, product, 10);
+                var product2 = TestUtil.NewProduct(db, 10);
+                TestUtil.AddToInventory(db, location, product2, 10);
+
+                order = TestUtil.NewOrder(db, user, location);
+                order.TimeSubmitted = DateTime.Now;
+                orderLine1 = TestUtil.AddToOrder(db, order, product, 5);
+                orderLine2 = TestUtil.AddToOrder(db, order, product2, 1);
+
+                db.SaveChanges();
+            }
+
+            using (var db = new StoreContext(options))
+            {
+                var repo = (ILocation) new LocationRepository(db);
+                var orderLines = repo.GetOrderLineItems(order.OrderId);
+
+                Assert.Equal(2, orderLines.Count());
+
+                var mappedOrderLines = orderLines
+                    .Select(ol => new {
+                        OrderLineId = ol.OrderLineItemId,
+                    });
+
+                {
+                    var mappedOrderLine = new {
+                        OrderLineId = orderLine1.OrderLineItemId,
+                    };
+                    Assert.Contains(mappedOrderLine, mappedOrderLines);
+                }
+                {
+                    var mappedOrderLine = new {
+                        OrderLineId = orderLine1.OrderLineItemId,
+                    };
+                    Assert.Contains(mappedOrderLine, mappedOrderLines);
+                }
+
+            }
+        }
     }
 }
