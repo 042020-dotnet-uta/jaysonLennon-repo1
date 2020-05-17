@@ -40,8 +40,46 @@ namespace StoreApp.Repository
 
     public class UserQueryResultWithRevenue
     {
+        /// <summary>
+        /// The first term for a customer search as supplied by the user.
+        /// <remarks>
+        /// This value represents different query terms based on the value of
+        /// IsOmniQuery.
+        /// 
+        /// When IsOmniQuery is false, QueryTerm1 was checked versus the last name
+        /// of a customer only.
+        /// 
+        /// When IsOmniQuery is true, QueryTerm1 was checked versus both the first
+        /// and last names of a customer.
+        /// 
+        /// This should be taken into account when performing highlighting on the
+        /// frontend in order to highlight only the appropriate fields.
+        /// </remarks>
+        /// </summary>
         public string QueryTerm1 { get; set; }
+        /// <summary>
+        /// The second term for a customer search as supplied by the user.
+        /// <remarks>
+        /// This value represents different query terms based on the value of
+        /// IsOmniQuery.
+        /// 
+        /// When IsOmniQuery is false, QueryTerm2 was checked versus the first name
+        /// of a customer only.
+        /// 
+        /// When IsOmniQuery is true, QueryTerm2 was checked versus both the first
+        /// and last names of a customer.
+        /// 
+        /// This should be taken into account when performing highlighting on the
+        /// frontend in order to highlight only the appropriate fields.
+        /// </remarks>
+        /// </summary>
         public string QueryTerm2 { get; set; }
+
+        /// <summary>
+        /// Whether this query was performed by searching both first and last name
+        /// of a customer with the same search term (true), or if it was performed
+        /// by using specific search terms in specific name fields (false).
+        /// </summary>
         public bool IsOmniQuery { get; set; }
         public IEnumerable<Tuple<User, double>> Users { get; set; }
     }

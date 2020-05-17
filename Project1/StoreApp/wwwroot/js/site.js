@@ -16,6 +16,7 @@ function asyncReq(method, url, data, callback) {
     req.send(data);
 }
 
+// Basic debouncing with a callback. debounceTime is in ms.
 function debounce(callback, debounceTime) {
     var timeoutId;
 

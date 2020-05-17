@@ -41,7 +41,7 @@ namespace StoreApp.AdminControllers
         [Route("Admin/CustomerSearch/api/search")]
         [Authorize(Roles = Auth.Role.Administrator)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
-        public async Task<IActionResult> ApiSearch(string nameQuery)
+        public IActionResult ApiSearch(string nameQuery)
         {
             if (String.IsNullOrEmpty(nameQuery)) return Json(new object());
 
