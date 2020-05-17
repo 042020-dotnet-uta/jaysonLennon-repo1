@@ -27,15 +27,13 @@ main {
   margin-top: 4rem;
 }
 
-
 hr {
-  border-top: 1px solid $color-gray5;
+  border-top: 1px solid $color-brand;
   border-bottom: none;
   margin-top: $space-xl;
   margin-bottom: $space-xl;
 }
 
 a {
-  color: $color-link;
   font-weight: bold;
 }

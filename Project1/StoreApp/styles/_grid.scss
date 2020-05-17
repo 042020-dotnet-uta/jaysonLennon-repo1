@@ -1,0 +1,19 @@
+.grid-2c {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.grid-3c {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.grid-auto-rows {
+  display: grid;
+  grid-auto-rows: auto;
+}
+
+.grid-auto-cols {
+  display: grid;
+  grid-auto-columns: auto;
+}

@@ -1,7 +1,7 @@
 STORE_APP_ROOT := "StoreApp"
 
 build-styles:
-    sass {{STORE_APP_ROOT}}/styles/app.scss {{STORE_APP_ROOT}}/wwwroot/css/site.css
+    sass {{STORE_APP_ROOT}}/styles/entry.scss {{STORE_APP_ROOT}}/wwwroot/css/site.css
 
 build-app:
     cd {{STORE_APP_ROOT}} && dotnet build

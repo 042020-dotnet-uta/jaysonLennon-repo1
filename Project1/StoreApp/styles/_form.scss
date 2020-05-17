@@ -1,0 +1,21 @@
+@mixin input-base {
+  width: 100%;
+  height: 2.5rem;
+  display: block;
+  padding-left: $space-md;
+  padding-right: $space-md;
+  border-radius: $border-radius-md;
+  border: 1px solid $color-brand;
+  background: #ffffff;
+  font-size: $font-base;
+  font-family: $font-family-base;
+  box-shadow: inset 0px 0px 2px 0px rgba(0,0,0,.1)
+}
+
+@mixin box-shadow-btn($color) {
+  box-shadow: 4px 4px 6px 0 rgba(0,0,0,.1), -1px -1px 8px -3px rgba(0,0,0,.1), inset -2px -2px 0px 0px $color;
+}
+
+input {
+    @include input-base;
+}

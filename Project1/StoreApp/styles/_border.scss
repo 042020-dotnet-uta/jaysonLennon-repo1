@@ -1,0 +1,11 @@
+.bd-radius-sm { border-radius: $border-radius-sm; }
+.bd-radius-md { border-radius: $border-radius-md; }
+.bd-radius-lg { border-radius: $border-radius-lg; }
+
+.bd-ok {
+  border: 1px solid $color-ok-border;
+}
+
+.bd-error {
+  border: 1px solid $color-error-border;
+}

@@ -5,30 +5,31 @@ $font-family-base: 'Muli', sans-serif;
 $font-family-header: 'Muli', sans-serif;
 
 // Colors
-$color-background: #fafafa;
-$color-font: #252525;
+$color-background: #fff9fe;
+$color-font: #1a171a;
+$color-brand: #803480;
 
-$color-ok: #c0e5e8;
-$color-warn: #f9eeb3;
-$color-error: #f5b6b6;
+$color-ok: $color-brand;
+$color-error: #ffaaaa;
+$color-info: #009797;
 
-$color-ok-dark: #8ebfc3;
-$color-warn-dark: #d0c487;
-$color-error-dark: #d89393;
+$color-ok-border: #320032;
+$color-error-border: #aa0000;
+$color-info-border: #320032;
 
-$color-navbar-default: linear-gradient(0deg, #008080, #229090);
+$color-gray-50:  #f9f4f9;
+$color-gray-100: #ede1ed;
+$color-gray-200: #ccbccc;
+$color-gray-300: #b2a4b2;
+$color-gray-400: #998a99;
+$color-gray-500: #807380;
+$color-gray-600: #665c66;
+$color-gray-700: #4d454d;
+$color-gray-800: #332e33;
+$color-gray-900: #1a171a;
 
-$color-gray1: #111111;
-$color-gray2: #333333;
-$color-gray3: #555555;
-$color-gray4: #777777;
-$color-gray5: #999999;
-$color-gray6: #bbbbbb;
-$color-gray7: #cccccc;
-$color-gray8: #dddddd;
-$color-gray9: #e5e5e5;
-
-$color-link: #0000ff;
+$color-link-light: $color-info;
+$color-link-dark: $color-brand;
 
 @mixin button-background {
   background: linear-gradient(180deg,#f7f7f7 0,#f0f0f0 100%);
@@ -39,13 +40,13 @@ $color-link: #0000ff;
 }
 
 // Border radii
-$border-radius-small: 2px;
-$border-radius-medium: 4px;
-$border-radius-large: 7px;
+$border-radius-sm: 2px;
+$border-radius-md: 4px;
+$border-radius-lg: 7px;
 
 // Breakpoints
-$break-tablet: 576px;
-$break-desktop: 992px;
+$break-md: 476px;
+$break-lg: 993px;
 
 // Spacing
 $space-sm: 5px;

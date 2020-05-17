@@ -1,0 +1,158 @@
+//////////////////////
+// All
+//////////////////////
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.items-start {
+  align-items: flex-start;
+}
+
+.items-end {
+  align-items: flex-end;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.content-center {
+  align-content: center;
+}
+
+.self-content-center {
+  align-self: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-items-center {
+  justify-items: center;
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+//////////////////////
+// Medium
+//////////////////////
+.md\:flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.md\:flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.md\:items-start {
+  align-items: flex-start;
+}
+
+.md\:items-end {
+  align-items: flex-end;
+}
+
+.md\:items-center {
+  align-items: center;
+}
+
+.md\:content-center {
+  align-content: center;
+}
+
+.md\:self-content-center {
+  align-self: center;
+}
+
+.md\:justify-center {
+  justify-content: center;
+}
+
+.md\:justify-items-center {
+  justify-items: center;
+}
+
+.md\:justify-start {
+  justify-content: flex-start;
+}
+
+.md\:justify-end {
+  justify-content: flex-end;
+}
+
+.md\:justify-between {
+  justify-content: space-between;
+}
+
+//////////////////////
+// Large
+//////////////////////
+.lg\:flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.lg\:flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.lg\:items-start {
+  align-items: flex-start;
+}
+
+.lg\:items-end {
+  align-items: flex-end;
+}
+
+.lg\:items-center {
+  align-items: center;
+}
+
+.lg\:content-center {
+  align-content: center;
+}
+
+.lg\:self-content-center {
+  align-self: center;
+}
+
+.lg\:justify-center {
+  justify-content: center;
+}
+
+.lg\:justify-items-center {
+  justify-items: center;
+}
+
+.lg\:justify-start {
+  justify-content: flex-start;
+}
+
+.lg\:justify-end {
+  justify-content: flex-end;
+}
+
+.lg\:justify-between {
+  justify-content: space-between;
+}

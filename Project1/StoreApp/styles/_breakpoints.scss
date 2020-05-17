@@ -1,0 +1,7 @@
+@mixin break-md {
+  @media screen and (min-width: $break-md) { @content; }
+}
+
+@mixin break-lg {
+  @media screen and (min-width: $break-lg) { @content; }
+}

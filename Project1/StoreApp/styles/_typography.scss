@@ -1,0 +1,107 @@
+@mixin text-shadow {
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+@mixin text-shadow-strong {
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.75);
+}
+
+h1 {
+  font-family: $font-family-header;
+  font-size: 2rem;
+  font-weight: bolder;
+  @include text-shadow;
+  margin-top: $space-xl;
+  margin-bottom: $space-xl;
+}
+
+h2 {
+  font-family: $font-family-header;
+  font-size: 1.5rem;
+  font-weight: bolder;
+  @include text-shadow;
+  margin-top: $space-xl;
+  margin-bottom: $space-xl;
+}
+
+h3 {
+  font-family: $font-family-header;
+  font-size: 1.17rem;
+  font-weight: bolder;
+  margin-top: $space-lg;
+  margin-bottom: $space-lg;
+}
+
+h4 {
+  font-family: $font-family-header;
+  font-size: 1rem;
+  font-weight: bolder;
+  margin-top: $space-lg;
+  margin-bottom: $space-lg;
+}
+
+h5 {
+  font-family: $font-family-header;
+  font-size: 0.83rem;
+  font-weight: bolder;
+  margin-top: $space-md;
+  margin-bottom: $space-md;
+}
+
+h6 {
+  font-family: $font-family-header;
+  font-size: 0.67rem;
+  font-weight: bolder;
+  margin-top: $space-md;
+  margin-bottom: $space-md;
+}
+
+.font-bold   { font-weight: bold; }
+.font-italic { font-style: italic; }
+
+.text-sm   { font-size: $font-sm; }
+.text-base { font-size: 1rem; }
+.text-lg   { font-size: 1.125rem; }
+.text-xl   { font-size: 1.25rem; }
+.text-2x   { font-size: 1.5rem; }
+.text-3x   { font-size: 1.875rem; }
+.text-3xl  { font-size: 2rem; }
+.text-4x   { font-size: 2.25rem; }
+.text-5x   { font-size: 3rem; }
+.text-6x   { font-size: 4rem; }
+
+.underline    { text-decoration: underline; }
+.no-underline { text-decoration: none; }
+
+.text-gray-50 	{ color: $color-gray-50; }
+.text-gray-100 	{ color: $color-gray-100; }
+.text-gray-200 	{ color: $color-gray-200; }
+.text-gray-300 	{ color: $color-gray-300; }
+.text-gray-400 	{ color: $color-gray-400; }
+.text-gray-100 	{ color: $color-gray-500; }
+.text-gray-600 	{ color: $color-gray-600; }
+.text-gray-700 	{ color: $color-gray-700; }
+.text-gray-800 	{ color: $color-gray-800; }
+.text-gray-900 	{ color: $color-gray-900; }
+
+.text-color-ok    { color: $color-ok; }
+.text-color-error { color: $color-error; }
+
+.text-center { text-align: center; }
+.text-left   { text-align: left; }
+.text-right  { text-align: right; }
+
+.text-nowrap { white-space: nowrap; }
+
+.text-shadow { @include text-shadow; }
+.text-shadow-strong { @include text-shadow-strong; }
+
+.noselect {
+-webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Old versions of Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Opera and Firefox */
+}
