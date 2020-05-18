@@ -26,3 +26,13 @@
 .footer-background {
     background: $color-footer-background;
 }
+
+.login-form {
+    width: 100%;
+}
+
+@include break-sm {
+    .login-form {
+        width: 300px;
+    }
+}

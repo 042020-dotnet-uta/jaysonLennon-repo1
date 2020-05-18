@@ -285,12 +285,19 @@ input {
   display: block;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-  border-radius: 6px;
+  border-radius: 3px;
   border: 1px solid #532f53;
   background: #ffffff;
   font-size: 90%;
   font-family: "Muli", sans-serif;
-  box-shadow: inset 0px 0px 2px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0px 0px 2px 0px rgba(160, 76, 160, 0.55);
+}
+
+input[type=button],
+input[type=submit] {
+  font-weight: bold;
+  color: #532f53;
+  box-shadow: 2px 2px 2px 0px #532f5347;
 }
 
 .grid-2c {
@@ -832,7 +839,7 @@ h6 {
 }
 
 .text-color-error {
-  color: #ffaaaa;
+  color: #ff0000;
 }
 
 .text-center {
@@ -908,6 +915,7 @@ html {
 body {
   width: 100%;
   min-height: 100%;
+  position: relative;
 }
 
 main {
@@ -964,6 +972,16 @@ a {
 
 .footer-background {
   background: #532f53;
+}
+
+.login-form {
+  width: 100%;
+}
+
+@media screen and (min-width: 640px) {
+  .login-form {
+    width: 300px;
+  }
 }
 
 /*# sourceMappingURL=site.css.map */
