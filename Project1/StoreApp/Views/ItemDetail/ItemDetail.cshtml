@@ -1,8 +1,16 @@
 @model StoreApp.Model.View.ItemDetail
+
+<h1 class="text-center">Item Detail</h1>
+
 <partial name="/Views/Partials/FlashMessagePartial.cshtml" />
 
 @if (Model.NotFound) {
-    <h1>Unable to find that item id.</h1>
+    <h2>Unable to find that item id.</h2>
+        <div class="flex-col items-center text-center">
+            <form>
+                <a class="button-link-dark" asp-controller="Storefront" asp-action="Index">Browse Store</a>
+            </form>
+        </div>
 } else {
     <div class="flex-col items-center m4">
         <div class="flex-col items-center bd-radius-lg candy-card-container">

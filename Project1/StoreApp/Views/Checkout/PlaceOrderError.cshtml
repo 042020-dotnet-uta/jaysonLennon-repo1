@@ -1,9 +1,11 @@
 <h1 class="text-center">Order Placement Error</h1>
+
 <partial name="/Views/Partials/FlashMessagePartial.cshtml" />
 
-<p class="text-center">There was a problem placing your order, please try again.</p>
+<p class="text-center m4">There was a problem placing your order, please try again.</p>
 <div class="flex-col items-center text-center">
     <form>
+        <a class="button-link-dark" asp-controller="Cart" asp-action="Index">View Cart</a>
         <a class="button-link-dark" asp-controller="Checkout" asp-action="Index">Checkout</a>
     </form>
 </div>

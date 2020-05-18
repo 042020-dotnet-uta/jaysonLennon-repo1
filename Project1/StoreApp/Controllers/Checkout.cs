@@ -84,7 +84,6 @@ namespace StoreApp.Controllers
             {
                 case StoreApp.Repository.PlaceOrderResult.Ok:
                 {
-                    this.SetFlashOk("Order placed successfully.");
                     return RedirectToAction("PlaceOrderOk", "Checkout");
                 }
                 case StoreApp.Repository.PlaceOrderResult.OutOfStock:
