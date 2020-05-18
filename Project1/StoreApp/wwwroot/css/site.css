@@ -807,11 +807,11 @@ h6 {
   margin-bottom: 0.5rem;
 }
 
-.font-bold {
+.text-bold {
   font-weight: bold;
 }
 
-.font-italic {
+.text-italic {
   font-style: italic;
 }
 
@@ -1051,8 +1051,16 @@ a {
   width: 100%;
 }
 
+.item-detail-width {
+  width: 100%;
+}
+
 @media screen and (min-width: 640px) {
   .login-form {
+    width: 300px;
+  }
+
+  .item-detail-width {
     width: 300px;
   }
 }
@@ -1068,7 +1076,7 @@ a {
 
 .candy-card-container {
   max-width: 180px;
-  box-shadow: 0px 3px 19px 0 #532f5357;
+  box-shadow: 0px 3px 19px 0 #532f53a6;
   overflow: hidden;
 }
 

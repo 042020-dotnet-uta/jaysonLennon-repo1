@@ -7,8 +7,9 @@
     @foreach (var product in @Model.products)
     {
         <a class="flex-col items-center bd-radius-lg candy-card-container" href="ItemDetail/View/@product.Item1.ProductId">
-            <img class="candy-card-image" src="/img/product/@product.Item1.ImageName">
             <div class="flex-col items-center justify-center height-100 width-100 p3 text-center text-gray-50 color-bg-brand">@product.Item1.Name</div>
+            <img class="candy-card-image" src="/img/product/@product.Item1.ImageName">
+            <div class="flex-col items-center justify-center height-100 width-100 p3 text-center text-gray-50 color-bg-brand">$@product.Item1.Price</div>
         </a>
     }
 </div>

@@ -31,8 +31,15 @@
     width: 100%;
 }
 
+.item-detail-width {
+    width: 100%;
+}
+
 @include break-sm {
     .login-form {
+        width: 300px;
+    }
+    .item-detail-width {
         width: 300px;
     }
 }
