@@ -19,6 +19,12 @@ input[type="number"] {
     @include input-base;
 }
 
+input[type="number"],
+input[type="number"]:disabled {
+  text-align: center;
+  font-weight: bold;
+}
+
 input[type="text"]:disabled,
 input[type="password"]:disabled,
 input[type="number"]:disabled {
@@ -34,6 +40,7 @@ input[type="submit"] {
   color: $color-brand;
   box-shadow: 2px 2px 2px 0px #532f5347;
   cursor: pointer;
+  padding: $space-lg;
 }
 
 form {
@@ -44,4 +51,11 @@ form {
     form {
         width: $form-size;
     }
+}
+
+label + input[type="text"],
+label + input[type="number"],
+label + input[type="password"],
+label + input[type="text"] {
+  margin-top: $space-md;
 }

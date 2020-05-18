@@ -352,6 +352,7 @@ input[type=submit] {
   color: #532f53;
   box-shadow: 2px 2px 2px 0px #532f5347;
   cursor: pointer;
+  padding: 0.75rem;
 }
 
 form {
@@ -363,6 +364,13 @@ form {
     width: 300px;
   }
 }
+label + input[type=text],
+label + input[type=number],
+label + input[type=password],
+label + input[type=text] {
+  margin-top: 0.5rem;
+}
+
 .grid-2c {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -1167,7 +1175,7 @@ a {
 }
 
 .button-link {
-  padding: 0.5rem;
+  padding: 0.75rem;
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
   border: 1px solid #532f53;
@@ -1178,11 +1186,6 @@ a {
   display: block;
 }
 
-@media screen and (min-width: 640px) {
-  .button-link {
-    padding: 0.5rem;
-  }
-}
 @media screen and (min-width: 640px) {
   .sm\:checkout-container {
     width: 200px;

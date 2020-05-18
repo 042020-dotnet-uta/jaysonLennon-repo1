@@ -35,7 +35,7 @@
                     <div class="flex-col justify-center p4">
                         <div class="my4 text-5xl">$@item.TotalPrice()</div>
                         <div class="my4">
-                            <label class="my2" for="Items[@i].Quantity">Quantity</label>
+                            <label for="Items[@i].Quantity">Quantity</label>
                             <input type="number" name="Items[@i].Quantity" value="@item.Quantity" min="0" max="@item.Stock" placeholder="Quantity">
                         </div>
                         <button class="my4" type="submit" value="RemoveItem.@i" name="action">Remove Item</button>
