@@ -128,3 +128,135 @@
 .row-gap-lg { grid-row-gap: $space-lg; }
 .row-gap-xl { grid-row-gap: $space-xl; }
 
+
+@include break-sm {
+  .sm\:p0 { padding: 0; }
+  .sm\:p1 { padding: $space-sm; }
+  .sm\:p2 { padding: $space-md; }
+  .sm\:p3 { padding: $space-lg; }
+  .sm\:p4 { padding: $space-xl; }
+
+  .sm\:pl1 { padding-left: $space-sm; }
+  .sm\:pl2 { padding-left: $space-md; }
+  .sm\:pl3 { padding-left: $space-lg; }
+  .sm\:pl4 { padding-left: $space-xl; }
+
+  .sm\:pr1 { padding-right: $space-sm; }
+  .sm\:pr2 { padding-right: $space-md; }
+  .sm\:pr3 { padding-right: $space-lg; }
+  .sm\:pr4 { padding-right: $space-xl; }
+
+  .sm\:pt1 { padding-top: $space-sm; }
+  .sm\:pt2 { padding-top: $space-md; }
+  .sm\:pt3 { padding-top: $space-lg; }
+  .sm\:pt4 { padding-top: $space-xl; }
+
+  .sm\:pb1 { padding-bottom: $space-sm; }
+  .sm\:pb2 { padding-bottom: $space-md; }
+  .sm\:pb3 { padding-bottom: $space-lg; }
+  .sm\:pb4 { padding-bottom: $space-xl; }
+
+  .sm\:py1 {
+    padding-top: $space-sm;
+    padding-bottom: $space-sm;
+  }
+  .sm\:py2 {
+    padding-top: $space-md;
+    padding-bottom: $space-md;
+  }
+  .sm\:py3 {
+    padding-top: $space-lg;
+    padding-bottom: $space-lg;
+  }
+  .sm\:py4 {
+    padding-top: $space-xl;
+    padding-bottom: $space-xl;
+  }
+
+  .sm\:px1 {
+    padding-left: $space-sm;
+    padding-right: $space-sm;
+  }
+  .sm\:px2 {
+    padding-left: $space-md;
+    padding-right: $space-md;
+  }
+  .sm\:px3 {
+    padding-left: $space-lg;
+    padding-right: $space-lg;
+  }
+  .sm\:px4 {
+    padding-left: $space-xl;
+    padding-right: $space-xl;
+  }
+
+  .sm\:m0 { margin: 0; }
+  .sm\:m1 { margin: $space-sm; }
+  .sm\:m2 { margin: $space-md; }
+  .sm\:m3 { margin: $space-lg; }
+  .sm\:m4 { margin: $space-xl; }
+
+  .sm\:ml1 { margin-left: $space-sm; }
+  .sm\:ml2 { margin-left: $space-md; }
+  .sm\:ml3 { margin-left: $space-lg; }
+  .sm\:ml4 { margin-left: $space-xl; }
+
+  .sm\:mr1 { margin-right: $space-sm; }
+  .sm\:mr2 { margin-right: $space-md; }
+  .sm\:mr3 { margin-right: $space-lg; }
+  .sm\:mr4 { margin-right: $space-xl; }
+
+  .sm\:mt1 { margin-top: $space-sm; }
+  .sm\:mt2 { margin-top: $space-md; }
+  .sm\:mt3 { margin-top: $space-lg; }
+  .sm\:mt4 { margin-top: $space-xl; }
+
+  .sm\:mb1 { margin-bottom: $space-sm; }
+  .sm\:mb2 { margin-bottom: $space-md; }
+  .sm\:mb3 { margin-bottom: $space-lg; }
+  .sm\:mb4 { margin-bottom: $space-xl; }
+
+  .sm\:my1 {
+    margin-top: $space-sm;
+    margin-bottom: $space-sm;
+  }
+  .sm\:my2 {
+    margin-top: $space-md;
+    margin-bottom: $space-md;
+  }
+  .sm\:my3 {
+    margin-top: $space-lg;
+    margin-bottom: $space-lg;
+  }
+  .sm\:my4 {
+    margin-top: $space-xl;
+    margin-bottom: $space-xl;
+  }
+
+  .sm\:mx1 {
+    margin-left: $space-sm;
+    margin-right: $space-sm;
+  }
+  .sm\:mx2 {
+    margin-left: $space-md;
+    margin-right: $space-md;
+  }
+  .sm\:mx3 {
+    margin-left: $space-lg;
+    margin-right: $space-lg;
+  }
+  .sm\:mx4 {
+    margin-left: $space-xl;
+    margin-right: $space-xl;
+  }
+
+  .sm\:col-gap-sm { grid-column-gap: $space-sm; }
+  .sm\:col-gap-md { grid-column-gap: $space-md; }
+  .sm\:col-gap-lg { grid-column-gap: $space-lg; }
+  .sm\:col-gap-xl { grid-column-gap: $space-xl; }
+
+  .sm\:row-gap-sm { grid-row-gap: $space-sm; }
+  .sm\:row-gap-md { grid-row-gap: $space-md; }
+  .sm\:row-gap-lg { grid-row-gap: $space-lg; }
+  .sm\:row-gap-xl { grid-row-gap: $space-xl; }
+}

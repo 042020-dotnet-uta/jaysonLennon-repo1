@@ -3,7 +3,10 @@
 
 
 <div class="flex-col justify-center p4 nav-background nav-border nav-shadow sm:flex-row sm:justify-between">
-    <div class="self-content-center text-gray-50 text-4xl p4">SugarRush</div>
+    <div class="flex-col items-center sm:flex-row">
+        <a asp-controller="Storefront" asp-action="Index" class="self-content-center text-gray-50 text-4xl p4 mr4 link-white">SugarRush</a>
+        <a asp-controller="StoreFront" asp-action="Index" class="m4 sm:mx4 sm:my0 button-link-dark cart-border width-100">Browse</a>
+    </div>
 
     @if (!ViewData.ContainsKey(K.UserName)){
         <div class="flex-col justify-center mr3 text-center sm:text-right">
@@ -13,7 +16,7 @@
     } else {
         <div class="flex-row justify-between">
             <div class="flex-col text-left mr4 self-content-center">
-                <div class="text-gray-200">Logged in as @ViewData[K.UserName]</div>
+                <div class="text-gray-200 my2">Logged in as @ViewData[K.UserName]</div>
                 <a class="link-white" asp-controller="Account" asp-action="Manage">Manage Account</a>
             </div>
             <a asp-controller="Cart" asp-action="Index" class="no-underline flex-col items-center block text-center link-white cart-border p2">

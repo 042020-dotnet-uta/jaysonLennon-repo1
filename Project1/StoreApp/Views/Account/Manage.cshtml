@@ -7,7 +7,7 @@
 
 <div class="flex-col items-center">
     <form asp-controller="Account" asp-action="UpdateAccountInfo" method="POST">
-        <a class="button-link text-center" asp-controller="Account" asp-action="OrderHistory">Order history</a>
+        <a class="button-link-dark text-center" asp-controller="Account" asp-action="OrderHistory">Order history</a>
         <div class="my4">
             <label asp-for="StorePicked">Default Store</label>
             <select asp-for="StorePicked" asp-items="@Model.Stores"></select>

@@ -55,16 +55,28 @@
     grid-column-gap: $candy-card-grid-col-gap;
 }
 
-.button-link {
+@mixin button-link-base {
     padding: $space-lg;
     margin-top: $space-lg;
     margin-bottom: $space-lg;
-    border: 1px solid $color-brand;
     border-radius: $border-radius-sm;
-    background: $color-brand;
-    color: $color-gray-50;
     text-decoration: none;
     display: block;
+    text-align: center;
+}
+
+.button-link-dark {
+    @include button-link-base();
+    border: 1px solid $color-background;
+    background: $color-brand;
+    color: $color-gray-50;
+}
+
+.button-link-light {
+    @include button-link-base();
+    border: 1px solid $color-brand;
+    background: $color-background;
+    color: $color-brand;
 }
 
 @include break-sm {
@@ -77,7 +89,8 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, $edit-cart-item-width);
     grid-column-gap: $edit-cart-col-gap;
-    grid-row-gap: $edit-cart-col-gap;
+    grid-row-gap: $edit-cart-row-gap;
+    margin-top: $space-xl;
 }
 
 .card-cost-border {

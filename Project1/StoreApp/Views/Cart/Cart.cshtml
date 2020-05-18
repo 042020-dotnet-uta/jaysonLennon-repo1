@@ -6,7 +6,7 @@
     <p class="text-center">Your cart is currently empty.</p>
     <div class="flex-col items-center text-center">
         <form>
-            <a class="button-link" asp-controller="Storefront" asp-action="Index">Start Shopping</a>
+            <a class="button-link-dark" asp-controller="Storefront" asp-action="Index">Start Shopping</a>
         </form>
     </div>
 } else {
@@ -14,7 +14,7 @@
     <div class="flex-col sm:flex-row">
         <div class="flex-col mx4 text-center sm:flex-order-1 sm:checkout-container">
             <div class="text-3xl text-bold">Total: $@Model.TotalCost()</div>
-            <a class="button-link" asp-controller="Checkout" asp-action="Index">Checkout</a>
+            <a class="button-link-dark" asp-controller="Checkout" asp-action="Index">Checkout</a>
             <button type="submit" value="update" name="action" form="cartform">Update Quantities</button>
         </div>
 

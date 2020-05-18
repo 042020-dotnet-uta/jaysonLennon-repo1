@@ -11,8 +11,8 @@ h1 {
   font-size: 2rem;
   font-weight: bolder;
   @include text-shadow;
-  margin-top: $space-xl;
-  margin-bottom: $space-xl;
+  margin-top: $space-headers;
+  margin-bottom: $space-headers;
 }
 
 h2 {
@@ -20,40 +20,40 @@ h2 {
   font-size: 1.5rem;
   font-weight: bolder;
   @include text-shadow;
-  margin-top: $space-xl;
-  margin-bottom: $space-xl;
+  margin-top: $space-headers;
+  margin-bottom: $space-headers;
 }
 
 h3 {
   font-family: $font-family-header;
   font-size: 1.17rem;
   font-weight: bolder;
-  margin-top: $space-lg;
-  margin-bottom: $space-lg;
+  margin-top: $space-headers;
+  margin-bottom: $space-headers;
 }
 
 h4 {
   font-family: $font-family-header;
   font-size: 1rem;
   font-weight: bolder;
-  margin-top: $space-lg;
-  margin-bottom: $space-lg;
+  margin-top: $space-headers;
+  margin-bottom: $space-headers;
 }
 
 h5 {
   font-family: $font-family-header;
   font-size: 0.83rem;
   font-weight: bolder;
-  margin-top: $space-md;
-  margin-bottom: $space-md;
+  margin-top: $space-headers;
+  margin-bottom: $space-headers;
 }
 
 h6 {
   font-family: $font-family-header;
   font-size: 0.67rem;
   font-weight: bolder;
-  margin-top: $space-md;
-  margin-bottom: $space-md;
+  margin-top: $space-headers;
+  margin-bottom: $space-headers;
 }
 
 .text-bold   { font-weight: bold; }

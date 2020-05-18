@@ -1,7 +1,7 @@
 @model StoreApp.Model.View.Storefront
 <partial name="/Views/Partials/FlashMessagePartial.cshtml" />
 
-<h2 class="my2">Location: @Model.StoreName</h2>
+<h2>Location: @Model.StoreName</h2>
 
 <div class="justify-center card-grid">
     @foreach (var product in @Model.products)

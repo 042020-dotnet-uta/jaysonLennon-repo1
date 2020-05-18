@@ -76,6 +76,11 @@ $space-md: 0.5rem;
 $space-lg: 0.75rem;
 $space-xl: 1rem;
 
+$space-headers: 2rem;
+
+$main-padding: 2rem;
+// Footer uses absolute positioning, so this will be applied as padding to the bottom of main.
+$footer-margin: 4rem;
 
 // App-specific
 $navbar-height: 60px;

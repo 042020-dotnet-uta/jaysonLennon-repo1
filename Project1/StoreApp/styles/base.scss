@@ -22,10 +22,10 @@ body {
 }
 
 main {
-  margin-left: $space-xl;
-  margin-right: $space-xl;
-  padding-bottom: 4rem;
-  margin-top: 4rem;
+  padding: $main-padding;
+  // We need to use padding in place of margin since the footer is
+  // absolutely positioned.
+  padding-bottom: $footer-margin;
 }
 
 hr {
