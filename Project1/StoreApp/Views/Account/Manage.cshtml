@@ -4,46 +4,48 @@
 
 <partial name="/Views/Partials/FlashMessagePartial.cshtml" />
 
-<a asp-controller="Account" asp-action="OrderHistory">Order history</a>
 
-<form asp-controller="Account" asp-action="UpdateAccountInfo" method="POST">
-    <div>
-        select default store
-        <select asp-for="StorePicked" asp-items="@Model.Stores"></select>
-    </div>
-    <div>
-        <label asp-for="FirstName"></label>
-        <input asp-for="FirstName" placeholder="First Name" />
-        <span asp-validation-for="FirstName"></span>
-    </div>
-    <div>
-        <label asp-for="LastName"></label>
-        <input asp-for="LastName" placeholder="Last Name" />
-        <span asp-validation-for="LastName"></span>
-    </div>
-    <div>
-        <label asp-for="AddressLine1"></label>
-        <input asp-for="AddressLine1" placeholder="Address Line 1" />
-        <span asp-validation-for="AddressLine1"></span>
-    </div>
-    <div>
-        <label asp-for="AddressLine2"></label>
-        <input asp-for="AddressLine2" placeholder="Address Line 2" />
-        <span asp-validation-for="AddressLine2"></span>
-    </div>
-    <div>
-        <label asp-for="City"></label>
-        <input asp-for="City" placeholder="City" />
-        <span asp-validation-for="City"></span>
-    </div>
-    <div>
-        <select asp-for="StatePicked" asp-items="@Model.States"></select>
-    </div>
-    <div>
-        <label asp-for="Zip"></label>
-        <input asp-for="Zip" placeholder="Zip" />
-        <span asp-validation-for="Zip"></span>
-    </div>
+<div class="flex-col items-center">
+    <form asp-controller="Account" asp-action="UpdateAccountInfo" method="POST">
+        <a class="button-link text-center" asp-controller="Account" asp-action="OrderHistory">Order history</a>
+        <div class="my4">
+            <label asp-for="StorePicked">Default Store</label>
+            <select asp-for="StorePicked" asp-items="@Model.Stores"></select>
+        </div>
+        <div class="my4">
+            <label asp-for="FirstName"></label>
+            <input asp-for="FirstName" placeholder="First Name" />
+            <span class="text-color-error" asp-validation-for="FirstName"></span>
+        </div>
+        <div class="my4">
+            <label asp-for="LastName"></label>
+            <input asp-for="LastName" placeholder="Last Name" />
+            <span class="text-color-error" asp-validation-for="LastName"></span>
+        </div>
+        <div class="my4">
+            <label asp-for="AddressLine1"></label>
+            <input asp-for="AddressLine1" placeholder="Address Line 1" />
+            <span class="text-color-error" asp-validation-for="AddressLine1"></span>
+        </div>
+        <div class="my4">
+            <label asp-for="AddressLine2"></label>
+            <input asp-for="AddressLine2" placeholder="Address Line 2" />
+            <span class="text-color-error" asp-validation-for="AddressLine2"></span>
+        </div>
+        <div class="my4">
+            <label asp-for="City"></label>
+            <input asp-for="City" placeholder="City" />
+            <span class="text-color-error" asp-validation-for="City"></span>
+        </div>
+        <div class="my4">
+            <select asp-for="StatePicked" asp-items="@Model.States"></select>
+        </div>
+        <div class="my4">
+            <label asp-for="Zip"></label>
+            <input asp-for="Zip" placeholder="Zip" />
+            <span class="text-color-error" asp-validation-for="Zip"></span>
+        </div>
 
-    <input type="submit" value="Save Changes">
-</form>
+        <input type="submit" value="Save Changes">
+    </form>
+</div>

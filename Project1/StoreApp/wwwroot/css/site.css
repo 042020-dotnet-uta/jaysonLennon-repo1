@@ -321,6 +321,7 @@ table {
   }
 }
 button,
+select,
 input[type=text],
 input[type=password],
 input[type=submit],
@@ -335,6 +336,12 @@ input[type=number] {
   font-family: "Muli", sans-serif;
   box-shadow: inset 0px 0px 2px 0px rgba(160, 76, 160, 0.55);
   line-height: 1;
+}
+
+input[type=number],
+input[type=number]:disabled {
+  text-align: center;
+  font-weight: bold;
 }
 
 input[type=text]:disabled,
@@ -1193,9 +1200,9 @@ a {
 }
 .edit-cart-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 420px);
-  grid-column-gap: 4rem;
-  grid-row-gap: 4rem;
+  grid-template-columns: repeat(auto-fill, 380px);
+  grid-column-gap: 6rem;
+  grid-row-gap: 6rem;
 }
 
 .card-cost-border {
