@@ -8,5 +8,21 @@
 }
 
 .nav-border {
-    border-bottom: 2px solid $color-nav-border;
+    border-bottom: 3px solid $color-nav-border;
+}
+
+.nav-shadow {
+    box-shadow: 0 0 3px 0 #000000d6;
+}
+
+.nav-background {
+    background: $color-nav-background;
+}
+
+.footer-border {
+    border-top: 3px solid $color-footer-border;
+}
+
+.footer-background {
+    background: $color-footer-background;
 }

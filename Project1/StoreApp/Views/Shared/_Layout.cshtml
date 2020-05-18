@@ -12,10 +12,9 @@
         @RenderBody()
     </main>
 
-    <footer>
-        <div>
-            &copy; 2020 - SugarRush
-        </div>
+    <footer class="pos-absolute bottom-0 width-100 mt4 flex-row footer-border footer-background">
+        <div class="text-gray-50 p2">&copy; 2020 - SugarRush</div>
+        <a asp-controller="Home" asp-action="Privacy" class="p2 link-white">Privacy</a>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

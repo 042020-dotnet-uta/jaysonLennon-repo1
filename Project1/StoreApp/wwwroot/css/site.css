@@ -73,7 +73,7 @@ table {
 }
 
 .color-bg-brand {
-  background: #803480;
+  background: #532f53;
 }
 
 .flex-row {
@@ -286,7 +286,7 @@ input {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   border-radius: 6px;
-  border: 1px solid #803480;
+  border: 1px solid #532f53;
   background: #ffffff;
   font-size: 90%;
   font-family: "Muli", sans-serif;
@@ -824,11 +824,11 @@ h6 {
 }
 
 .text-color-brand {
-  color: #803480;
+  color: #532f53;
 }
 
 .text-color-ok {
-  color: #803480;
+  color: #532f53;
 }
 
 .text-color-error {
@@ -918,13 +918,14 @@ main {
 }
 
 hr {
-  border-top: 1px solid #803480;
+  border-top: 1px solid #532f53;
   border-bottom: none;
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
 
 a {
+  text-decoration: none;
   font-weight: bold;
 }
 
@@ -933,7 +934,7 @@ a {
 }
 
 .link-dark {
-  color: #803480;
+  color: #532f53;
 }
 
 .link-white {
@@ -946,7 +947,23 @@ a {
 }
 
 .nav-border {
-  border-bottom: 2px solid #bd65bd;
+  border-bottom: 3px solid #a04ca0;
+}
+
+.nav-shadow {
+  box-shadow: 0 0 3px 0 #000000d6;
+}
+
+.nav-background {
+  background: #532f53;
+}
+
+.footer-border {
+  border-top: 3px solid #a04ca0;
+}
+
+.footer-background {
+  background: #532f53;
 }
 
 /*# sourceMappingURL=site.css.map */

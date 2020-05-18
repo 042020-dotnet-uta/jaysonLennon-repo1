@@ -18,7 +18,7 @@ $font-size-6xl:  4rem;
 // Colors
 $color-background: #fff9fe;
 $color-font: #1a171a;
-$color-brand: #803480;
+$color-brand: #532f53;
 
 $color-ok: $color-brand;
 $color-error: #ffaaaa;
@@ -42,7 +42,11 @@ $color-gray-900: #1a171a;
 $color-link-light: $color-info;
 $color-link-dark: $color-brand;
 
-$color-nav-border: #bd65bd;
+$color-nav-background: $color-brand;
+$color-nav-border: #a04ca0;
+
+$color-footer-background: $color-brand;
+$color-footer-border: #a04ca0;
 
 @mixin button-background {
   background: linear-gradient(180deg,#f7f7f7 0,#f0f0f0 100%);
