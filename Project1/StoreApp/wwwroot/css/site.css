@@ -333,6 +333,7 @@ input[type=number] {
   font-size: 90%;
   font-family: "Muli", sans-serif;
   box-shadow: inset 0px 0px 2px 0px rgba(160, 76, 160, 0.55);
+  line-height: 1;
 }
 
 button,
@@ -341,6 +342,7 @@ input[type=submit] {
   font-weight: bold;
   color: #532f53;
   box-shadow: 2px 2px 2px 0px #532f5347;
+  cursor: pointer;
 }
 
 form {
@@ -1182,6 +1184,10 @@ a {
   grid-template-columns: repeat(auto-fill, 420px);
   grid-column-gap: 4rem;
   grid-row-gap: 4rem;
+}
+
+.card-cost-border {
+  border-bottom: 1px solid #956a95;
 }
 
 /*# sourceMappingURL=site.css.map */
