@@ -302,12 +302,22 @@ input[type=submit] {
 
 .grid-2c {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .grid-3c {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-4c {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-5c {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
 }
 
 .grid-auto-rows {
@@ -320,6 +330,69 @@ input[type=submit] {
   grid-auto-columns: auto;
 }
 
+@media screen and (min-width: 640px) {
+  .sm\:grid-2c {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sm\:grid-3c {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .sm\:grid-4c {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .sm\:grid-5c {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+@media screen and (min-width: 768px) {
+  .md\:grid-2c {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .md\:grid-3c {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .md\:grid-4c {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .md\:grid-5c {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+@media screen and (min-width: 1024px) {
+  .lg\:grid-2c {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .lg\:grid-3c {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .lg\:grid-4c {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .lg\:grid-5c {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
 .cursor-pointer {
   cursor: pointer;
 }
@@ -982,6 +1055,32 @@ a {
   .login-form {
     width: 300px;
   }
+}
+.bd-branded {
+  border: 1px solid #532f53;
+}
+
+.candy-card-image {
+  width: 180px;
+  min-height: 180px;
+  object-fit: cover;
+}
+
+.candy-card-container {
+  max-width: 180px;
+  box-shadow: 0px 3px 19px 0 #532f5357;
+  overflow: hidden;
+}
+
+.card-row-gap {
+  grid-row-gap: 4rem;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 180px);
+  grid-row-gap: 4rem;
+  grid-column-gap: 3rem;
 }
 
 /*# sourceMappingURL=site.css.map */
