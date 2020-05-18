@@ -19,7 +19,7 @@ namespace StoreApp.Controllers
         [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Storefront");
         }
 
         [Route("/Privacy")]
