@@ -56,8 +56,9 @@
 }
 
 .button-link {
-    padding: $space-lg;
-    margin: $space-lg;
+    padding: $space-md;
+    margin-top: $space-lg;
+    margin-bottom: $space-lg;
     border: 1px solid $color-brand;
     border-radius: $border-radius-sm;
     background: $color-brand;
@@ -69,12 +70,18 @@
 @include break-sm {
     .button-link {
         padding: $space-md;
-        margin: $space-lg;
-        border: 1px solid $color-brand;
-        border-radius: $border-radius-sm;
-        background: $color-brand;
-        color: $color-gray-50;
-        text-decoration: none;
-        display: block;
     }
+}
+
+@include break-sm {
+    .sm\:checkout-container {
+        width: $checkout-container-width;
+    }
+}
+
+.edit-cart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, $edit-cart-item-width);
+    grid-column-gap: $edit-cart-col-gap;
+    grid-row-gap: $edit-cart-col-gap;
 }

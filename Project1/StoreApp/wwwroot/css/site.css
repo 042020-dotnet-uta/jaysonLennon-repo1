@@ -76,6 +76,47 @@ table {
   background: #532f53;
 }
 
+.flex-order-0 {
+  order: 0;
+}
+
+.flex-order-1 {
+  order: 1;
+}
+
+.flex-order-2 {
+  order: 2;
+}
+
+.flex-order-3 {
+  order: 3;
+}
+
+.flex-order-4 {
+  order: 4;
+}
+
+@media screen and (min-width: 640px) {
+  .sm\:flex-order-0 {
+    order: 0;
+  }
+
+  .sm\:flex-order-1 {
+    order: 1;
+  }
+
+  .sm\:flex-order-2 {
+    order: 2;
+  }
+
+  .sm\:flex-order-3 {
+    order: 3;
+  }
+
+  .sm\:flex-order-4 {
+    order: 4;
+  }
+}
 .flex-row {
   display: flex;
   flex-direction: row;
@@ -279,12 +320,13 @@ table {
     justify-content: space-between;
   }
 }
-input {
+button,
+input[type=text],
+input[type=submit],
+input[type=number] {
   width: 100%;
-  height: 2.5rem;
   display: block;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding: 0.5rem;
   border-radius: 3px;
   border: 1px solid #532f53;
   background: #ffffff;
@@ -293,6 +335,7 @@ input {
   box-shadow: inset 0px 0px 2px 0px rgba(160, 76, 160, 0.55);
 }
 
+button,
 input[type=button],
 input[type=submit] {
   font-weight: bold;
@@ -470,6 +513,35 @@ form {
   right: 0;
 }
 
+@media screen and (min-width: 640px) {
+  .sm\:pos-relative {
+    position: relative;
+  }
+
+  .sm\:pos-absolute {
+    position: absolute;
+  }
+
+  .sm\:pos-fixed {
+    position: fixed;
+  }
+
+  .sm\:top-0 {
+    top: 0;
+  }
+
+  .sm\:bottom-0 {
+    bottom: 0;
+  }
+
+  .sm\:left-0 {
+    left: 0;
+  }
+
+  .sm\:right-0 {
+    right: 0;
+  }
+}
 .height-100 {
   height: 100%;
 }
@@ -1084,8 +1156,9 @@ a {
 }
 
 .button-link {
-  padding: 0.75rem;
-  margin: 0.75rem;
+  padding: 0.5rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
   border: 1px solid #532f53;
   border-radius: 3px;
   background: #532f53;
@@ -1097,14 +1170,18 @@ a {
 @media screen and (min-width: 640px) {
   .button-link {
     padding: 0.5rem;
-    margin: 0.5rem;
-    border: 1px solid #532f53;
-    border-radius: 3px;
-    background: #532f53;
-    color: #f9f4f9;
-    text-decoration: none;
-    display: block;
   }
+}
+@media screen and (min-width: 640px) {
+  .sm\:checkout-container {
+    width: 200px;
+  }
+}
+.edit-cart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 420px);
+  grid-column-gap: 4rem;
+  grid-row-gap: 4rem;
 }
 
 /*# sourceMappingURL=site.css.map */

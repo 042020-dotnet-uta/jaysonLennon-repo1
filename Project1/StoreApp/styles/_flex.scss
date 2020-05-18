@@ -1,3 +1,16 @@
+.flex-order-0 { order: 0; }
+.flex-order-1 { order: 1; }
+.flex-order-2 { order: 2; }
+.flex-order-3 { order: 3; }
+.flex-order-4 { order: 4; }
+
+@include break-sm {
+  .sm\:flex-order-0 { order: 0; }
+  .sm\:flex-order-1 { order: 1; }
+  .sm\:flex-order-2 { order: 2; }
+  .sm\:flex-order-3 { order: 3; }
+  .sm\:flex-order-4 { order: 4; }
+}
 //////////////////////
 // All
 //////////////////////
