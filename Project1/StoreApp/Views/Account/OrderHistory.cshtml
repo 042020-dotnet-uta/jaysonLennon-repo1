@@ -1,15 +1,36 @@
 @model StoreApp.Model.View.UserOrderHistory
-
-<h1>this is the order history page for a user</h1>
-
+<h2 class="text-center">Order History</h2>
 <partial name="/Views/Partials/FlashMessagePartial.cshtml" />
-<h2>Orders</h2>
 
-@foreach (var order in @Model.orders)
-{
-    <div>
-        <a asp-controller="Account"
-        asp-action="OrderHistoryDetail"
-        asp-route-orderId="@order.OrderId">@order.ItemQuantity items - $@order.AmountPaid - @order.TimeSubmitted</a>
-    </div>
-}
+<div class="flex-row justify-center">
+
+    <table>
+        <thead>
+            <tr>
+                <th class="p2 color-bg-brand text-bold text-gray-50">Date</th>
+                <th class="p2 color-bg-brand text-bold text-gray-50">Items</th>
+                <th class="p2 color-bg-brand text-bold text-gray-50">Paid</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in @Model.orders)
+            {
+            <tr>
+                <td>
+                    <a class="block cursor-pointer p2 text-center" asp-controller="Account" asp-action="OrderHistoryDetail"
+                    asp-route-orderId="@order.OrderId">@order.TimeSubmitted</a>
+                </td>
+                <td>
+                    <a class="block cursor-pointer p2 text-center" asp-controller="Account" asp-action="OrderHistoryDetail"
+                    asp-route-orderId="@order.OrderId">@order.ItemQuantity</a>
+                </td>
+                <td>
+                    <a class="block cursor-pointer p2 text-center" asp-controller="Account" asp-action="OrderHistoryDetail"
+                    asp-route-orderId="@order.OrderId">$@order.AmountPaid</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

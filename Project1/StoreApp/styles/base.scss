@@ -39,3 +39,22 @@ a {
   text-decoration: none;
   font-weight: bold;
 }
+
+table {
+  border-collapse: collapse;
+  border: $table-border-size solid $color-brand;
+}
+
+table th {
+  border: $table-border-size solid $color-table-border;
+}
+
+table td {
+  border: $table-border-size solid $color-table-border;
+  background: $color-table-background;
+}
+
+table tr {
+  border: $table-border-size solid $color-table-border;
+  background: $color-table-background;
+}

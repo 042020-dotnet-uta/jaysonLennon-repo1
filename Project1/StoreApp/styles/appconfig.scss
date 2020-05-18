@@ -48,6 +48,9 @@ $color-nav-border: #a04ca0;
 $color-footer-background: $color-brand;
 $color-footer-border: #a04ca0;
 
+$color-table-border: $color-background;
+$color-table-background: #e4d9e4;
+
 @mixin button-background {
   background: linear-gradient(180deg,#f7f7f7 0,#f0f0f0 100%);
 }
@@ -86,4 +89,6 @@ $form-size: 300px;  // used to constrain form size when the viewport increases i
 $edit-cart-item-width: 380px;
 $edit-cart-col-gap: 6rem;
 $edit-cart-row-gap: 2rem;
-$checkout-container-width: 200px
+$checkout-container-width: 200px;
+
+$table-border-size: 3px;
