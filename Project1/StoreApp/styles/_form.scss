@@ -13,9 +13,18 @@
 
 button,
 input[type="text"],
+input[type="password"],
 input[type="submit"],
 input[type="number"] {
     @include input-base;
+}
+
+input[type="text"]:disabled,
+input[type="password"]:disabled,
+input[type="number"]:disabled {
+  cursor: not-allowed;
+  box-shadow: inset 0px 0px 2px 0px $color-gray-300;
+  border: 1px solid $color-gray-300;
 }
 
 button,

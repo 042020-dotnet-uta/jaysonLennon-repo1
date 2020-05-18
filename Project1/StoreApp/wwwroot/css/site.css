@@ -336,6 +336,13 @@ input[type=number] {
   line-height: 1;
 }
 
+input[type=text]:disabled,
+input[type=number]:disabled {
+  cursor: not-allowed;
+  box-shadow: inset 0px 0px 2px 0px #b2a4b2;
+  border: 1px solid #b2a4b2;
+}
+
 button,
 input[type=button],
 input[type=submit] {

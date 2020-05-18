@@ -1,24 +1,39 @@
 @model StoreApp.Model.View.Checkout
-
-<h1>this is the checkout page</h1>
 <partial name="/Views/Partials/FlashMessagePartial.cshtml" />
+<h2 class="text-center">Checkout</h2>
 
 @if (@Model.Items.Count == 0) {
     <partial name="/Views/Cart/EmptyCartPartial.cshtml" />
 } else {
-    <div>total cost = @Model.TotalCost()</div>
-    <form asp-controller="Checkout" asp-action="PlaceOrder" method="POST">
-        <input type="submit" value="Place Order">
-    </form>
+    <form id="checkoutform" asp-controller="Checkout" asp-action="PlaceOrder" method="POST"></form>
 
-    @foreach (var item in @Model.Items)
-    {
-        <div>
-            <div>Item name: @item.Name</div>
-            <div>Item quantity: @item.Quantity</div>
-            <div>Item unit price: @item.UnitPrice</div>
-            <div>Item total price: @item.TotalPrice()</div>
-            <hr>
+    <div class="flex-col sm:flex-row">
+        <div class="flex-col mx4 text-center sm:flex-order-1 sm:checkout-container">
+            <div class="text-3xl text-bold">Total: $@Model.TotalCost()</div>
+            <button class="color-bg-brand text-gray-50 my4" type="submit" form="checkoutform">Place Order</button>
         </div>
-    }
+
+        <div class="edit-cart-grid justify-center width-100" id="cartform">
+            @foreach (var item in @Model.Items)
+            {
+                <div class="flex-row">
+                    <div class="flex-col items-center m4">
+                        <div class="flex-col items-center bd-radius-lg candy-card-container">
+                            <img class="candy-card-image" src="/img/product/@item.ImageName">
+                            <div class="flex-col items-center justify-center height-100 width-100 p3 text-center text-gray-50 color-bg-brand text-bold card-cost-border">@item.Name</div>
+                            <div class="flex-col items-center justify-center height-100 width-100 p3 text-center text-gray-50 color-bg-brand text-bold">$@item.UnitPrice each</div>
+                        </div>
+                    </div>
+
+                    <div class="flex-col justify-center p4">
+                        <div class="my4 text-5xl">$@item.TotalPrice()</div>
+                        <div class="my4">
+                            <label class="my2">Quantity</label>
+                            <input disabled type="number" value="@item.Quantity" placeholder="Quantity">
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 }
