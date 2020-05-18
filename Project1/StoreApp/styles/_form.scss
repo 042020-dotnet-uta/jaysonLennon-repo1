@@ -22,3 +22,13 @@ input[type="submit"] {
   color: $color-brand;
   box-shadow: 2px 2px 2px 0px #532f5347;
 }
+
+form {
+    width: 100%;
+}
+
+@include break-sm {
+    form {
+        width: $form-size;
+    }
+}

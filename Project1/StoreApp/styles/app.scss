@@ -27,22 +27,6 @@
     background: $color-footer-background;
 }
 
-.login-form {
-    width: 100%;
-}
-
-.item-detail-width {
-    width: 100%;
-}
-
-@include break-sm {
-    .login-form {
-        width: 300px;
-    }
-    .item-detail-width {
-        width: 300px;
-    }
-}
 
 .bd-branded {
     border: 1px solid $color-brand;
@@ -69,4 +53,28 @@
     grid-template-columns: repeat(auto-fill, $candy-card-width);
     grid-row-gap: $candy-card-grid-row-gap;
     grid-column-gap: $candy-card-grid-col-gap;
+}
+
+.button-link {
+    padding: $space-lg;
+    margin: $space-lg;
+    border: 1px solid $color-brand;
+    border-radius: $border-radius-sm;
+    background: $color-brand;
+    color: $color-gray-50;
+    text-decoration: none;
+    display: block;
+}
+
+@include break-sm {
+    .button-link {
+        padding: $space-md;
+        margin: $space-lg;
+        border: 1px solid $color-brand;
+        border-radius: $border-radius-sm;
+        background: $color-brand;
+        color: $color-gray-50;
+        text-decoration: none;
+        display: block;
+    }
 }

@@ -300,6 +300,15 @@ input[type=submit] {
   box-shadow: 2px 2px 2px 0px #532f5347;
 }
 
+form {
+  width: 100%;
+}
+
+@media screen and (min-width: 640px) {
+  form {
+    width: 300px;
+  }
+}
 .grid-2c {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -1047,23 +1056,6 @@ a {
   background: #532f53;
 }
 
-.login-form {
-  width: 100%;
-}
-
-.item-detail-width {
-  width: 100%;
-}
-
-@media screen and (min-width: 640px) {
-  .login-form {
-    width: 300px;
-  }
-
-  .item-detail-width {
-    width: 300px;
-  }
-}
 .bd-branded {
   border: 1px solid #532f53;
 }
@@ -1089,6 +1081,30 @@ a {
   grid-template-columns: repeat(auto-fill, 180px);
   grid-row-gap: 4rem;
   grid-column-gap: 3rem;
+}
+
+.button-link {
+  padding: 0.75rem;
+  margin: 0.75rem;
+  border: 1px solid #532f53;
+  border-radius: 3px;
+  background: #532f53;
+  color: #f9f4f9;
+  text-decoration: none;
+  display: block;
+}
+
+@media screen and (min-width: 640px) {
+  .button-link {
+    padding: 0.5rem;
+    margin: 0.5rem;
+    border: 1px solid #532f53;
+    border-radius: 3px;
+    background: #532f53;
+    color: #f9f4f9;
+    text-decoration: none;
+    display: block;
+  }
 }
 
 /*# sourceMappingURL=site.css.map */

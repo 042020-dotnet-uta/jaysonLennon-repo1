@@ -1,11 +1,11 @@
 @model StoreApp.Model.View.CartAddOk
-
-<h1>Cart add OK page</h1>
 <partial name="/Views/Partials/FlashMessagePartial.cshtml" />
-<div>item added = @Model.ItemId</div>
-<div>quantity = @Model.ItemQuantity</div>
-<a asp-controller="Storefront" asp-action="Index">Continue Shopping</a>
-<br>
-<a asp-controller="Checkout" asp-action="Index">Checkout</a>
-<br>
-<a asp-controller="Cart" asp-action="Index">Update Cart</a>
+<h2 class="text-center">Item successfully added to cart!</h2>
+
+<div class="flex-col items-center text-center">
+    <form>
+        <a class="button-link" asp-controller="Storefront" asp-action="Index">Continue Shopping</a>
+        <a class="button-link" asp-controller="Checkout" asp-action="Index">Checkout</a>
+        <a class="button-link" asp-controller="Cart" asp-action="Index">Update Cart</a>
+    </form>
+</div>
