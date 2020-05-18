@@ -362,6 +362,13 @@ input[type=submit] {
   padding: 0.75rem;
 }
 
+button.button-dark,
+input[type=button].button-dark,
+input[type=submit].button-dark {
+  color: #f9f4f9;
+  background: #532f53;
+}
+
 form {
   width: 100%;
 }
@@ -1380,7 +1387,9 @@ body {
 }
 
 main {
-  padding: 2rem;
+  margin-top: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
   padding-bottom: 4rem;
 }
 
@@ -1496,7 +1505,7 @@ h6 {
   text-decoration: none;
   display: block;
   text-align: center;
-  border: 1px solid #fff9fe;
+  box-shadow: 2px 2px 2px 0px #532f5347;
   background: #532f53;
   color: #f9f4f9;
 }
@@ -1509,6 +1518,7 @@ h6 {
   text-decoration: none;
   display: block;
   text-align: center;
+  box-shadow: 2px 2px 2px 0px #532f5347;
   border: 1px solid #532f53;
   background: #fff9fe;
   color: #532f53;
@@ -1529,6 +1539,50 @@ h6 {
 
 .card-cost-border {
   border-bottom: 1px solid #956a95;
+}
+
+.flash-info {
+  background: #009797;
+  color: #1a171a;
+  box-shadow: 0 0 2px 0 black inset;
+  width: 100%;
+}
+
+.flash-ok {
+  background: #532f53;
+  color: #f9f4f9;
+  box-shadow: 0 0 2px 0 black inset;
+  width: 100%;
+}
+
+.flash-error {
+  background: #ffaaaa;
+  color: #1a171a;
+  box-shadow: 0 0 2px 0 black inset;
+  width: 100%;
+}
+
+@media screen and (min-width: 640px) {
+  .flash-info {
+    width: 600px;
+  }
+
+  .flash-ok {
+    width: 600px;
+  }
+
+  .flash-error {
+    width: 600px;
+  }
+}
+.order-table {
+  width: 100%;
+}
+
+@media screen and (min-width: 640px) {
+  .order-table {
+    width: 500px;
+  }
 }
 
 /*# sourceMappingURL=site.css.map */

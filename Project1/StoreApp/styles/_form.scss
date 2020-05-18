@@ -44,6 +44,13 @@ input[type="submit"] {
   padding: $space-lg;
 }
 
+button.button-dark,
+input[type="button"].button-dark,
+input[type="submit"].button-dark {
+  color: $color-gray-50;
+  background: $color-brand;
+}
+
 form {
     width: 100%;
 }

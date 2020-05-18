@@ -2,7 +2,7 @@
 <partial name="/Views/Partials/FlashMessagePartial.cshtml" />
 
 @if (Model.NotFound) {
-    <h2>Unable to find that item id.</h2>
+    <h1>Unable to find that item id.</h1>
 } else {
     <div class="flex-col items-center m4">
         <div class="flex-col items-center bd-radius-lg candy-card-container">
@@ -20,7 +20,7 @@
                 <input type="number" min="1" max="@Model.Stock" step="1" name="ItemQuantity" value="1">
             </div>
             <div class="my4">
-                <input type="submit" value="Add to cart">
+                <input type="submit" class="button-dark" value="Add to cart">
             </div>
         </form>
     </div>

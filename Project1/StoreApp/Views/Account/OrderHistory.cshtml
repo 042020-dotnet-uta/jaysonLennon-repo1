@@ -1,10 +1,9 @@
 @model StoreApp.Model.View.UserOrderHistory
-<h2 class="text-center">Order History</h2>
+<h1 class="text-center">Order History</h1>
 <partial name="/Views/Partials/FlashMessagePartial.cshtml" />
 
 <div class="flex-row justify-center">
-
-    <table>
+    <table class="order-table">
         <thead>
             <tr>
                 <th class="p2 color-bg-brand text-bold text-gray-50">Date</th>
@@ -32,5 +31,4 @@
             }
         </tbody>
     </table>
-
 </div>

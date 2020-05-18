@@ -3,7 +3,7 @@
 <h1>this is the store order summary page</h1>
 <partial name="/Views/Partials/FlashMessagePartial.cshtml" />
 
-<h2>order summary for store: @Model.StoreName</h2>
+<h1>order summary for store: @Model.StoreName</h1>
 
 @if (Model.Items.Count == 0) {
     <div>There are no orders for this store.</div>

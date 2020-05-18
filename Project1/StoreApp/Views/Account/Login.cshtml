@@ -5,7 +5,7 @@
 <div class="flex-col items-center">
     <form class="p4" asp-controller="Account" asp-action="TryLogin" method="POST">
         <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl">
-        <h2 class="text-color-brand text-center">Login</h2>
+        <h1 class="text-color-brand text-center">Login</h1>
         <div class="my4">
             <label asp-for="UserName"></label>
             <input asp-for="UserName" placeholder="User Name"/>

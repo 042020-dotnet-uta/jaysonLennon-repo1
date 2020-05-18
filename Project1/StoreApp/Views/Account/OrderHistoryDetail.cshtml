@@ -1,5 +1,5 @@
 @model StoreApp.Model.View.UserOrderHistoryDetail
-<h2 class="text-center">Order Detail</h2>
+<h1 class="text-center">Order Detail</h1>
 <partial name="/Views/Partials/FlashMessagePartial.cshtml" />
 
 <div class="flex-col mx4 text-left">
@@ -9,7 +9,7 @@
 </div>
 <hr>
 
-<h2 class="text-center">Items</h2>
+<h1 class="text-center">Items</h1>
 <div class="edit-cart-grid justify-center width-100" id="cartform">
     @foreach (var item in @Model.LineItems)
     {

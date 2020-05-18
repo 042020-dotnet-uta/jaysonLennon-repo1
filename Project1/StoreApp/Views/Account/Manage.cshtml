@@ -1,13 +1,12 @@
 @model StoreApp.Model.Input.AccountManagement
 
-<h1>This is the account management page</h1>
+<h1 class="text-center">Account Management</h1>
 
 <partial name="/Views/Partials/FlashMessagePartial.cshtml" />
 
-
 <div class="flex-col items-center">
     <form asp-controller="Account" asp-action="UpdateAccountInfo" method="POST">
-        <a class="button-link-dark text-center" asp-controller="Account" asp-action="OrderHistory">Order history</a>
+        <a class="button-link-light text-center" asp-controller="Account" asp-action="OrderHistory">Order history</a>
         <div class="my4">
             <label asp-for="StorePicked">Default Store</label>
             <select asp-for="StorePicked" asp-items="@Model.Stores"></select>
@@ -46,6 +45,6 @@
             <span class="text-color-error" asp-validation-for="Zip"></span>
         </div>
 
-        <input type="submit" value="Save Changes">
+        <input type="submit" class="button-dark" value="Save Changes">
     </form>
 </div>

@@ -1,7 +1,9 @@
+using System;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using StoreApp.Models;
+using StoreApp.FlashMessageExtension;
 
 namespace StoreApp.Controllers
 {
@@ -19,6 +21,18 @@ namespace StoreApp.Controllers
         public IActionResult Index()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [Route("/TestFlashMsg")]
+        [HttpGet]
+        [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
+        public IActionResult FlashMsg()
+        {
+            Console.WriteLine("set flash message");
+            this.SetFlashError("Flash error message");
+            this.SetFlashInfo("Flash info message that is long");
+            this.SetFlashOk("Flash ok message that is way longer than the other messages");
+            return View("Teststuff");
         }
     }
 }
