@@ -1,11 +1,21 @@
 .grid-2c {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .grid-3c {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-4c {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-5c {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
 }
 
 .grid-auto-rows {
@@ -16,4 +26,70 @@
 .grid-auto-cols {
   display: grid;
   grid-auto-columns: auto;
+}
+
+@include break-sm {
+  .sm\:grid-2c {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sm\:grid-3c {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .sm\:grid-4c {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .sm\:grid-5c {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@include break-md {
+  .md\:grid-2c {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .md\:grid-3c {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .md\:grid-4c {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .md\:grid-5c {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@include break-lg {
+  .lg\:grid-2c {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .lg\:grid-3c {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .lg\:grid-4c {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .lg\:grid-5c {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+  }
 }

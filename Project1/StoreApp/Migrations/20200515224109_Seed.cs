@@ -21,16 +21,32 @@ namespace StoreApp.Migrations
             migrationBuilder.Sql("INSERT INTO Users (UserId, FirstName, LastName, PhoneNumber, Password, Login, Role) VALUES ('E0E0B819-2D8D-484F-9013-AEB054F227B1', 'Sherry', 'Roa', '211-555-9292', '123', 'sherry@example.com', 'Customer')");
             migrationBuilder.Sql("INSERT INTO Users (UserId, FirstName, LastName, PhoneNumber, Password, Login, Role) VALUES ('F91FA2F2-0E35-4476-BA81-DA325CBE6C32', 'Sara', 'Primm', '284-555-3831', '123', 'sara@example.com', 'Customer')");
 
-            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('B52C8E10-A72B-4B74-80A3-7367A108BB46', '1', 'Lollipop', 'lollipop.jpg')");
-            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('34D34E7B-5911-4805-AF27-C0EE12C1EBA7', '2', 'Milk Chocolate Bar', 'milk-chocolate-bar.jpg')");
-            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('C2F49C8C-1E38-444C-9454-69D19C42FCB7', '2', 'Chocolate Bar with Almonds', 'chocolate-bar-with-almonds.jpg')");
-            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('681B47F6-A668-4465-B97D-001AE2C14B6F', '2', 'Dark Chocolate Bar', 'dark-chocolate-bar.jpg')");
-            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('8EE96987-4BD9-4BF4-9A61-08053B4ED64D', '3', 'Bag of Gummy Bears', 'bag-gummy-bears.jpg')");
-            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('67F25997-F989-41F3-931C-F54FE8172EC8', '4', 'Bag of Sour Gummies', 'bag-sour-gummies.jpg')");
-            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('C686DC98-FD97-4073-857F-17DBC48F7CA8', '3', 'Rock Candy', 'rock-candy.jpg')");
-            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('BCCCB075-AA60-443C-A098-820E3B3AAD65', '2', 'Toffee', 'toffee.jpg')");
-            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('6616320F-142A-41D6-B673-405779CAC6AB', '1', 'Giant Gumball', 'giant-gumball.jpg')");
-            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('3C7076EE-4887-4481-8E37-0D6B6BBE2D86', '1', 'Bag of Jelly Beans', 'bag-jelly-beans.jpg')");
+            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('B52C8E10-A72B-4B74-80A3-7367A108BB46', '1', 'Candy Cola', 'candy-cola.jpg')");
+            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('34D34E7B-5911-4805-AF27-C0EE12C1EBA7', '2', 'Candy Corn', 'candy-corn.jpg')");
+            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('C2F49C8C-1E38-444C-9454-69D19C42FCB7', '2', 'Candy Hearts', 'candy-hearts.jpg')");
+            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('681B47F6-A668-4465-B97D-001AE2C14B6F', '2', 'Chocolate Bar', 'chocolate-bar.jpg')");
+            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('8EE96987-4BD9-4BF4-9A61-08053B4ED64D', '3', 'Chocolate Bunny', 'chocolate-bunny.jpg')");
+            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('67F25997-F989-41F3-931C-F54FE8172EC8', '4', 'Chocolate Chip Cookies', 'chocolate-chip-cookies.jpg')");
+            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('C686DC98-FD97-4073-857F-17DBC48F7CA8', '3', 'Chocolate Coins', 'chocolate-coins.jpg')");
+            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('BCCCB075-AA60-443C-A098-820E3B3AAD65', '2', 'Fruit Chews', 'fruit-chews.jpg')");
+            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('6616320F-142A-41D6-B673-405779CAC6AB', '1', 'Fruit Crunchies', 'fruit-crunchies.jpg')");
+            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('3C7076EE-4887-4481-8E37-0D6B6BBE2D86', '1', 'Fruit Gummies', 'fruit-gummies.jpg')");
+            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('8f6a3bb6-c4bb-4da9-b3ae-c862b5ac6e79', '1', 'Gummy Bears', 'gummy-bears.jpg')");
+            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('941a5041-4dbe-4be7-b068-6371e11e7da6', '1', 'Jelly Beans', 'jelly-beans.jpg')");
+            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('ed9ecc34-b5bd-47a8-bebb-c2a6cf792ecf', '1', 'Lollipops', 'lollipop.jpg')");
+            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('dab5cc57-7ae9-4650-b331-944e9bb8ba28', '1', 'Mini Chocolate Bars', 'mini-choco-bars.jpg')");
+            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('128ec776-2576-4b5e-b116-e353910bc382', '1', 'M&Ms', 'mms.jpg')");
+            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('08573762-2771-4e6d-80ae-8e4383fd5d1d', '1', 'Rainbow Treats', 'rainbow-treats.jpg')");
+            migrationBuilder.Sql("INSERT INTO Products (ProductId, Price, Name, ImageName) VALUES ('01a8327a-b60c-4459-af73-e17425ee73c6', '1', 'Sour Gummies', 'sour-gummies.jpg')");
+
+
+            migrationBuilder.Sql("INSERT INTO LocationInventories (LocationInventoryId, ProductId, LocationId, Quantity) VALUES ('1e848f14-7208-4936-a472-e330a0061c9c', '8f6a3bb6-c4bb-4da9-b3ae-c862b5ac6e79', 'BBD4B6EB-CF72-4313-9C92-BD1BE7CAF949', '400')");
+            migrationBuilder.Sql("INSERT INTO LocationInventories (LocationInventoryId, ProductId, LocationId, Quantity) VALUES ('f08090d4-7af7-4b9c-87b5-5d440f2d8957', '941a5041-4dbe-4be7-b068-6371e11e7da6', 'BBD4B6EB-CF72-4313-9C92-BD1BE7CAF949', '300')");
+            migrationBuilder.Sql("INSERT INTO LocationInventories (LocationInventoryId, ProductId, LocationId, Quantity) VALUES ('da3d5e8a-ed11-433e-99b6-4a80302e10d4', 'ed9ecc34-b5bd-47a8-bebb-c2a6cf792ecf', 'BBD4B6EB-CF72-4313-9C92-BD1BE7CAF949', '240')");
+            migrationBuilder.Sql("INSERT INTO LocationInventories (LocationInventoryId, ProductId, LocationId, Quantity) VALUES ('b9cc397c-6769-4adf-af92-2bd2871c35ad', 'dab5cc57-7ae9-4650-b331-944e9bb8ba28', 'BBD4B6EB-CF72-4313-9C92-BD1BE7CAF949', '600')");
+            migrationBuilder.Sql("INSERT INTO LocationInventories (LocationInventoryId, ProductId, LocationId, Quantity) VALUES ('6c317c5b-0f3b-44bb-81dc-bb9741051b1d', '128ec776-2576-4b5e-b116-e353910bc382', 'BBD4B6EB-CF72-4313-9C92-BD1BE7CAF949', '190')");
+            migrationBuilder.Sql("INSERT INTO LocationInventories (LocationInventoryId, ProductId, LocationId, Quantity) VALUES ('bceb5aaa-883e-43b6-8e45-c851b1992029', '08573762-2771-4e6d-80ae-8e4383fd5d1d', 'BBD4B6EB-CF72-4313-9C92-BD1BE7CAF949', '330')");
+            migrationBuilder.Sql("INSERT INTO LocationInventories (LocationInventoryId, ProductId, LocationId, Quantity) VALUES ('c3f935e7-69b9-4c54-ac85-63e6387ac8ab', '01a8327a-b60c-4459-af73-e17425ee73c6', 'BBD4B6EB-CF72-4313-9C92-BD1BE7CAF949', '440')");
 
             migrationBuilder.Sql("INSERT INTO LocationInventories (LocationInventoryId, ProductId, LocationId, Quantity) VALUES ('F2F69D85-D42D-48AD-84F0-A242C2490E67', 'B52C8E10-A72B-4B74-80A3-7367A108BB46', 'B8B94F18-D101-4576-AF28-3CBF31EBD6B2', '200')");
             migrationBuilder.Sql("INSERT INTO LocationInventories (LocationInventoryId, ProductId, LocationId, Quantity) VALUES ('6C4C86E0-D692-43A7-B74F-31463BFFEC04', '34D34E7B-5911-4805-AF27-C0EE12C1EBA7', 'B8B94F18-D101-4576-AF28-3CBF31EBD6B2', '100')");

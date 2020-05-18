@@ -1,10 +1,14 @@
 @model StoreApp.Model.View.Storefront
-<h1>this is the storefront page</h1>
 <partial name="/Views/Partials/FlashMessagePartial.cshtml" />
-<h2>Viewing items from store: @Model.StoreName</h2>
-@foreach (var product in @Model.products)
-{
-    <div>
-        <a href="ItemDetail/View/@product.Item1.ProductId">[Click]</a> Quantity: @product.Item2, product: @product.Item1.Name
-    </div>
-}
+
+<h2>Location: @Model.StoreName</h2>
+
+<div class="justify-center card-grid">
+    @foreach (var product in @Model.products)
+    {
+        <a class="flex-col items-center bd-radius-lg candy-card-container" href="ItemDetail/View/@product.Item1.ProductId">
+            <img class="candy-card-image" src="/img/product/@product.Item1.ImageName">
+            <div class="flex-col items-center justify-center height-100 width-100 p3 text-center text-gray-50 color-bg-brand">@product.Item1.Name</div>
+        </a>
+    }
+</div>

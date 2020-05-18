@@ -36,3 +36,30 @@
         width: 300px;
     }
 }
+
+.bd-branded {
+    border: 1px solid $color-brand;
+}
+
+.candy-card-image {
+    width: $candy-card-width;
+    min-height: $candy-card-height;
+    object-fit: cover;
+}
+
+.candy-card-container {
+    max-width: $candy-card-width;
+    box-shadow: 0px 3px 19px 0 #532f53a6;
+    overflow: hidden;
+}
+
+.card-row-gap {
+    grid-row-gap: 4rem;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, $candy-card-width);
+    grid-row-gap: $candy-card-grid-row-gap;
+    grid-column-gap: $candy-card-grid-col-gap;
+}
