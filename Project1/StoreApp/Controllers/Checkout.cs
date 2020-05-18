@@ -121,6 +121,7 @@ namespace StoreApp.Controllers
         [Route("Checkout/PlaceOrderOk")]
         [HttpGet]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
+        [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public IActionResult PlaceOrderOk()
         {
             return View("PlaceOrderOk");
@@ -129,6 +130,7 @@ namespace StoreApp.Controllers
         [Route("Checkout/PlaceOrderError")]
         [HttpGet]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
+        [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public IActionResult PlaceOrderError()
         {
             return View("PlaceOrderError");

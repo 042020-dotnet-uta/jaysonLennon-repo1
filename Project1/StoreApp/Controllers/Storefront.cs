@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.Linq;
 
 using StoreApp.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StoreApp.Controllers
 {
@@ -28,8 +29,8 @@ namespace StoreApp.Controllers
         }
 
         [Route("Storefront")]
-        [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
+        [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public async Task<IActionResult> Index()
         {
             var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));

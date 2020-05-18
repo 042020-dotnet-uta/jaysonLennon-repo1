@@ -25,6 +25,7 @@ namespace StoreApp.Model.View
             this.AmountPaid = order.AmountPaid;
             this.StoreName = order.Location.Name;
         }
+
         public void AddLineItem(Entity.OrderLineItem lineItem)
         {
             var historyLine = new UserOrderHistoryLine();

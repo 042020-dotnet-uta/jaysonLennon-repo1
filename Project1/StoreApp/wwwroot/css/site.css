@@ -1136,6 +1136,15 @@ table tr {
   background: #e4d9e4;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #532f53;
+}
+
 .link-light {
   color: #009797;
 }

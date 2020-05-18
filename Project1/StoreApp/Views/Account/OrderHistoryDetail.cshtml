@@ -1,21 +1,33 @@
 @model StoreApp.Model.View.UserOrderHistoryDetail
-
-<h1>this is the order history detail page</h1>
-
+<h2 class="text-center">Order Detail</h2>
 <partial name="/Views/Partials/FlashMessagePartial.cshtml" />
-<div>Order number: @Model.OrderId</div>
-<div>Time submitted: @Model.TimeSubmitted</div>
-<div>Amount paid: $@Model.AmountPaid</div>
-<div>Purchased from store: @Model.StoreName</div>
 
-<h2>Items</h2>
+<div class="flex-col mx4 text-left">
+    <div class="text-xl text-bold my2">Total: $@Model.AmountPaid</div>
+    <div class="text-xl text-bold my2">Store: @Model.StoreName</div>
+    <div class="text-xl text-bold my2">Submitted at @Model.TimeSubmitted</div>
+</div>
+<hr>
 
-@foreach (var item in @Model.LineItems)
-{
-    <div>
-        <div>Item name: @item.Name</div>
-        <div>Amount charged: @item.AmountCharged</div>
-        <div>Quantity: @item.Quantity</div>
-        <hr>
-    </div>
-}
+<h2 class="text-center">Items</h2>
+<div class="edit-cart-grid justify-center width-100" id="cartform">
+    @foreach (var item in @Model.LineItems)
+    {
+        <div class="flex-row">
+            <div class="flex-col items-center m4">
+                <div class="flex-col items-center bd-radius-lg candy-card-container">
+                    <img class="candy-card-image" src="/img/product/@item.ImageName">
+                    <div class="flex-col items-center justify-center height-100 width-100 p3 text-center text-gray-50 color-bg-brand text-bold card-cost-border">@item.Name</div>
+                </div>
+            </div>
+
+            <div class="flex-col justify-center p4">
+                <div class="my4 text-5xl">$@item.AmountCharged</div>
+                <div class="my4">
+                    <label>Quantity</label>
+                    <input disabled type="number" value="@item.Quantity" placeholder="Quantity">
+                </div>
+            </div>
+        </div>
+    }
+</div>

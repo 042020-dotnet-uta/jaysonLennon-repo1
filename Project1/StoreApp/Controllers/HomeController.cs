@@ -16,12 +16,14 @@ namespace StoreApp.Controllers
 
         [Route("/")]
         [Route("Index/")]
+        [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public IActionResult Index()
         {
             return View();
         }
 
         [Route("/Privacy")]
+        [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public IActionResult Privacy()
         {
             return View();

@@ -35,6 +35,7 @@ namespace StoreApp.Controllers
         [Route("Account/Manage")]
         [Authorize(Roles = Auth.Role.Customer)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
+        [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public async Task<IActionResult> Manage()
         {
             var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
@@ -124,6 +125,7 @@ namespace StoreApp.Controllers
         [Route("Account/OrderHistory")]
         [Authorize(Roles = Auth.Role.Customer)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
+        [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public async Task<IActionResult> OrderHistory()
         {
             var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
@@ -144,6 +146,7 @@ namespace StoreApp.Controllers
         [Route("Account/OrderHistoryDetail")]
         [Authorize(Roles = Auth.Role.Customer)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
+        [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public async Task<IActionResult> OrderHistoryDetail(Guid orderId)
         {
             var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
@@ -164,6 +167,7 @@ namespace StoreApp.Controllers
 
         [Route("Account/Create")]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
+        [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public async Task<IActionResult> CreateAccountIndex()
         {
             var model = new Model.Input.CreateAccount();
@@ -172,6 +176,7 @@ namespace StoreApp.Controllers
 
         [Route("Account/Login")]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
+        [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public async Task<IActionResult> LoginIndex(Model.Input.LoginRedirect loginRedirectModel)
         {
             // LoginRedirectModel is used for redirection requests.
@@ -182,6 +187,7 @@ namespace StoreApp.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Route("Account/Logout")]
         public async Task<IActionResult> Logout()
         {
@@ -301,6 +307,7 @@ namespace StoreApp.Controllers
         [Route("Account/AccessDenied")]
         [HttpGet]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
+        [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public async Task<IActionResult> AccessDenied(string returnUrl)
         {
             this._logger.LogTrace($"access denied: return={returnUrl}");
