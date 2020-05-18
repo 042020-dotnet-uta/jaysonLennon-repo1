@@ -1,19 +1,21 @@
 @model StoreApp.Model.Input.CreateAccount;
 
-<h1>Create Account page</h1>
-
 <partial name="/Views/Partials/FlashMessagePartial.cshtml" />
-<form asp-controller="Account" asp-action="TryCreate" method="POST">
-    <div>
-        <label asp-for="UserName"></label>
-        <input asp-for="UserName" placeholder="User Name" />
-        <span asp-validation-for="UserName"></span>
-    </div>
-    <div>
-        <label asp-for="Password"></label>
-        <input asp-for="Password" placeholder="Password" />
-        <span asp-validation-for="Password"></span>
-    </div>
 
-    <input type="submit" value="Submit" />
-</form>
+<div class="flex-col items-center">
+    <form class="login-form p4" asp-controller="Account" asp-action="TryCreate" method="POST">
+        <h2 class="text-color-brand text-center">Create Account</h2>
+        <div class="my4">
+            <label asp-for="UserName"></label>
+            <input asp-for="UserName" placeholder="User Name" class="my2"/>
+            <span asp-validation-for="UserName" class="text-color-error"></span>
+        </div>
+        <div class="my4">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" placeholder="Password" class="my2"/>
+            <span asp-validation-for="Password" class="text-color-error"></span>
+        </div>
+
+        <input type="submit" value="Submit" class="my4" />
+    </form>
+</div>
