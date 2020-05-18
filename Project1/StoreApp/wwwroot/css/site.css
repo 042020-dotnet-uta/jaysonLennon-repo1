@@ -322,6 +322,7 @@ table {
 }
 button,
 input[type=text],
+input[type=password],
 input[type=submit],
 input[type=number] {
   width: 100%;
@@ -337,6 +338,7 @@ input[type=number] {
 }
 
 input[type=text]:disabled,
+input[type=password]:disabled,
 input[type=number]:disabled {
   cursor: not-allowed;
   box-shadow: inset 0px 0px 2px 0px #b2a4b2;

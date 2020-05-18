@@ -1,3 +1,9 @@
-<h1>This is the 'place order fail' page</h1>
+<h2 class="text-center">Order Placement Error</h2>
 <partial name="/Views/Partials/FlashMessagePartial.cshtml" />
-<a asp-controller="Storefront" asp-action="Index">Browse for more</a>
+
+<p class="text-center">There was a problem placing your order, please try again.</p>
+<div class="flex-col items-center text-center">
+    <form>
+        <a class="button-link" asp-controller="Checkout" asp-action="Index">Checkout</a>
+    </form>
+</div>

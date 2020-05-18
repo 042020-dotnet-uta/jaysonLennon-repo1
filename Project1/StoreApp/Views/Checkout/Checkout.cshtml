@@ -3,7 +3,12 @@
 <h2 class="text-center">Checkout</h2>
 
 @if (@Model.Items.Count == 0) {
-    <partial name="/Views/Cart/EmptyCartPartial.cshtml" />
+    <p class="text-center">Your cart is currently empty.</p>
+    <div class="flex-col items-center text-center">
+        <form>
+            <a class="button-link" asp-controller="Storefront" asp-action="Index">Start Shopping</a>
+        </form>
+    </div>
 } else {
     <form id="checkoutform" asp-controller="Checkout" asp-action="PlaceOrder" method="POST"></form>
 
