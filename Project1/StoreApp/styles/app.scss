@@ -107,14 +107,14 @@
 .flash-ok {
     background: $color-flash-ok-background;
     color: $color-font;
-    border: 1px solid $color-flash-info-border;
+    border: 1px solid $color-flash-ok-border;
     width: 100%;
 }
 
 .flash-error {
     background: $color-flash-error-background;
     color: $color-font;
-    border: 1px solid $color-flash-info-border;
+    border: 1px solid $color-flash-error-border;
     width: 100%;
 }
 

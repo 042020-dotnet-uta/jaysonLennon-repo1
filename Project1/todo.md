@@ -3,7 +3,7 @@
 - [X] "Not logged in" state
 - [X] "Logged in" state
 - [X] Use data from db
-- [ ] styles
+- [X] styles
 
 # Storefront page
 - [X] Display products from selected store or default store
@@ -11,7 +11,7 @@
 - [X] Show which store's items are being displayed
 - [X] Click items to go to detail page
 - [X] Use data from db
-- [ ] styles
+- [X] styles
 
 # Account Management Page
 - [X] Use data from db
@@ -19,14 +19,13 @@
 - [X] Store selector
 - [X] Personal info form
 - [X] Save personal info
-- [ ] styles
+- [X] styles
 
 # Order History page
 - [X] Use data from db
 - [X] List orders
 - [X] Display details of order
-- [ ] styles
-
+- [X] styles
 
 # Item detail page
 - [X] Display product
@@ -35,17 +34,17 @@
 - [X] Update order info on backend
 - [X] Use data from db
 - [X] Disallow ordering more than the max
-- [ ] styles
+- [X] styles
 
 # Added to cart page
 - [X] Display product, quantity, and message
 - [X] Use data from db
 - [X] 'Checkout' button
 - [X] 'Continue Shopping' button
-- [ ] styles
+- [X] styles
 
 # Item detail page
-- [ ] link to try again on error
+- [X] link to try again on error
 
 # Checkout page
 - [X] Display products in cart, quantity, and totals per product
@@ -54,12 +53,12 @@
 - [X] Use data from db
 - [X] Display different information when cart is empty
 - [X] Remove purchase button when cart empty
-- [ ] styles
+- [X] styles
 
 ## Purchase OK page
 ## Purchase error page
-- [ ] Link to cart
-- [ ] styles
+- [X] Link to cart
+- [X] styles
 
 # View cart page
 - [X] List products
@@ -73,7 +72,7 @@
 - [X] display error on broken model
 - [X] "Checkout" link
 - [X] Use data from db
-- [ ] styles
+- [X] styles
 
 # Error page
 - [ ] stlyes
@@ -81,14 +80,14 @@
 # Admin pages
 - [X] view location orders
 - [X] search for customers
-- [ ] stlyes
+- [X] stlyes
 
 # General
 - [X] Add redirects for POST-only URLs to appropriate location (cart main, storefront, etc)
 - [X] fix logger generics in all controllers
 - [ ] apply async where appropriate
 - [ ] autofocus
-- [ ] ensure appropriate routes are authorize-gated
+- [X] ensure appropriate routes are authorize-gated
 - [X] remove unused imports
 - [X] separate models into view and submission
 - [X] grep for unimplemented interfaces
@@ -99,10 +98,10 @@
 - [X] post requests should redirect to get
 - [X] add flash message display to all pages
 - [ ] add 404 page
-- [ ] style flash messages
-- [ ] style access denied page
+- [X] style flash messages
+- [X] style access denied page
 - [ ] remove .AsEnumerable calls in repos
 - [ ] use implicit interface implementations
 - [ ] remove console writelines
-- [ ] add ValidateAntiForgeryToken on POST requests
+- [X] add ValidateAntiForgeryToken on POST requests
 

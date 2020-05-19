@@ -1567,7 +1567,7 @@ em {
 .flash-error {
   background: #ffaaaa;
   color: #1a171a;
-  border: 1px solid #8eb4c4;
+  border: 1px solid #ffaaaa;
   width: 100%;
 }
 
