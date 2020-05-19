@@ -85,8 +85,8 @@ namespace StoreApp.AdminControllers
 
             var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
 
-            var orderFound = await orderRepo.Exists(orderId);
-            if (!orderFound)
+            var order = await orderRepo.AdminGetOrderById(orderId);
+            if (order == null)
             {
                 this.SetFlashError("Unable to locate the selected order.");
                 return Redirect($"/Admin/StoreOrderSummary/Summary?storeId={storeId}");
@@ -98,6 +98,7 @@ namespace StoreApp.AdminControllers
             {
                 model.AddDetailItem(lineItem);
             }
+            model.TimeSubmitted = order.TimeSubmitted;
 
             return View("/Views/Admin/StoreOrderSummary/Detail.cshtml", model);
         }

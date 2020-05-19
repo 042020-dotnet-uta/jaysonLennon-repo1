@@ -1,19 +1,45 @@
 @model StoreApp.AdminModel.StoreOrderDetail
 
-<h1>this is the store order detail page</h1>
+<h1 class="text-center">Order Details</h1>
 <partial name="/Views/Partials/FlashMessagePartial.cshtml" />
 
 @if (@Model.Items == null) {
-    <div>Invalid item id, please try again. </div>
+    <div class="text-center text-bold">Unable to retrieve details for this order.</div>
 } else {
-    <div>Total price = @Model.TotalPrice</div>
-    <div>Total items = @Model.TotalItems</div>
-    <div>
-        @foreach (var lineItem in @Model.Items)
-        {
-            <div>
-                $@lineItem.Price / @lineItem.Quantity : @lineItem.Name
-            </div>
-        }
+    <div class="flex-col mx4 text-left">
+        <div class="text-xl text-bold my2">Total: $@Model.TotalPrice</div>
+        <div class="text-xl text-bold my2">Items: @Model.TotalItems</div>
+        <div class="text-xl text-bold my2">Submitted at @Model.TimeSubmitted</div>
+    </div>
+
+    <hr>
+
+    <div class="flex-row justify-center">
+        <table class="order-table">
+            <thead>
+                <tr>
+                    <th class="p2 color-bg-brand text-bold text-gray-50">Item</th>
+                    <th class="p2 color-bg-brand text-bold text-gray-50">Quantity</th>
+                    <th class="p2 color-bg-brand text-bold text-gray-50">Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var lineItem in @Model.Items)
+                {
+                <tr>
+                    <td class="p2 text-center text-color-brand">@lineItem.Name</td>
+                    <td class="p2 text-center text-color-brand">@lineItem.Quantity</td>
+                    <td class="p2 text-center text-color-brand">$@lineItem.Price</td>
+                </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="color-bg-brand p2 text-center text-gray-50 text-bold">Total</td>
+                    <td class="color-bg-brand p2 text-center text-gray-50 text-bold">@Model.TotalItems</td>
+                    <td class="color-bg-brand p2 text-center text-gray-50 text-bold">$@Model.TotalPrice</td>
+                </tr>
+            </tfoot>
+        </table>
     </div>
 }

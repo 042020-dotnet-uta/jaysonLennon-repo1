@@ -13,6 +13,7 @@ namespace StoreApp.AdminModel
     public class StoreOrderDetail {
         public double TotalPrice { get; set; }
         public int TotalItems { get; set; }
+        public DateTime? TimeSubmitted { get; set; }
         public List<StoreOrderDetailItem> Items { get; set; }
 
         public void AddDetailItem(Entity.OrderLineItem orderLine)
