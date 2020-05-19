@@ -1,0 +1,29 @@
+1 - Who is responsible for ensuring that SOA is adopted within an organization?
+* The CTO
+* (CORRECT) An evangelist and/or champion
+* Programmers
+* The IT manager
+
+2 - Which SDLC model would be appropriate to use when implementing SOA?
+* Big Bang
+* Agile Scrum
+* (CORRECT) Waterfall
+* Agile Kanban
+
+3 - What is the primary benefit of using SOA?
+* Easy to implement
+* Can be easily ran on one server
+* No need to write documentation
+* (CORRECT) Integration with legacy code
+
+4 - When should the SOA strategy be published?
+* (CORRECT) Early in the SOA adoption process
+* After implementation of SOA is complete
+* When decided whether or not to use SOA
+* During the acquisition phase
+
+5 - When should security be considered with SOA?
+* After there is a breach
+* Near the end of development
+* SOA does not need security
+* (CORRECT)At all points of development
