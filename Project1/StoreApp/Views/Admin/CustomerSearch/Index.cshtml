@@ -15,8 +15,15 @@
 <h2 class="text-center">Results</h2>
 
 <div class="flex-col items-center">
-    <div id="customer-search-results-container" class="customer-search-results-container">
-    </div>
+    <table class="order-table">
+        <thead>
+            <tr>
+                <th class="p2 color-bg-brand text-bold text-gray-50">Revenue</th>
+                <th class="p2 color-bg-brand text-bold text-gray-50 width-100">Name</th>
+            </tr>
+        </thead>
+        <tbody id="customer-search-results-container"></tbody>
+    </table>
 </div>
 
 <script>
@@ -85,81 +92,78 @@ window.addEventListener("load", function() {
 
     // Function to build the search results into elements.
     let resultBuilder = function(searchResults) {
-        let highlightClass = "search-result-highlight";
+        function noResultsEl() {
+            let noResultsTd = document.createElement("td");
+            noResultsTd.classList.add("text-center");
+            noResultsTd.setAttribute("colspan", "2");
+            noResultsTd.innerText = "No users found";
 
-        if (searchResults.users === undefined) {
-            let noResults = document.createElement("h3");
-            noResults.classList.add("text-center customer-search-no-results");
-            noResults.innerText = "No users found";
-            return;
+            let noResultsTr = document.createElement("tr");
+            noResultsTr.appendChild(noResultsTd);
+            return noResultsTr;
         }
+
+        let highlightClass = "search-result-highlight";
 
         // Clear out old results first.
         resultsContainer.innerHTML = "";
 
-        // Display headers or "no results" message.
-        if (searchResults.users.length > 0) {
-            let headerRevenue = document.createElement("div");
-            headerRevenue.classList.add("text-bold");
-            headerRevenue.innerText = "Revenue";
+        if (searchResults.users === undefined) {
+            resultsContainer.appendChild(noResultsEl());
+            return;
+        }
 
-            let headerName = document.createElement("div");
-            headerName.classList.add("text-bold");
-            headerName.innerText = "Name";
-
-            resultsContainer.appendChild(headerRevenue);
-            resultsContainer.appendChild(headerName);
-        } else {
-            let noResults = document.createElement("h3");
-            noResults.classList.add("text-center customer-search-no-results");
-            noResults.innerText = "No users found";
-
-            resultsContainer.appendChild(noResults);
+        if (searchResults.users.length == 0) {
+            resultsContainer.appendChild(noResultsEl());
         }
 
         // Iterate through each result.
         for (let i = 0; i < searchResults.users.length; i++) {
             let user = searchResults.users[i];
 
-            // Revenue section.
-            let revenue = document.createElement("div");
-            revenue.innerText = "$" + user.revenue;
-            revenue.classList.add("self-justify-center");
-            resultsContainer.appendChild(revenue);
+            let tr = document.createElement("tr");
 
-            // Name section.
-            let name = document.createElement("div");
+            // Revenue
+            let tdRevenue = document.createElement("td");
+            tdRevenue.innerText = "$" + user.revenue;
+            tdRevenue.classList.add("p2");
+            tr.appendChild(tdRevenue);
+
+            // Name
+            let tdName = document.createElement("td");
+            tdName.classList.add("p2");
             if (searchResults.isOmniQuery) {
                 // Omniqueries check both the first and last name for the search
                 // term(s), so we highlight the terms in both names.
                 let firstName = highlight(user.firstName, [searchResults.queryTerm1, searchResults.queryTerm2], highlightClass);
                 let lastName = highlight(user.lastName, [searchResults.queryTerm1, searchResults.queryTerm2], highlightClass);
 
-                name.appendChild(firstName);
+                tdName.appendChild(firstName);
 
                 let space = document.createElement("span");
                 space.innerText = " ";
 
-                name.appendChild(space);
-                name.appendChild(lastName);
+                tdName.appendChild(space);
+                tdName.appendChild(lastName);
 
-                resultsContainer.appendChild(name);
+                tr.appendChild(tdName);
             } else {
                 // Lastname,Firstname queries are specific, so we only highlight the search
                 // term in the relevant name.
                 let firstName = highlight(user.firstName, searchResults.queryTerm2, highlightClass);
                 let lastName = highlight(user.lastName, searchResults.queryTerm1, highlightClass);
 
-                name.appendChild(firstName);
+                tdName.appendChild(firstName);
 
                 let space = document.createElement("span");
                 space.innerText = " ";
 
-                name.appendChild(space);
-                name.appendChild(lastName);
+                tdName.appendChild(space);
+                tdName.appendChild(lastName);
 
-                resultsContainer.appendChild(name);
+                tr.appendChild(tdName);
             }
+            resultsContainer.appendChild(tr);
         }
 
     };

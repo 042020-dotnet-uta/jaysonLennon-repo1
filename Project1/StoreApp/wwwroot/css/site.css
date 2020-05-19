@@ -1597,17 +1597,6 @@ em {
   text-decoration: underline;
 }
 
-.customer-search-results-container {
-  display: grid;
-  grid-template-columns: min-content 2fr;
-  grid-column-gap: 2rem;
-  grid-row-gap: 0.25rem;
-}
-
-.customer-search-no-results {
-  grid-column: span 2;
-}
-
 @media screen and (min-width: 640px) {
   .customer-search-results-container {
     width: 300px;
