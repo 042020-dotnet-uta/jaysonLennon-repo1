@@ -18,15 +18,15 @@
             {
             <tr>
                 <td>
-                    <a class="block cursor-pointer p2 text-center" asp-controller="Account" asp-action="OrderHistoryDetail"
+                    <a class="block cursor-pointer p2 text-center text-color-brand" asp-controller="Account" asp-action="OrderHistoryDetail"
                     asp-route-orderId="@order.OrderId">@order.TimeSubmitted</a>
                 </td>
                 <td>
-                    <a class="block cursor-pointer p2 text-center" asp-controller="Account" asp-action="OrderHistoryDetail"
+                    <a class="block cursor-pointer p2 text-center text-color-brand" asp-controller="Account" asp-action="OrderHistoryDetail"
                     asp-route-orderId="@order.OrderId">@order.ItemQuantity</a>
                 </td>
                 <td>
-                    <a class="block cursor-pointer p2 text-center" asp-controller="Account" asp-action="OrderHistoryDetail"
+                    <a class="block cursor-pointer p2 text-center text-color-brand" asp-controller="Account" asp-action="OrderHistoryDetail"
                     asp-route-orderId="@order.OrderId">$@order.AmountPaid</a>
                 </td>
             </tr>

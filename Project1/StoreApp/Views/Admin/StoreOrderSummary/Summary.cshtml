@@ -1,22 +1,49 @@
 @model StoreApp.AdminModel.StoreOrderSummary
 
-<h1>this is the store order summary page</h1>
+<h1 class="text-center">Order Summary for @Model.StoreName</h1>
+
 <partial name="/Views/Partials/FlashMessagePartial.cshtml" />
 
-<h1>order summary for store: @Model.StoreName</h1>
-
 @if (Model.Items.Count == 0) {
-    <div>There are no orders for this store.</div>
+    <div class="text-center text-bold">There are no orders for this store.</div>
 } else {
-    <div>
-        @foreach (var order in @Model.Items)
-        {
-            <a asp-controller="AdminStoreOrderSummary"
-            asp-action="Detail"
-            asp-route-orderId="@order.OrderId"
-            asp-route-storeId="@Model.StoreId">@order.ItemQuantity / $@order.Price / @order.TimeSubmitted</a>
-            <br>
-        }
+    <div class="flex-row justify-center">
+        <table class="order-table">
+            <thead>
+                <tr>
+                    <th class="p2 color-bg-brand text-bold text-gray-50">Date</th>
+                    <th class="p2 color-bg-brand text-bold text-gray-50">Items</th>
+                    <th class="p2 color-bg-brand text-bold text-gray-50">Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in @Model.Items)
+                {
+                <tr>
+                    <td>
+                        <a class="block cursor-pointer p2 text-center width-100 text-color-brand"
+                        asp-controller="AdminStoreOrderSummary"
+                        asp-action="Detail"
+                        asp-route-orderId="@order.OrderId"
+                        asp-route-storeId="@Model.StoreId">@order.TimeSubmitted</a>
+                    </td>
+                    <td>
+                        <a class="block cursor-pointer p2 text-center width-100 text-color-brand"
+                        asp-controller="AdminStoreOrderSummary"
+                        asp-action="Detail"
+                        asp-route-orderId="@order.OrderId"
+                        asp-route-storeId="@Model.StoreId">@order.ItemQuantity</a>
+                    </td>
+                    <td>
+                        <a class="block cursor-pointer p2 text-center width-100 text-color-brand"
+                        asp-controller="AdminStoreOrderSummary"
+                        asp-action="Detail"
+                        asp-route-orderId="@order.OrderId"
+                        asp-route-storeId="@Model.StoreId">@order.Price</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
     </div>
-
 }
