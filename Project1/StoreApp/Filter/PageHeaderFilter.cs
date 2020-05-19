@@ -10,7 +10,14 @@ namespace StoreApp.PageHeader
     /// </summary>
     public static class K
     {
+        /// <summary>
+        /// Key to use when accessing the user name.
+        /// </summary>
         public const string UserName = "_HEADER__USER_NAME";
+
+        /// <summary>
+        /// Key to use when accessing the number of items in the cart.
+        /// </summary>
         public const string NumItemsInCart = "_HEADER__NUM_ITEMS_IN_CART";
     }
 
@@ -22,6 +29,9 @@ namespace StoreApp.PageHeader
     {
         private IServiceProvider _services;
 
+        /// <summary>
+        /// Standard constructor.
+        /// </summary>
         public PopulateHeader(IServiceProvider services)
         {
             this._services = services;
@@ -41,6 +51,7 @@ namespace StoreApp.PageHeader
                 var username = context.HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserName).Value;
                 var numProductsInCart = await userRepository.CountProductsInCart(userIdAsGuid);
 
+                // Set info.
                 controller.ViewData[K.UserName] = username;
                 controller.ViewData[K.NumItemsInCart] = numProductsInCart;
             }

@@ -25,13 +25,23 @@ namespace StoreApp.Data
         /// <summary>The OrderLineItems table.</summary>
 
         public DbSet<Entity.OrderLineItem> OrderLineItems { get; set; }
-        /// <summary>The Addresses table.</summary>
 
+        /// <summary>The Addresses table.</summary>
         public DbSet<Entity.Address> Addresses { get; set; }
+
+        /// <summary>The table for Line1 of addresses.</summary>
         public DbSet<Entity.AddressLine1> AddressLine1s { get; set; }
+
+        /// <summary>The table for Line2 of addresses.</summary>
         public DbSet<Entity.AddressLine2> AddressLine2s { get; set; }
+
+        /// <summary>The table for the zip code of addresses.</summary>
         public DbSet<Entity.ZipCode> ZipCodes { get; set; }
+
+        /// <summary>The table for the states of addresses.</summary>
         public DbSet<Entity.State> States { get; set; }
+
+        /// <summary>The table for the cities of addresses.</summary>
         public DbSet<Entity.City> Cities { get; set; }
 
         /// <summary>Needed for EF.</summary>
