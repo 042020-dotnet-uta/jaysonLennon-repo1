@@ -33,6 +33,7 @@ namespace StoreApp.AdminControllers
         [Route("Admin/StoreOrderSummary")]
         [Authorize(Roles = Auth.Role.Administrator)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
+        [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public async Task<IActionResult> Index()
         {
             var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
@@ -51,6 +52,7 @@ namespace StoreApp.AdminControllers
         [Route("Admin/StoreOrderSummary/Summary")]
         [Authorize(Roles = Auth.Role.Administrator)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
+        [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public async Task<IActionResult> Summary(Guid storeId)
         {
             var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
@@ -79,6 +81,7 @@ namespace StoreApp.AdminControllers
         [Route("Admin/StoreOrderSummary/Detail")]
         [Authorize(Roles = Auth.Role.Administrator)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
+        [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public async Task<IActionResult> Detail(Guid orderId, Guid storeId)
         {
             var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
@@ -102,6 +105,5 @@ namespace StoreApp.AdminControllers
 
             return View("/Views/Admin/StoreOrderSummary/Detail.cshtml", model);
         }
-
     }
 }

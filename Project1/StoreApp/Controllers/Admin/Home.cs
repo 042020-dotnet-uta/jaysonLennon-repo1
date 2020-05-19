@@ -31,6 +31,7 @@ namespace StoreApp.AdminControllers
         [Route("Admin")]
         [Authorize(Roles = Auth.Role.Administrator)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
+        [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public async Task<IActionResult> Index()
         {
             return View("/Views/Admin/Home/Index.cshtml");

@@ -100,21 +100,21 @@
 .flash-info {
     background: $color-flash-info-background;
     color: $color-font;
-    box-shadow: 0 0 2px 0 black inset;
+    border: 1px solid $color-flash-info-border;
     width: 100%;
 }
 
 .flash-ok {
     background: $color-flash-ok-background;
-    color: $color-gray-50;
-    box-shadow: 0 0 2px 0 black inset;
+    color: $color-font;
+    border: 1px solid $color-flash-info-border;
     width: 100%;
 }
 
 .flash-error {
     background: $color-flash-error-background;
     color: $color-font;
-    box-shadow: 0 0 2px 0 black inset;
+    border: 1px solid $color-flash-info-border;
     width: 100%;
 }
 

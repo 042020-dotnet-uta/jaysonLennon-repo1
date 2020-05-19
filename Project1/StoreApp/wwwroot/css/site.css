@@ -1551,23 +1551,23 @@ em {
 }
 
 .flash-info {
-  background: #009797;
+  background: #beecff;
   color: #1a171a;
-  box-shadow: 0 0 2px 0 black inset;
+  border: 1px solid #8eb4c4;
   width: 100%;
 }
 
 .flash-ok {
-  background: #532f53;
-  color: #f9f4f9;
-  box-shadow: 0 0 2px 0 black inset;
+  background: #beecff;
+  color: #1a171a;
+  border: 1px solid #8eb4c4;
   width: 100%;
 }
 
 .flash-error {
   background: #ffaaaa;
   color: #1a171a;
-  box-shadow: 0 0 2px 0 black inset;
+  border: 1px solid #8eb4c4;
   width: 100%;
 }
 

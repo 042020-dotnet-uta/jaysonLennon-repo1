@@ -31,6 +31,7 @@ namespace StoreApp.AdminControllers
         [Route("Admin/CustomerSearch")]
         [Authorize(Roles = Auth.Role.Administrator)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
+        [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public async Task<IActionResult> Index()
         {
             var customerRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
