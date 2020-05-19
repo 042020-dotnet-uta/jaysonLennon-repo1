@@ -382,6 +382,7 @@ form {
     width: 300px;
   }
 }
+label + select,
 label + input[type=text],
 label + input[type=number],
 label + input[type=password],
