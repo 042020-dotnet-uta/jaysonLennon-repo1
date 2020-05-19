@@ -3,9 +3,14 @@ using System.Linq;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Mvc;
 
+/// <summary>
+/// Various utility classes.
+/// </summary>
 namespace StoreApp.Util
 {
-
+    /// <summary>
+    /// Hashing functions.
+    /// </summary>
     public static class Hash
     {
         /// <summary>

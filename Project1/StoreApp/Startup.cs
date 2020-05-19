@@ -17,8 +17,15 @@ namespace StoreApp.StartupUtil
 {
     using StoreApp.Repository;
 
+    /// <summary>
+    /// Helper class to add repos.
+    /// </summary>
     public static class Repos
     {
+        /// <summary>
+        /// Add all repositories to the service.
+        /// </summary>
+        /// <param name="services">Service to add to.</param>
         public static void AddRepositories(IServiceCollection services)
         {
             services.AddScoped<IUser, UserRepository>();
