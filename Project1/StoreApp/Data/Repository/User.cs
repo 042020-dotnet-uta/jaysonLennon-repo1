@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace StoreApp.Repository
 {
     /// <summary>
-    /// The return value of <c>CreateUserAccount()</c>
+    /// The return value of CreateUserAccount()
     /// </summary>
     public enum CreateUserAccountResult
     {
@@ -20,10 +20,10 @@ namespace StoreApp.Repository
         /// <summary>Failed to create account: another account with that name already exists.</summary>
         AccountNameExists,
 
-        /// <summary>Failed to create account: no login name was present in <c>User</c> object.</summary>
+        /// <summary>Failed to create account: no login name was present in User object.</summary>
         MissingLogin,
 
-        /// <summary>Failed to create account: no password was present in the <c>User</c> object.</summary>
+        /// <summary>Failed to create account: no password was present in the User object.</summary>
         MissingPassword,
     }
 

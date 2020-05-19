@@ -5,54 +5,54 @@ namespace StoreApp.Entity
 {
     /// <summary>
     /// Represents and order created by the user.
-    /// An <c>Order</c> goes through a lifecycle of: creation, submission, and fulfillment.
-    /// <c>Products</c> on the <c>Order</c> are added via adding an <c>OrderLineObject</c> through the
-    /// <c>AddLineItem()</c> method.
+    /// An Order goes through a lifecycle of: creation, submission, and fulfillment.
+    /// Products on the Order are added via adding an OrderLineObject through the
+    /// AddLineItem() method.
     /// </summary>
     public class Order
     {
         /// <summary>
-        /// ID of the <c>Order</c>.
+        /// ID of the Order.
         /// </summary>
         public Guid OrderId { get; set; }
 
         /// <summary>
-        /// <c>User</c> that placed the <c>Order</c>.
+        /// User that placed the Order.
         /// </summary>
         public virtual User User { get; set; }
 
         /// <summary>
-        /// <c>Location</c> in which the <c>Order</c> was placed.
+        /// Location in which the Order was placed.
         /// </summary>
         public virtual Location Location { get; set; }
 
         /// <summary>
-        /// The time this <c>Order</c> was initially created.
+        /// The time this Order was initially created.
         /// </summary>
         public virtual Nullable<DateTime> TimeCreated { get; set; }
 
         /// <summary>
-        /// The time this <c>Order</c> was submitted for fulfillment.
+        /// The time this Order was submitted for fulfillment.
         /// </summary>
         public virtual Nullable<DateTime> TimeSubmitted { get; set; }
 
         /// <summary>
-        /// The time this <c>order</c> was sent out from the store.
+        /// The time this order was sent out from the store.
         /// </summary>
         public virtual Nullable<DateTime> TimeFulfilled { get; set; }
         
         /// <summary>
-        /// The amount the user paid for this <c>Order</c>.
+        /// The amount the user paid for this Order.
         /// </summary>
         public Nullable<double> AmountPaid { get; set; }
 
         /// <summary>
-        /// The items that this <c>Order</c> consists of.
+        /// The items that this Order consists of.
         /// </summary>
         public virtual List<OrderLineItem> OrderLineItems { get; set; } = new List<OrderLineItem>();
         
         /// <summary>
-        /// Creates a new <c>Order</c> object, setting the creation time to the current time.
+        /// Creates a new Order object, setting the creation time to the current time.
         /// </summary>
         public Order(){
             this.OrderId = Guid.NewGuid();
@@ -60,10 +60,10 @@ namespace StoreApp.Entity
         }
 
         /// <summary>
-        /// Creates a new <c>Order</c> object.
+        /// Creates a new Order object.
         /// </summary>
-        /// <param name="user">The <c>User</c> that created this Order.</param>
-        /// <param name="location">The <c>Location</c> where this <c>Order</c> was placed.</param>
+        /// <param name="user">The User that created this Order.</param>
+        /// <param name="location">The Location where this Order was placed.</param>
         public Order(User user, Location location)
         {
             this.OrderId = Guid.NewGuid();
@@ -73,7 +73,7 @@ namespace StoreApp.Entity
         }
 
         /// <summary>
-        /// Adds a new line item to an <c>Order</c>.
+        /// Adds a new line item to an Order.
         /// </summary>
         /// <param name="lineItem">The line item to be added.</param>
         public void AddLineItem(OrderLineItem lineItem)
@@ -95,32 +95,32 @@ namespace StoreApp.Entity
 
     /// <summary>
     /// Represents a single entry in an order.
-    /// <c>Orders</c> are composed of any number of <c>OrderLineItems</c>.
+    /// Orders are composed of any number of OrderLineItems.
     /// </summary>
     public class OrderLineItem
     {
         /// <summary>
-        /// The ID for this <c>OrderLineItem</c>.
+        /// The ID for this OrderLineItem.
         /// </summary>
         public Guid OrderLineItemId { get; set; }
 
         /// <summary>
-        /// The <c>Order</c> this <c>OrderLineItem</c> belongs to.
+        /// The Order this OrderLineItem belongs to.
         /// </summary>
         public virtual Order Order { get; set; }
 
         /// <summary>
-        /// The <c>Product</c> that this <c>OrderLineItem</c> is referring to.
+        /// The Product that this OrderLineItem is referring to.
         /// </summary>
         public virtual Product Product { get; set; }
 
         /// <summary>
-        /// The amount charged to the <c>User</c> for this <c>OrderLineItem</c>.
+        /// The amount charged to the User for this OrderLineItem.
         /// </summary>
         public virtual Nullable<double> AmountCharged { get; set; }
 
         /// <summary>
-        /// The total quantity of <c>Product</c> that this line item represents.
+        /// The total quantity of Product that this line item represents.
         /// </summary>
         public int Quantity { get; set; }
 
@@ -130,10 +130,10 @@ namespace StoreApp.Entity
         public OrderLineItem(){}
 
         /// <summary>
-        /// Creates a new <c>OrderLineItem</c>.
+        /// Creates a new OrderLineItem.
         /// </summary>
-        /// <param name="order">The <c>Order</c> that this <c>OrderLineItem</c> is associated with.</param>
-        /// <param name="product">The <c>Product</c> that this <c>OrderLineItem</c> represents.</param>
+        /// <param name="order">The Order that this OrderLineItem is associated with.</param>
+        /// <param name="product">The Product that this OrderLineItem represents.</param>
         public OrderLineItem(Order order, Product product)
         {
             this.OrderLineItemId = Guid.NewGuid();

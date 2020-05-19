@@ -18,12 +18,12 @@ namespace StoreApp.Entity
     public class User
     {
         /// <summary>
-        /// The ID for this <c>User</c> object.
+        /// The ID for this User object.
         /// </summary>
         public Guid UserId { get; set; }
 
         /// <summary>
-        /// The <c>Login</c> name for this user.
+        /// The Login name for this user.
         /// </summary>
         public string Login { get; set; }
 
@@ -54,9 +54,9 @@ namespace StoreApp.Entity
         public string Password { get; set; }
 
         /// <summary>
-        /// The default <c>Location</c> where this user's orders should be placed.
+        /// The default Location where this user's orders should be placed.
         /// </summary>
-        /// <value>If this is null, then the user has not set a default <c>Location</c>.</value>
+        /// <value>If this is null, then the user has not set a default Location.</value>
         public virtual Location DefaultLocation { get; set; }
 
         public Role Role { get; set; }

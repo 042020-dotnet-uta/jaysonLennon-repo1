@@ -9,15 +9,15 @@ using Microsoft.EntityFrameworkCore;
 namespace StoreApp.Repository
 {
     /// <summary>
-    /// The return value of <c>PlaceOrder()</c>
+    /// The return value of PlaceOrder()
     /// </summary>
     public enum PlaceOrderResult
     {
         /// <summary>The order was placed successfully.</summary>
         Ok,
 
-        /// <summary>Order rejected because the <c>Location</c> is does not have
-        /// enough <c>Product</c> in stock for at least one of the items in the <c>Order</c>.
+        /// <summary>Order rejected because the Location is does not have
+        /// enough Product in stock for at least one of the items in the Order.
         /// </summary>
         OutOfStock,
 
