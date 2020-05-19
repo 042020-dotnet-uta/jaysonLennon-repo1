@@ -40,26 +40,21 @@ namespace StoreApp.Controllers
         public async Task<IActionResult> ShowDetail(Guid id)
         {
             if (!ModelState.IsValid) return View("ItemDetail", Model.View.ItemDetail.ItemNotFound());
-            _logger.LogDebug("pass model validation");
 
             var productRepo = (Repository.IProduct)this._services.GetService(typeof(Repository.IProduct));
 
-            _logger.LogDebug($"search id {id}");
             var product = await productRepo.GetProductById(id);
             if (product == null)
             {
                 return View("ItemDetail", Model.View.ItemDetail.ItemNotFound());
             }
-            _logger.LogDebug("pass product validation");
 
             var userRepo = (Repository.IUser)this._services.GetService(typeof(Repository.IUser));
             var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
 
             var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
-            _logger.LogDebug($"user id={userId}");
 
             var location = await userRepo.GetDefaultLocation(userId);
-            _logger.LogDebug($"location obj={location}");
 
             var quantityInStock = await locationRepo.GetStock(location, product);
 

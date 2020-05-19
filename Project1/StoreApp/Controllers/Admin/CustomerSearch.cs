@@ -24,8 +24,6 @@ namespace StoreApp.AdminControllers
             this._context = context;
             this._logger = logger;
             this._services = services;
-
-            this._logger.LogTrace("instantiate admin customer search");
         }
 
         [Route("Admin/CustomerSearch")]

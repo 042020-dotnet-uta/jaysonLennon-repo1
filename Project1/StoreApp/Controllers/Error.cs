@@ -28,7 +28,6 @@ namespace StoreApp.Controllers
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         public IActionResult FlashMsg()
         {
-            Console.WriteLine("set flash message");
             this.SetFlashError("Flash error message");
             this.SetFlashInfo("Flash info message that is long");
             this.SetFlashOk("Flash ok message that is way longer than the other messages");

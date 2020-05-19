@@ -39,17 +39,12 @@ namespace StoreApp.Controllers
             var productRepo = (Repository.IProduct)this._services.GetService(typeof(Repository.IProduct));
 
             var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
-            _logger.LogDebug($"user id={userId}");
 
             var user = await userRepo.GetUserById(userId);
-            _logger.LogDebug($"user obj={user}");
             var location = await userRepo.GetDefaultLocation(user);
-            _logger.LogDebug($"location obj={location}");
 
             var currentOrder = await userRepo.GetOpenOrder(user, location);
-            _logger.LogDebug($"current order obj={currentOrder}");
             var orderLines = orderRepo.GetOrderLines(userId, currentOrder.OrderId);
-            _logger.LogDebug($"order lines obj={orderLines}");
 
             var model = new Model.Input.Cart();
 
@@ -57,7 +52,6 @@ namespace StoreApp.Controllers
 
             foreach(var item in orderLines)
             {
-                _logger.LogDebug($"iterate through item {item.Product.ProductId}");
                 var stock = allStock
                     .Where(i => i.Item1 == item.Product.ProductId)
                     .Select(s => s.Item2)
@@ -99,7 +93,6 @@ namespace StoreApp.Controllers
             {
                 case Repository.AddLineItemResult.Ok:
                 {
-                    _logger.LogTrace($" call add to cart with id {model.ItemId} and quantity {model.ItemQuantity}");
                     var okModel = new Model.View.CartAddOk();
                     okModel.ItemId = model.ItemId;
                     okModel.ItemQuantity = model.ItemQuantity;
@@ -163,18 +156,13 @@ namespace StoreApp.Controllers
 
             var order = await userRepo.GetOpenOrder(user, location);
 
-            _logger.LogTrace($"update cart");
             if (ModelState.IsValid)
             {
-                _logger.LogTrace($"action = {model.Action}");
-                _logger.LogTrace($"item count = {model.Items.Count}");
-
                 var removeIndex = model.RemoveIndex();
                 if (removeIndex != null)
                 {
                     if ((int)removeIndex < model.Items.Count)
                     {
-                        _logger.LogTrace($"remove item at index {removeIndex}");
                         var removed = await orderRepo.DeleteLineItem(userId, order, model.Items[(int)removeIndex].Id);
                         if (!removed)
                         {
@@ -185,10 +173,8 @@ namespace StoreApp.Controllers
                 }
                 else
                 {
-                    _logger.LogTrace($"do quantity update");
                     foreach (var i in model.Items)
                     {
-                        _logger.LogTrace($"new item info={i.Id}::{i.Quantity}");
                         var updateStatus = await orderRepo.SetLineItemQuantity(userId, order, i.Id, i.Quantity);
                         switch (updateStatus)
                         {

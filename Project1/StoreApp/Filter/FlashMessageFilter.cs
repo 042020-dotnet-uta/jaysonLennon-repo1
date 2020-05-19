@@ -23,7 +23,6 @@ namespace StoreApp.FlashMessageExtension
 
         public static void SetFlashError(this Controller controller, string message)
         {
-            Console.WriteLine($"set flash error to {message}");
             controller.TempData[FlashErrorKey] = message;
         }
 
@@ -74,15 +73,10 @@ namespace StoreApp.FlashMessage
         async Task IAsyncActionFilter.OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var controller = (Controller)context.Controller;
-            Console.WriteLine("building flash info in filter...");
 
             controller.ViewData[K.FlashInfo] = controller.GetFlashInfo();
             controller.ViewData[K.FlashOk] = controller.GetFlashOk();
             controller.ViewData[K.FlashError] = controller.GetFlashError();
-
-            Console.WriteLine($"flashinfo = {controller.ViewData[K.FlashInfo]}");
-            Console.WriteLine($"flashok = {controller.ViewData[K.FlashOk]}");
-            Console.WriteLine($"flasherror = {controller.ViewData[K.FlashError]}");
 
             await next();
         }

@@ -450,7 +450,6 @@ namespace StoreApp.Repository
             var nameComponents = nameQuery.Split(' ');
             if (nameComponents.Length == 2)
             {
-                Console.WriteLine($"component search : {nameQuery}");
                 var queryItem1 = nameComponents[0].Trim();
                 var queryItem2 = nameComponents[1].Trim();
                 var query1 = FindUserQuery(queryItem1);
@@ -470,7 +469,6 @@ namespace StoreApp.Repository
                 };
             }
 
-            Console.WriteLine($"standard search with {nameQuery}");
             // Standard single term search checks both first and last names.
             var singleTermResults = _context.Users
                 .Where(u => u.FirstName.ToLower().Contains(nameQuery) || u.LastName.ToLower().Contains(nameQuery))

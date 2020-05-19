@@ -105,3 +105,7 @@
 - [ ] remove console writelines
 - [X] add ValidateAntiForgeryToken on POST requests
 
+
+# Missing Requirements
+- [ ] logging
+- [X] docs

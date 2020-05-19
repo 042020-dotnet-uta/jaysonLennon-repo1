@@ -43,8 +43,6 @@ namespace StoreApp.PageHeader
 
                 controller.ViewData[K.UserName] = username;
                 controller.ViewData[K.NumItemsInCart] = numProductsInCart;
-            } else {
-                Console.WriteLine("user not logged in  :(");
             }
 
             await next();

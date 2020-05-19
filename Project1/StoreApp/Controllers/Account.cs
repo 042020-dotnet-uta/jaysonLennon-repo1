@@ -147,7 +147,6 @@ namespace StoreApp.Controllers
             var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
             var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
             var orders = orderRepo.GetSubmittedOrders(userId);
-            _logger.LogTrace($"num orders={orders.Count()}");
 
             var model = new Model.View.UserOrderHistory();
 
@@ -198,7 +197,6 @@ namespace StoreApp.Controllers
             // LoginRedirectModel is used for redirection requests.
             var loginUser = new Model.Input.LoginUser();
             loginUser.ReturnUrl = loginRedirectModel.ReturnUrl;
-            this._logger.LogDebug($"return url={loginUser.ReturnUrl}");
             return View("Login", loginUser);
         }
 
@@ -237,7 +235,6 @@ namespace StoreApp.Controllers
                 await userRepo.Add(user);
 
                 var loginOk = await DoLogin(user.UserId);
-                _logger.LogTrace($"loginok={loginOk}");
 
                 return RedirectToAction("Index", "Storefront");
             }
@@ -292,9 +289,6 @@ namespace StoreApp.Controllers
                 return View("Login", model);
             }
 
-            this._logger.LogDebug("We are letting anyone sign in atm for testing");
-            this._logger.LogTrace($"model username={model.UserName}");
-
             var userRepo = (Repository.IUser)this._services.GetService(typeof(Repository.IUser));
             var user = await userRepo.VerifyCredentials(model.UserName, model.Password);
             // Not finding a user means their credentials could not be verified.
@@ -307,8 +301,6 @@ namespace StoreApp.Controllers
             }
 
             await DoLogin(user.UserId);
-
-            this._logger.LogDebug($"return url={model.ReturnUrl}");
 
             if (!String.IsNullOrEmpty(model.ReturnUrl))
             {
@@ -326,7 +318,6 @@ namespace StoreApp.Controllers
         [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public async Task<IActionResult> AccessDenied(string returnUrl)
         {
-            this._logger.LogTrace($"access denied: return={returnUrl}");
             return View("AccessDenied");
         }
 

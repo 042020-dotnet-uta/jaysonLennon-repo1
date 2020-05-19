@@ -138,7 +138,6 @@ namespace StoreApp.Repository
 
         IEnumerable<Tuple<Order, int>> IOrder.GetSubmittedOrders(Guid userId)
         {
-            Console.WriteLine($"getting orders for {userId}");
             return _context.Orders
                 .Where(o => o.User.UserId == userId)
                 .Where(o => o.TimeSubmitted != null)

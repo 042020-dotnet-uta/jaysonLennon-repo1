@@ -26,8 +26,6 @@ namespace StoreApp.AdminControllers
             this._context = context;
             this._logger = logger;
             this._services = services;
-
-            this._logger.LogTrace("instantiate admin home");
         }
 
         [Route("Admin/StoreOrderSummary")]
@@ -66,7 +64,6 @@ namespace StoreApp.AdminControllers
             var summary = new AdminModel.StoreOrderSummary();
             summary.StoreName = location.Name;
             var orders = locationRepo.GetOrders(storeId);
-            _logger.LogTrace($"order quantity = {orders.Count()}");
 
             foreach(var order in orders.OrderByDescending(t => t.Item1.TimeSubmitted))
             {

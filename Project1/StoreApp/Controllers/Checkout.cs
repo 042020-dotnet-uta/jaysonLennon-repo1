@@ -32,22 +32,17 @@ namespace StoreApp.Controllers
             var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
 
             var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
-            _logger.LogDebug($"user id={userId}");
 
             var user = await userRepo.GetUserById(userId);
-            _logger.LogDebug($"user obj={user}");
             var location = await userRepo.GetDefaultLocation(user);
-            _logger.LogDebug($"location obj={location}");
 
             var currentOrder = await userRepo.GetOpenOrder(user, location);
-            _logger.LogDebug($"current order obj={currentOrder}");
             var orderLines = orderRepo.GetOrderLines(userId, currentOrder.OrderId);
 
             var model = new Model.View.Checkout();
 
             foreach(var item in orderLines)
             {
-                _logger.LogDebug($"iterate through item {item.Product.ProductId}");
                 var checkoutItem = new Model.Input.CartItem();
                 checkoutItem.Id = item.Product.ProductId;
                 checkoutItem.Name = item.Product.Name;
@@ -66,17 +61,13 @@ namespace StoreApp.Controllers
         [Authorize(Roles = Auth.Role.Customer)]
         public async Task<IActionResult> PlaceOrder()
         {
-            _logger.LogTrace($"call placeorder");
             var userRepo = (Repository.IUser)this._services.GetService(typeof(Repository.IUser));
             var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
 
             var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
-            _logger.LogDebug($"user id={userId}");
 
             var user = await userRepo.GetUserById(userId);
-            _logger.LogDebug($"user obj={user}");
             var location = await userRepo.GetDefaultLocation(user);
-            _logger.LogDebug($"location obj={location}");
 
             var currentOrder = await userRepo.GetOpenOrder(user, location);
             var orderPlaced = await orderRepo.PlaceOrder(userId, currentOrder.OrderId);

@@ -24,8 +24,6 @@ namespace StoreApp.Controllers
             this._context = context;
             this._logger = logger;
             this._services = services;
-
-            this._logger.LogTrace("instantiate storefront");
         }
 
         [Route("Storefront")]
