@@ -41,6 +41,8 @@ namespace StoreApp.AdminControllers
         [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public async Task<IActionResult> Index()
         {
+            var userName = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserName).Value);
+            this._logger.LogInformation($"'{userName}' accessed the administration page.");
             return View("/Views/Admin/Home/Index.cshtml");
         }
     }

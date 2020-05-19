@@ -62,6 +62,7 @@ namespace StoreApp.Controllers
             var product = await productRepo.GetProductById(id);
             if (product == null)
             {
+                this._logger.LogWarning($"Unable to locate item id '{id}' for detail display.");
                 return View("ItemDetail", Model.View.ItemDetail.ItemNotFound());
             }
 

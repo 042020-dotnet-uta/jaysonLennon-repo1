@@ -113,16 +113,19 @@ namespace StoreApp.Controllers
                 }
                 case Repository.AddLineItemResult.ExceedsStock:
                 {
+                    this._logger.LogWarning($"An attempt was made to update the cart with values exceeding store stock. User id: '{userId}'.");
                     this.SetFlashError("Unable to add the item to your order: The amount requested exceeds the amount available in stock.");
                     return Redirect($"/ItemDetail/View/{model.ItemId}");
                 }
                 case Repository.AddLineItemResult.OrderMissing:
                 {
+                    this._logger.LogWarning($"An attempt was made to update the cart when the order is missing. User id: '{userId}'.");
                     this.SetFlashError("There was a problem adding this item to your cart. Please try again.");
                     return Redirect($"/ItemDetail/View/{model.ItemId}");
                 }
                 case Repository.AddLineItemResult.ProductMissing:
                 {
+                    this._logger.LogWarning($"An attempt was made to update the cart with a non-existing item. User id: '{userId}'.");
                     this.SetFlashError("There was a problem adding this item to your cart. Please try again.");
                     return Redirect($"/ItemDetail/View/{model.ItemId}");
                 }
@@ -201,11 +204,13 @@ namespace StoreApp.Controllers
                         {
                             case Repository.SetLineItemQuantityResult.ExceedsStock:
                             {
+                                this._logger.LogWarning($"An attempt was made to update the cart with more items than are available. User id: '{userId}'.");
                                 this.SetFlashError("Unable to update the quantities in your order: The amount requested exceeds the amount available in stock.");
                                 return RedirectToAction("Index", "Cart");
                             }
                             case Repository.SetLineItemQuantityResult.ProductMissing:
                             {
+                                this._logger.LogWarning($"An attempt was made to update the cart with a non-existing item. User id: '{userId}'.");
                                 this.SetFlashError("There was an error updating the item quantities in your order. Please try again.");
                                 return RedirectToAction("Index", "Cart");
                             }

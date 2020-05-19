@@ -91,21 +91,25 @@ namespace StoreApp.Controllers
                 }
                 case StoreApp.Repository.PlaceOrderResult.OutOfStock:
                 {
+                    this._logger.LogWarning($"An order failed to be submitted due to insufficient stock. order id: '{currentOrder.OrderId}'");
                     this.SetFlashError("Unable to place order: Some items are out of stock.");
                     return RedirectToAction("PlaceOrderError", "Checkout");
                 }
                 case StoreApp.Repository.PlaceOrderResult.NoLineItems:
                 {
+                    this._logger.LogWarning($"An order failed to be submitted due to not having any line items. order id: '{currentOrder.OrderId}'");
                     this.SetFlashError("Unable to place order: There are no items in your order.");
                     return RedirectToAction("PlaceOrderError", "Checkout");
                 }
                 case StoreApp.Repository.PlaceOrderResult.OrderNotFound:
                 {
+                    this._logger.LogCritical($"An order failed to be submitted due to missing order id.");
                     this.SetFlashError("Unable to place order: No order was found.");
                     return RedirectToAction("PlaceOrderError", "Checkout");
                 }
                 default:
                 {
+                    this._logger.LogWarning($"An unknown error occurred when attempting to submit order number '{currentOrder.OrderId}'.");
                     this.SetFlashError("Unable to place order. Please try again.");
                     return RedirectToAction("PlaceOrderError", "Checkout");
                 }

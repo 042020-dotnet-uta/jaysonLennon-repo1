@@ -260,6 +260,7 @@ namespace StoreApp.Controllers
                 if (loginExists)
                 {
                     this.SetFlashError("That user name is unavailable.");
+                    this._logger.LogWarning($"An attempt to create duplicate login name was made for '{model.UserName}'.");
                     return View("CreateAccount", model);
                 }
 
@@ -318,6 +319,7 @@ namespace StoreApp.Controllers
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
 
+            this._logger.LogInformation($"User '{userId}' logged in.");
             return true;
         }
 
@@ -342,6 +344,7 @@ namespace StoreApp.Controllers
                 var loginRedirect = new Model.Input.LoginRedirect();
                 this.SetFlashError("Invalid login credentials");
                 loginRedirect.ReturnUrl = model.ReturnUrl;
+                this._logger.LogWarning($"Invalid login attempt with login name '{model.UserName}'");
                 return RedirectToAction("LoginIndex", loginRedirect);
             }
 
@@ -367,6 +370,8 @@ namespace StoreApp.Controllers
         [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public async Task<IActionResult> AccessDenied(string returnUrl)
         {
+            var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
+            this._logger.LogWarning($"User {userId} attempted to access a restricted page ({returnUrl})");
             return View("AccessDenied");
         }
 
