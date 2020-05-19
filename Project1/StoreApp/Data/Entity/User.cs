@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace StoreApp.Entity
 {
+    /// <summary>
+    /// Role that an account may be.
+    /// </summary>
     public enum Role
     {
         Customer,

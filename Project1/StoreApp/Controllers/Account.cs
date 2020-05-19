@@ -66,7 +66,7 @@ namespace StoreApp.Controllers
             model.FirstName = user.FirstName;
             model.LastName = user.LastName;
 
-            var userAddress = await userRepo.GetAddressByuserId(userId);
+            var userAddress = await userRepo.GetAddressByUserId(userId);
             if (userAddress != null)
             {
                 model.AddressLine1 = userAddress.Line1 != null ? userAddress.Line1.Data : null;
@@ -125,7 +125,7 @@ namespace StoreApp.Controllers
                 }
             }
 
-            var updateOk = await userRepo.UpdateUserInfo(user.UserId, model);
+            var updateOk = await userRepo.UpdateUserPersonalInfo(user.UserId, model);
             if (!updateOk)
             {
                 this.SetFlashError("There was an error saving your information. Please try again.");
