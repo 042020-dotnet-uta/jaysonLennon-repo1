@@ -9,12 +9,18 @@ using StoreApp.Data;
 
 namespace StoreApp.AdminControllers
 {
+    /// <summary>
+    /// Controller for admin customer searching.
+    /// </summary>
     public class AdminCustomerSearch : Controller
     {
         private StoreContext _context;
         private ILogger<AdminCustomerSearch> _logger;
         private IServiceProvider _services;
 
+        /// <summary>
+        /// Standard constructor.
+        /// </summary>
         public AdminCustomerSearch(
             StoreContext context,
             ILogger<AdminCustomerSearch> logger,
@@ -26,6 +32,9 @@ namespace StoreApp.AdminControllers
             this._services = services;
         }
 
+        /// <summary>
+        /// Index page for customer search.
+        /// </summary>
         [Route("Admin/CustomerSearch")]
         [Authorize(Roles = Auth.Role.Administrator)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
@@ -37,6 +46,11 @@ namespace StoreApp.AdminControllers
             return View("/Views/Admin/CustomerSearch/Index.cshtml");
         }
 
+        /// <summary>
+        /// API endpoint for displaying the results of a customer.
+        /// </summary>
+        /// <param name="nameQuery">The name to query.</param>
+        /// <returns>JSON object containing the results.</returns>
         [Route("Admin/CustomerSearch/api/search")]
         [Authorize(Roles = Auth.Role.Administrator)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]

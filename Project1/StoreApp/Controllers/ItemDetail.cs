@@ -6,11 +6,17 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace StoreApp.Controllers
 {
+    /// <summary>
+    /// Controller to handle the item detail view.
+    /// </summary>
     public class ItemDetail : Controller
     {
         private readonly ILogger<ItemDetail> _logger;
         private IServiceProvider _services;
 
+        /// <summary>
+        /// Standard constructor.
+        /// </summary>
         public ItemDetail(
             ILogger<ItemDetail> logger,
             IServiceProvider services
@@ -20,6 +26,9 @@ namespace StoreApp.Controllers
             this._services = services;
         }
 
+        /// <summary>
+        /// Redirect to store front if this page is visited without an ID.
+        /// </summary>
         [Route("ItemDetail")]
         [Route("ItemDetail/Index")]
         public IActionResult Index()
@@ -27,12 +36,19 @@ namespace StoreApp.Controllers
             return Redirect("/Storefront");
         }
 
+        /// <summary>
+        /// Redirect to store front if this page is visited without an ID.
+        /// </summary>
         [Route("ItemDetail/View")]
-        public async Task<IActionResult> RedirectShowDetail(Guid id)
+        public async Task<IActionResult> RedirectShowDetail()
         {
             return Redirect("/Storefront");
         }
 
+        /// <summary>
+        /// View the detail of an item.
+        /// </summary>
+        /// <param name="id">Item detail to view</param>
         [Route("ItemDetail/View/{id}")]
         [Authorize(Roles = Auth.Role.Customer)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]

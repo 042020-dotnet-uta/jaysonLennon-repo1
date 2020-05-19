@@ -8,11 +8,17 @@ using StoreApp.FlashMessageExtension;
 
 namespace StoreApp.Controllers
 {
+    /// <summary>
+    /// Controller to handle checkout operations.
+    /// </summary>
     public class Checkout : Controller
     {
         private readonly ILogger<Checkout> _logger;
         private IServiceProvider _services;
 
+        /// <summary>
+        /// Standard constructor.
+        /// </summary>
         public Checkout(
             ILogger<Checkout> logger,
             IServiceProvider services
@@ -22,6 +28,9 @@ namespace StoreApp.Controllers
             this._services = services;
         }
 
+        /// <summary>
+        /// Route to display the checkout page.
+        /// </summary>
         [Route("Checkout")]
         [Authorize(Roles = Auth.Role.Customer)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
@@ -55,6 +64,9 @@ namespace StoreApp.Controllers
             return View("Checkout", model);
         }
 
+        /// <summary>
+        /// Route to place an order for the items in the cart.
+        /// </summary>
         [Route("Checkout/PlaceOrder")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -101,6 +113,9 @@ namespace StoreApp.Controllers
             }
         }
 
+        /// <summary>
+        /// Route to redirect to the checkout page if the place order page is accessed via a GET request.
+        /// </summary>
         [Route("Checkout/PlaceOrder")]
         [HttpGet]
         public IActionResult RedirectPlaceOrder()
@@ -108,6 +123,9 @@ namespace StoreApp.Controllers
             return Redirect("/Checkout");
         }
 
+        /// <summary>
+        /// Route to display the 'place order ok' page after successfully placing an order.
+        /// </summary>
         [Route("Checkout/PlaceOrderOk")]
         [HttpGet]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
@@ -117,6 +135,9 @@ namespace StoreApp.Controllers
             return View("PlaceOrderOk");
         }
 
+        /// <summary>
+        /// Route to display the 'order error' page after a failure occurred when placing an order.
+        /// </summary>
         [Route("Checkout/PlaceOrderError")]
         [HttpGet]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]

@@ -9,12 +9,18 @@ using StoreApp.Data;
 
 namespace StoreApp.AdminControllers
 {
+    /// <summary>
+    /// Administrator home page controller.
+    /// </summary>
     public class AdminHome : Controller
     {
         private StoreContext _context;
         private ILogger<AdminHome> _logger;
         private IServiceProvider _services;
 
+        /// <summary>
+        /// Standard constructor.
+        /// </summary>
         public AdminHome(
             StoreContext context,
             ILogger<AdminHome> logger,
@@ -26,6 +32,9 @@ namespace StoreApp.AdminControllers
             this._services = services;
         }
 
+        /// <summary>
+        /// Route for displaying the home page.
+        /// </summary>
         [Route("Admin")]
         [Authorize(Roles = Auth.Role.Administrator)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]

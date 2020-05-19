@@ -9,12 +9,18 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace StoreApp.Controllers
 {
+    /// <summary>
+    /// Controller for managing the store front page.
+    /// </summary>
     public class Storefront : Controller
     {
         private StoreContext _context;
         private ILogger<Storefront> _logger;
         private IServiceProvider _services;
 
+        /// <summary>
+        /// Standard constructor.
+        /// </summary>
         public Storefront(
             StoreContext context,
             ILogger<Storefront> logger,
@@ -26,6 +32,9 @@ namespace StoreApp.Controllers
             this._services = services;
         }
 
+        /// <summary>
+        /// Main page for the store.
+        /// </summary>
         [Route("Storefront")]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         [ServiceFilter(typeof(PageHeader.PopulateHeader))]

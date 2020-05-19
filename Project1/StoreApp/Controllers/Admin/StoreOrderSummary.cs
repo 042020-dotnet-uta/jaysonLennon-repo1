@@ -11,12 +11,18 @@ using StoreApp.FlashMessageExtension;
 
 namespace StoreApp.AdminControllers
 {
+    /// <summary>
+    /// Administrator store order summary controller.
+    /// </summary>
     public class AdminStoreOrderSummary : Controller
     {
         private StoreContext _context;
         private ILogger<AdminStoreOrderSummary> _logger;
         private IServiceProvider _services;
 
+        /// <summary>
+        /// Standard constructor
+        /// </summary>
         public AdminStoreOrderSummary(
             StoreContext context,
             ILogger<AdminStoreOrderSummary> logger,
@@ -28,6 +34,9 @@ namespace StoreApp.AdminControllers
             this._services = services;
         }
 
+        /// <summary>
+        /// Route for the index page.
+        /// </summary>
         [Route("Admin/StoreOrderSummary")]
         [Authorize(Roles = Auth.Role.Administrator)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
@@ -47,6 +56,10 @@ namespace StoreApp.AdminControllers
             return View("/Views/Admin/StoreOrderSummary/Index.cshtml", model);
         }
 
+        /// <summary>
+        /// Route for the store order summary page.
+        /// </summary>
+        /// <param name="storeId">The store ID to retrieve a summary for.</param>
         [Route("Admin/StoreOrderSummary/Summary")]
         [Authorize(Roles = Auth.Role.Administrator)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
@@ -75,6 +88,12 @@ namespace StoreApp.AdminControllers
             return View("/Views/Admin/StoreOrderSummary/Summary.cshtml", summary);
         }
 
+        /// <summary>
+        /// Route to display the details of an order from a store.
+        /// </summary>
+        /// <param name="orderId">The order id to display.</param>
+        /// <param name="storeId">The store id this order belongs to.</param>
+        /// <returns></returns>
         [Route("Admin/StoreOrderSummary/Detail")]
         [Authorize(Roles = Auth.Role.Administrator)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
