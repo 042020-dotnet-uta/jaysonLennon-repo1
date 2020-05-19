@@ -5,26 +5,37 @@ using StoreApp.Repository;
 
 namespace StoreApp.Model.Input
 {
+    /// <summary>
+    /// Used for the "Account Management" page for users.
+    /// </summary>
     // TODO: Add constraints
     public class AccountManagement : Repository.IUserData
     {
+        /// <summary>The user's first name.</summary>
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
+        /// <summary>The user's last name.</summary>
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+        /// <summary>The user's address line 1.</summary>
         [Display(Name = "Address Line 1")]
         public string AddressLine1 { get; set; }
 
+        /// <summary>The user's address line 2.</summary>
         [Display(Name = "Address Line 2")]
         public string AddressLine2 { get; set; }
 
+        /// <summary>The user's city.</summary>
         [Display(Name = "City")]
         public string City { get; set; }
 
+        /// <summary>The user's state.</summary>
         [Display(Name = "State")]
         public string StatePicked { get; set; }
+
+        /// <summary>The list of available state options the user may pick.</summary>
         public List<SelectListItem> States { get; } = new List<SelectListItem>()
         {
             new SelectListItem { Value = null, Text = "-- State --" },
@@ -89,22 +100,39 @@ namespace StoreApp.Model.Input
             new SelectListItem { Value = "AE", Text = "Armed Forces Middle East" },
             new SelectListItem { Value = "AP", Text = "Armed Forces Pacific" },
         };
+
+        /// <summary>The user's zip code.</summary>
         [RegularExpression(@"^[0-9]{5}(-?[0-9]{4})?$", ErrorMessage = "Zip code must be 5 or 9 digits.")]
         [Display(Name = "Zip Code")]
         public string Zip { get; set; }
 
+        /// <summary>The default store for the user.</summary>
         [Required]
         [Display(Name = "Default Store", Description = "Store to order items from.")]
         public string StorePicked { get; set; }
 
+        /// <summary>The list of available stores the user may choose from.</summary>
         public List<SelectListItem> Stores { get; } = new List<SelectListItem>();
 
+        /// <summary>Returns the user's address line 1.</summary>
         string IUserData.GetAddressLine1() => this.AddressLine1;
+
+        /// <summary>Returns the user's address line 2.</summary>
         string IUserData.GetAddressLine2() => this.AddressLine2;
+
+        /// <summary>Returns the user's city.</summary>
         string IUserData.GetCity() => this.City;
+
+        /// <summary>Returns the user's first name.</summary>
         string IUserData.GetFirstName() => this.FirstName;
+
+        /// <summary>Returns the user's last name.</summary>
         string IUserData.GetLastName() => this.LastName;
+
+        /// <summary>Returns the user's state.</summary>
         string IUserData.GetState() => this.StatePicked;
+
+        /// <summary>Returns the user's zip code.</summary>
         string IUserData.GetZip() => this.Zip;
     }
 }

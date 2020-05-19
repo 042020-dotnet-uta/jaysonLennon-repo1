@@ -5,6 +5,9 @@ using StoreApp.Repository;
 
 namespace StoreApp.AdminModel
 {
+    /// <summary>
+    /// List of stores used when picking which store to view orders from.
+    /// </summary>
     public class StoreList {
         [Required]
         [Display(Name = "Store", Description = "Store to check orders for.")]
