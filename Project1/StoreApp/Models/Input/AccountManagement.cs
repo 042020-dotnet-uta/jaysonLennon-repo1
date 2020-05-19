@@ -8,11 +8,22 @@ namespace StoreApp.Model.Input
     // TODO: Add constraints
     public class AccountManagement : Repository.IUserData
     {
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
+
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
+
+        [Display(Name = "Address Line 1")]
         public string AddressLine1 { get; set; }
+
+        [Display(Name = "Address Line 2")]
         public string AddressLine2 { get; set; }
+
+        [Display(Name = "City")]
         public string City { get; set; }
+
+        [Display(Name = "State")]
         public string StatePicked { get; set; }
         public List<SelectListItem> States { get; } = new List<SelectListItem>()
         {
@@ -79,6 +90,7 @@ namespace StoreApp.Model.Input
             new SelectListItem { Value = "AP", Text = "Armed Forces Pacific" },
         };
         [RegularExpression(@"^[0-9]{5}(-?[0-9]{4})?$", ErrorMessage = "Zip code must be 5 or 9 digits.")]
+        [Display(Name = "Zip Code")]
         public string Zip { get; set; }
 
         [Required]

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 using StoreApp.Data;
+using StoreApp.Business;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 
@@ -70,6 +71,7 @@ namespace StoreApp
 
             services.AddScoped<PageHeader.PopulateHeader>();
             services.AddScoped<FlashMessage.FlashMessageFilter>();
+            services.AddScoped<IBusinessRules, BusinessRules>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

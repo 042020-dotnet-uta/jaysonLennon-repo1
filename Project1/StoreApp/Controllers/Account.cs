@@ -97,6 +97,22 @@ namespace StoreApp.Controllers
             var location = await locationRepo.GetById(defaultLocationId);
             userRepo.SetDefaultLocation(user, location);
 
+            var businessRules = (Business.IBusinessRules)this._services.GetService(typeof(Business.IBusinessRules));
+
+            if (!String.IsNullOrEmpty(model.FirstName)) {
+                if (!businessRules.ValidateUserName(model.FirstName.Trim())) {
+                    this.SetFlashError("Names may not contain numbers or special characters.");
+                    return RedirectToAction("Manage");
+                }
+            }
+
+            if (!String.IsNullOrEmpty(model.LastName)) {
+                if (!businessRules.ValidateUserName(model.LastName.Trim())) {
+                    this.SetFlashError("Names may not contain numbers or special characters.");
+                    return RedirectToAction("Manage");
+                }
+            }
+
             var updateOk = await userRepo.UpdateUserInfo(user.UserId, model);
             if (!updateOk)
             {

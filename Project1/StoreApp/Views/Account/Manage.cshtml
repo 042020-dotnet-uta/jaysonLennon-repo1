@@ -37,6 +37,7 @@
             <span class="text-color-error" asp-validation-for="City"></span>
         </div>
         <div class="my4">
+            <label asp-for="StatePicked"></label>
             <select asp-for="StatePicked" asp-items="@Model.States"></select>
         </div>
         <div class="my4">
