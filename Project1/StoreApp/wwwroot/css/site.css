@@ -588,6 +588,15 @@ label + input[type=text] {
   width: 100%;
 }
 
+@media screen and (min-width: 640px) {
+  .height-unset {
+    height: unset;
+  }
+
+  .width-unset {
+    width: unset;
+  }
+}
 .min-width-content {
   min-width: min-content;
 }
@@ -1601,6 +1610,10 @@ em {
   .customer-search-results-container {
     width: 300px;
   }
+}
+input[type=submit].cart-border {
+  border: 1px solid #f9f4f9;
+  border-radius: 3px;
 }
 
 /*# sourceMappingURL=site.css.map */

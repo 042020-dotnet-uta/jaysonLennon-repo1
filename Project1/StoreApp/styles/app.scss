@@ -151,3 +151,8 @@
         width: $form-size;
     }
 }
+
+input[type="submit"].cart-border {
+    border: 1px solid $color-gray-50;
+    border-radius: $border-radius-sm;
+}
