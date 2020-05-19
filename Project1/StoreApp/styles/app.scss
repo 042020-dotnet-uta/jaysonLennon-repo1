@@ -141,3 +141,24 @@
         width: $order-table-width;
     }
 }
+
+.search-result-highlight {
+    text-decoration: underline;
+}
+
+.customer-search-results-container {
+    display: grid;
+    grid-template-columns: min-content 2fr;
+    grid-column-gap: 2rem;
+    grid-row-gap: $space-sm;
+}
+
+.customer-search-no-results {
+    grid-column: span 2;
+}
+
+@include break-sm {
+    .customer-search-results-container {
+        width: $form-size;
+    }
+}

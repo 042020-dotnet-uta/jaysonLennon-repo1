@@ -147,6 +147,10 @@ table {
   align-self: center;
 }
 
+.self-justify-center {
+  justify-self: center;
+}
+
 .justify-center {
   justify-content: center;
 }
@@ -1433,6 +1437,10 @@ h6 {
   color: #532f53;
 }
 
+em {
+  font-style: italic;
+}
+
 .link-light {
   color: #009797;
 }
@@ -1582,6 +1590,26 @@ h6 {
 @media screen and (min-width: 640px) {
   .order-table {
     width: 500px;
+  }
+}
+.search-result-highlight {
+  text-decoration: underline;
+}
+
+.customer-search-results-container {
+  display: grid;
+  grid-template-columns: min-content 2fr;
+  grid-column-gap: 2rem;
+  grid-row-gap: 0.25rem;
+}
+
+.customer-search-no-results {
+  grid-column: span 2;
+}
+
+@media screen and (min-width: 640px) {
+  .customer-search-results-container {
+    width: 300px;
   }
 }
 

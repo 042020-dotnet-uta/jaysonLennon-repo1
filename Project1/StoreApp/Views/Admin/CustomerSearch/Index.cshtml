@@ -1,13 +1,22 @@
-<h1>this is the customer search page</h1>
+<h1 class="text-center">Customer Search</h1>
 <partial name="/Views/Partials/FlashMessagePartial.cshtml" />
 
-<label>
-    <span>Customer search</span>
-    <input type="text" id="customer-search-input" placeholder="Customer Name">
-</label>
+<div class="text-center my4">
+    Protip: Use a comma <em>(,)</em> between names to search for customers by last name first.
+</div>
 
-<div id="customer-search-results-container">
+<div class="flex-col items-center">
+    <form class="my4">
+        <label for="search-box">Query</label>
+        <input type="text" name="search-box" id="customer-search-input" placeholder="Customer Name">
+    </form>
+</div>
 
+<h2 class="text-center">Results</h2>
+
+<div class="flex-col items-center">
+    <div id="customer-search-results-container" class="customer-search-results-container">
+    </div>
 </div>
 
 <script>
@@ -79,26 +88,47 @@ window.addEventListener("load", function() {
         let highlightClass = "search-result-highlight";
 
         if (searchResults.users === undefined) {
-            resultsContainer.innerHTML = "No users found";
+            let noResults = document.createElement("h3");
+            noResults.classList.add("text-center customer-search-no-results");
+            noResults.innerText = "No users found";
             return;
         }
 
         // Clear out old results first.
         resultsContainer.innerHTML = "";
 
+        // Display headers or "no results" message.
+        if (searchResults.users.length > 0) {
+            let headerRevenue = document.createElement("div");
+            headerRevenue.classList.add("text-bold");
+            headerRevenue.innerText = "Revenue";
+
+            let headerName = document.createElement("div");
+            headerName.classList.add("text-bold");
+            headerName.innerText = "Name";
+
+            resultsContainer.appendChild(headerRevenue);
+            resultsContainer.appendChild(headerName);
+        } else {
+            let noResults = document.createElement("h3");
+            noResults.classList.add("text-center customer-search-no-results");
+            noResults.innerText = "No users found";
+
+            resultsContainer.appendChild(noResults);
+        }
+
         // Iterate through each result.
         for (let i = 0; i < searchResults.users.length; i++) {
             let user = searchResults.users[i];
 
-            let container = document.createElement("div");
-
             // Revenue section.
-            let revenue = document.createElement("span");
-            revenue.innerText = "revenue = $" + user.revenue + " -- ";
-            container.appendChild(revenue);
+            let revenue = document.createElement("div");
+            revenue.innerText = "$" + user.revenue;
+            revenue.classList.add("self-justify-center");
+            resultsContainer.appendChild(revenue);
 
             // Name section.
-            let name = document.createElement("span");
+            let name = document.createElement("div");
             if (searchResults.isOmniQuery) {
                 // Omniqueries check both the first and last name for the search
                 // term(s), so we highlight the terms in both names.
@@ -113,7 +143,7 @@ window.addEventListener("load", function() {
                 name.appendChild(space);
                 name.appendChild(lastName);
 
-                container.appendChild(name);
+                resultsContainer.appendChild(name);
             } else {
                 // Lastname,Firstname queries are specific, so we only highlight the search
                 // term in the relevant name.
@@ -128,11 +158,10 @@ window.addEventListener("load", function() {
                 name.appendChild(space);
                 name.appendChild(lastName);
 
-                container.appendChild(name);
+                resultsContainer.appendChild(name);
             }
-
-            resultsContainer.appendChild(container);
         }
+
     };
 
     // Function to retrieve the search results from the serer.
