@@ -59,6 +59,9 @@ h6 {
 .text-bold   { font-weight: bold; }
 .text-italic { font-style: italic; }
 
+.text-no-bold   { font-weight: normal; }
+.text-no-italic { font-style: normal; }
+
 .text-xs   { font-size: $font-size-xs; }
 .text-sm   { font-size: $font-size-sm; }
 .text-base { font-size: $font-size-base; }

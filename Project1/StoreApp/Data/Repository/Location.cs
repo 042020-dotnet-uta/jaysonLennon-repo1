@@ -9,28 +9,90 @@ using System.Threading.Tasks;
 
 namespace StoreApp.Repository
 {
+    /// <summary>
+    /// Interface for the location repository.
+    /// </summary>
     public interface ILocation
     {
+        /// <summary>
+        /// Retrieves a Location based on id.
+        /// </summary>
+        /// <param name="id">The location id</param>
+        /// <returns>A Location</returns>
         Task<Location> GetById(Guid id);
+        /// <summary>
+        /// Retrieves all locations
+        /// </summary>
+        /// <returns>IEnumerable of Location</returns>
         IEnumerable<Location> GetLocations();
+        /// <summary>
+        /// Retrieves the Location that has the highest stock of items.
+        /// </summary>
+        /// <returns>The Location with the highest stock of items.</returns>
         Location GetMostStocked();
+        /// <summary>
+        /// Get all products from a specific location that are currently in stock.
+        /// </summary>
+        /// <param name="location">The location to query.</param>
+        /// <returns>IEnumerable of Tuple containing the Product and the total in stock.</returns>
         IEnumerable<Tuple<Product, int>> GetProductsAvailable(Location location);
+        /// <summary>
+        /// Gets all products from a specific location, regardless of stock.
+        /// </summary>
+        /// <param name="location">The location to query.</param>
+        /// <returns>IEnumerable of Tuple containing the Product and the total in stock.</returns>
         IEnumerable<Tuple<Product, int>> GetAllProducts(Location location);
+        /// <summary>
+        /// Gets the stock of a specific product from a location.
+        /// </summary>
+        /// <param name="location">The location to query.</param>
+        /// <param name="product">The product to check the stock of.</param>
+        /// <returns>Number of stock available for the specific product.</returns>
         Task<int> GetStock(Location location, Product product);
+        /// <summary>
+        /// Gets the stock from a location based on an order.
+        /// <remarks>
+        /// This may be used to determine which items have enough stock available for fulfillling an order.
+        /// </remarks>
+        /// </summary>
+        /// <param name="orderId">The order id to query.</param>
+        /// <returns>IEnumerable of Tuple containing the product ID and how many are in stock at the location
+        /// where the order is placed.</returns>
         IEnumerable<Tuple<Guid, int>> GetStock(Guid orderId);
+        /// <summary>
+        /// Gets all orders from the specified location.
+        /// </summary>
+        /// <param name="locationId">Location to query</param>
+        /// <returns>IEnumerable of Tuple containing the Order and count of number of items within the order.</returns>
         IEnumerable<Tuple<Order, int>> GetOrders(Guid locationId);
+        /// <summary>
+        /// Gets all the order line items for a specific order.
+        /// </summary>
+        /// <param name="orderId">The order to query.</param>
+        /// <returns>IEnumerable of order line items.</returns>
         IEnumerable<OrderLineItem> GetOrderLineItems(Guid orderId);
     }
 
+    /// <summary>
+    /// Implementation of ILocation.
+    /// </summary>
     public class LocationRepository : ILocation
     {
         private StoreContext _context;
 
+        /// <summary>
+        /// Standard constructor.
+        /// </summary>
         public LocationRepository(StoreContext context)
         {
             this._context = context;
         }
 
+        /// <summary>
+        /// Retrieves a Location based on id.
+        /// </summary>
+        /// <param name="id">The location id</param>
+        /// <returns>A Location</returns>
         async public Task<Location> GetById(Guid id)
         {
             return await _context.Locations
@@ -39,6 +101,10 @@ namespace StoreApp.Repository
                            .SingleOrDefaultAsync();
         }
 
+        /// <summary>
+        /// Retrieves all locations
+        /// </summary>
+        /// <returns>IEnumerable of Location</returns>
         IEnumerable<Location> ILocation.GetLocations()
         {
             return (from loc in _context.Locations
@@ -46,6 +112,10 @@ namespace StoreApp.Repository
                    .AsEnumerable();
         }
 
+        /// <summary>
+        /// Retrieves the Location that has the highest stock of items.
+        /// </summary>
+        /// <returns>The Location with the highest stock of items.</returns>
         Location ILocation.GetMostStocked()
         {
             var locationWithMostProducts = _context.LocationInventories
@@ -61,6 +131,12 @@ namespace StoreApp.Repository
                        .Where(l => l.LocationId == locationWithMostProducts.LocationId)
                        .FirstOrDefault();
         }
+
+        /// <summary>
+        /// Gets all products from a specific location, regardless of stock.
+        /// </summary>
+        /// <param name="location">The location to query.</param>
+        /// <returns>IEnumerable of Tuple containing the Product and the total in stock.</returns>
         IEnumerable<Tuple<Product, int>> ILocation.GetAllProducts(Location location)
         {
             return from product in _context.Products
@@ -69,6 +145,11 @@ namespace StoreApp.Repository
                    select new Tuple<Product, int>(product, li.Quantity);
         }
 
+        /// <summary>
+        /// Gets all products from a specific location, regardless of stock.
+        /// </summary>
+        /// <param name="location">The location to query.</param>
+        /// <returns>IEnumerable of Tuple containing the Product and the total in stock.</returns>
         IEnumerable<Tuple<Product, int>> ILocation.GetProductsAvailable(Location location)
         {
             return from product in _context.Products
@@ -78,14 +159,12 @@ namespace StoreApp.Repository
                    select new Tuple<Product, int>(product, li.Quantity);
         }
 
-        async Task<Location> ILocation.GetById(Guid id)
-        {
-            return await (from loc in _context.Locations
-                         where loc.LocationId == id
-                         select loc)
-                         .FirstOrDefaultAsync();
-        }
-
+        /// <summary>
+        /// Gets the stock of a specific product from a location.
+        /// </summary>
+        /// <param name="location">The location to query.</param>
+        /// <param name="product">The product to check the stock of.</param>
+        /// <returns>Number of stock available for the specific product.</returns>
         async Task<int> ILocation.GetStock(Location location, Product product)
         {
             return await _context.LocationInventories
@@ -94,6 +173,15 @@ namespace StoreApp.Repository
                 .SumAsync(li => li.Quantity);
         }
 
+        /// <summary>
+        /// Gets the stock from a location based on an order.
+        /// <remarks>
+        /// This may be used to determine which items have enough stock available for fulfillling an order.
+        /// </remarks>
+        /// </summary>
+        /// <param name="orderId">The order id to query.</param>
+        /// <returns>IEnumerable of Tuple containing the product ID and how many are in stock at the location
+        /// where the order is placed.</returns>
         IEnumerable<Tuple<Guid, int>> ILocation.GetStock(Guid orderId)
         {
             var order = _context.Orders
@@ -108,6 +196,11 @@ namespace StoreApp.Repository
             select new Tuple<Guid, int>(li.Product.ProductId, li.Quantity);
         }
 
+        /// <summary>
+        /// Gets all orders from the specified location.
+        /// </summary>
+        /// <param name="locationId">Location to query</param>
+        /// <returns>IEnumerable of Tuple containing the Order and count of number of items within the order.</returns>
         IEnumerable<Tuple<Order, int>> ILocation.GetOrders(Guid locationId)
         {
             return _context.Orders
@@ -124,6 +217,11 @@ namespace StoreApp.Repository
                 .AsEnumerable();
         }
 
+        /// <summary>
+        /// Gets all the order line items for a specific order.
+        /// </summary>
+        /// <param name="orderId">The order to query.</param>
+        /// <returns>IEnumerable of order line items.</returns>
         IEnumerable<OrderLineItem> ILocation.GetOrderLineItems(Guid orderId)
         {
             return _context.OrderLineItems

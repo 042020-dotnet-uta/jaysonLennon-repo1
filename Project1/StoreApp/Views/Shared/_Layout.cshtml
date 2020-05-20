@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SugarRush</title>
     <link rel="stylesheet" href="~/css/site.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
 </head>
 <body>
     <partial name="/Views/Partials/PageHeaderPartial.cshtml" />
@@ -12,9 +13,10 @@
         @RenderBody()
     </main>
 
-    <footer class="pos-absolute bottom-0 width-100 flex-row footer-border footer-background">
+    <footer class="bottom-0 width-100 footer-border footer-background footer-grid justify-center text-center sm:text-left sm:justify-start">
         <div class="text-gray-50 p2">&copy; 2020 - SugarRush</div>
         <a asp-controller="Home" asp-action="Privacy" class="p2 link-white">Privacy</a>
+        <a asp-controller="AdminHome" asp-action="Index" class="p2 link-white">Admin</a>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

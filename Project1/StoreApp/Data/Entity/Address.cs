@@ -8,32 +8,32 @@ namespace StoreApp.Entity
     public class Address
     {
         /// <summary>
-        /// The ID for this <c>Address</c>.
+        /// The ID for this Address.
         /// </summary>
         public Guid AddressId { get; set; }
 
         /// <summary>
-        /// Line1 for this <c>Address</c>.
+        /// Line1 for this Address.
         /// </summary>
         public virtual AddressLine1 Line1 { get; set; }
 
         /// <summary>
-        /// Line2 for this <c>Address</c>.
+        /// Line2 for this Address.
         /// </summary>
         public virtual AddressLine2 Line2 { get; set; }
 
         /// <summary>
-        /// The City for this <c>Address</c>.
+        /// The City for this Address.
         /// </summary>
         public virtual City City { get; set; }
 
         /// <summary>
-        /// The State for this <c>Address</c>.
+        /// The State for this Address.
         /// </summary>
         public virtual State State { get; set; }
 
         /// <summary>
-        /// The Zip Code for this <c>Address</c>.
+        /// The Zip Code for this Address.
         /// </summary>
         public virtual ZipCode Zip { get; set; }
 
@@ -44,7 +44,7 @@ namespace StoreApp.Entity
     }
 
     /// <summary>
-    /// The first line of an <c>Address</c>.
+    /// The first line of an Address.
     /// Line1 information is generally a street address.
     /// </summary>
     public class AddressLine1
@@ -67,7 +67,7 @@ namespace StoreApp.Entity
     }
 
     /// <summary>
-    /// The second line of an <c>Address</c>.
+    /// The second line of an Address.
     /// Line2 information is generally a unit/apt number or PO box.
     /// </summary>
     public class AddressLine2
@@ -90,17 +90,17 @@ namespace StoreApp.Entity
     }
 
     /// <summary>
-    /// The City of an <c>Address</c>.
+    /// The City of an Address.
     /// </summary>
     public class City
     {
         /// <summary>
-        /// The ID of this <c>City</c>.
+        /// The ID of this City.
         /// </summary>
         public Guid CityId { get; set; }
 
         /// <summary>
-        /// The name of this <c>City</c>.
+        /// The name of this City.
         /// </summary>
         public string Name { get; set; }
 
@@ -111,17 +111,17 @@ namespace StoreApp.Entity
     }
 
     /// <summary>
-    /// The State of an <c>Address</c>.
+    /// The State of an Address.
     /// </summary>
     public class State
     {
         /// <summary>
-        /// The ID of this <c>State</c>.
+        /// The ID of this State.
         /// </summary>
         public Guid StateId { get; set; }
 
         /// <summary>
-        /// The name of this <c>State</c>.
+        /// The name of this State.
         /// </summary>
         public string Name { get; set; }
 
@@ -132,12 +132,12 @@ namespace StoreApp.Entity
     }
 
     /// <summary>
-    /// The Zip Code of an <c>Address</c>.
+    /// The Zip Code of an Address.
     /// </summary>
     public class ZipCode
     {
         /// <summary>
-        /// The ID of this <c>ZipCode</c>.
+        /// The ID of this ZipCode.
         /// </summary>
         public Guid ZipCodeId { get; set; }
 

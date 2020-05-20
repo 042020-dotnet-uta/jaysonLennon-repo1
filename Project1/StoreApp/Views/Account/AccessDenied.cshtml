@@ -1,11 +1,5 @@
-<h1 class="text-center">Access denied</h1>
+<h1 class="text-center">Access Denied</h1>
 <partial name="/Views/Partials/FlashMessagePartial.cshtml" />
 
 <p class="m4 text-center">You do not have permission to view the requested page.</p>
-
-<div class="flex-col items-center text-center">
-    <form>
-        <a class="button-link-dark" asp-controller="Storefront" asp-action="Index">Browse Store</a>
-        <button javascript="history.go(-1);">Go Back</button>
-    </form>
-</div>
+<partial name="/Views/Partials/GoBackPartial.cshtml" />

@@ -15,12 +15,18 @@ using StoreApp.FlashMessageExtension;
 
 namespace StoreApp.Controllers
 {
+    /// <summary>
+    /// User Account administration controller.
+    /// </summary>
     public class Account : Controller
     {
         private StoreContext _context;
         private ILogger<Account> _logger;
         private IServiceProvider _services;
 
+        /// <summary>
+        /// Standard constructor
+        /// </summary>
         public Account(
             StoreContext context,
             ILogger<Account> logger,
@@ -32,6 +38,9 @@ namespace StoreApp.Controllers
             this._services = services;
         }
 
+        /// <summary>
+        /// Route to the account management page.
+        /// </summary>
         [Route("Account/Manage")]
         [Authorize(Roles = Auth.Role.Customer)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
@@ -57,7 +66,7 @@ namespace StoreApp.Controllers
             model.FirstName = user.FirstName;
             model.LastName = user.LastName;
 
-            var userAddress = await userRepo.GetAddressByuserId(userId);
+            var userAddress = await userRepo.GetAddressByUserId(userId);
             if (userAddress != null)
             {
                 model.AddressLine1 = userAddress.Line1 != null ? userAddress.Line1.Data : null;
@@ -70,6 +79,9 @@ namespace StoreApp.Controllers
             return View("Manage", model);
         }
 
+        /// <summary>
+        /// Route to make an update to user information.
+        /// </summary>
         [HttpPost]
         [Authorize(Roles = Auth.Role.Customer)]
         [ValidateAntiForgeryToken]
@@ -113,7 +125,7 @@ namespace StoreApp.Controllers
                 }
             }
 
-            var updateOk = await userRepo.UpdateUserInfo(user.UserId, model);
+            var updateOk = await userRepo.UpdateUserPersonalInfo(user.UserId, model);
             if (!updateOk)
             {
                 this.SetFlashError("There was an error saving your information. Please try again.");
@@ -131,6 +143,9 @@ namespace StoreApp.Controllers
             return RedirectToAction("Manage");
         }
 
+        /// <summary>
+        /// Route to redirect to the user management page if they visit it with a GET request.
+        /// </summary>
         [HttpGet]
         [Route("Account/Update")]
         public async Task<IActionResult> RedirectUpdateAccountInfo(Model.Input.AccountManagement model)
@@ -138,6 +153,9 @@ namespace StoreApp.Controllers
             return RedirectToAction("Manage");
         }
 
+        /// <summary>
+        /// Route to the order history page.
+        /// </summary>
         [Route("Account/OrderHistory")]
         [Authorize(Roles = Auth.Role.Customer)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
@@ -158,6 +176,10 @@ namespace StoreApp.Controllers
             return View("OrderHistory", model);
         }
 
+        /// <summary>
+        /// Route to the order history detail page.
+        /// </summary>
+        /// <param name="orderId">The order id to display details for.</param>
         [Route("Account/OrderHistoryDetail")]
         [Authorize(Roles = Auth.Role.Customer)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
@@ -180,6 +202,9 @@ namespace StoreApp.Controllers
             return View("OrderHistoryDetail", model);
         }
 
+        /// <summary>
+        /// Route to the create new account page.
+        /// </summary>
         [Route("Account/Create")]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         [ServiceFilter(typeof(PageHeader.PopulateHeader))]
@@ -189,6 +214,9 @@ namespace StoreApp.Controllers
             return View("CreateAccount", model);
         }
 
+        /// <summary>
+        /// Route to the login page.
+        /// </summary>
         [Route("Account/Login")]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         [ServiceFilter(typeof(PageHeader.PopulateHeader))]
@@ -200,6 +228,9 @@ namespace StoreApp.Controllers
             return View("Login", loginUser);
         }
 
+        /// <summary>
+        /// Route to log the user out of their session.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Account/Logout")]
@@ -210,6 +241,9 @@ namespace StoreApp.Controllers
             return RedirectToAction("LoginIndex");
         }
 
+        /// <summary>
+        /// Route to try and create a new user account.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Account/TryCreate")]
@@ -226,6 +260,7 @@ namespace StoreApp.Controllers
                 if (loginExists)
                 {
                     this.SetFlashError("That user name is unavailable.");
+                    this._logger.LogWarning($"An attempt to create duplicate login name was made for '{model.UserName}'.");
                     return View("CreateAccount", model);
                 }
 
@@ -240,6 +275,14 @@ namespace StoreApp.Controllers
             }
         }
 
+        /// <summary>
+        /// Logic to perform a user login.
+        /// </summary>
+        /// <remarks>
+        /// It is assumed that the user credentials have already been previously verified.
+        /// </remarks>
+        /// <param name="userId">The user id that should be logged in.</param>
+        /// <returns>Whether or not the login was successful. This will only fail if the user ID does not exist.</returns>
         private async Task<bool> DoLogin(Guid userId)
         {
             var userRepo = (Repository.IUser)this._services.GetService(typeof(Repository.IUser));
@@ -276,9 +319,13 @@ namespace StoreApp.Controllers
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
 
+            this._logger.LogInformation($"User '{userId}' logged in.");
             return true;
         }
 
+        /// <summary>
+        /// Route to attempt to log the user into the application.
+        /// </summary>
         [Route("Account/TryLogin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -297,6 +344,7 @@ namespace StoreApp.Controllers
                 var loginRedirect = new Model.Input.LoginRedirect();
                 this.SetFlashError("Invalid login credentials");
                 loginRedirect.ReturnUrl = model.ReturnUrl;
+                this._logger.LogWarning($"Invalid login attempt with login name '{model.UserName}'");
                 return RedirectToAction("LoginIndex", loginRedirect);
             }
 
@@ -312,15 +360,25 @@ namespace StoreApp.Controllers
             }
         }
 
+        /// <summary>
+        /// Route when the user attempts to access a page that they don't have the authorization to view.
+        /// </summary>
         [Route("Account/AccessDenied")]
         [HttpGet]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         [ServiceFilter(typeof(PageHeader.PopulateHeader))]
         public async Task<IActionResult> AccessDenied(string returnUrl)
         {
+            var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
+            this._logger.LogWarning($"User {userId} attempted to access a restricted page ({returnUrl})");
             return View("AccessDenied");
         }
 
+        /// <summary>
+        /// API endpoint to check if a user name exists.
+        /// </summary>
+        /// <param name="username">User name to check.</param>
+        /// <returns>JSON object indicating 'true' if the username is valid, or an error message if the username is not valid/available.</returns>
         [HttpGet]
         [Route("Account/VerifyUserName")]
         public async Task<IActionResult> VerifyUserName(string username)

@@ -4,33 +4,39 @@
 
 <partial name="/Views/Partials/FlashMessagePartial.cshtml" />
 
-<div class="flex-row justify-center">
-    <table class="order-table">
-        <thead>
-            <tr>
-                <th class="p2 color-bg-brand text-bold text-gray-50">Date</th>
-                <th class="p2 color-bg-brand text-bold text-gray-50">Items</th>
-                <th class="p2 color-bg-brand text-bold text-gray-50">Paid</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var order in @Model.orders)
-            {
-            <tr>
-                <td>
-                    <a class="block cursor-pointer p2 text-center text-color-brand" asp-controller="Account" asp-action="OrderHistoryDetail"
-                    asp-route-orderId="@order.OrderId">@order.TimeSubmitted</a>
-                </td>
-                <td>
-                    <a class="block cursor-pointer p2 text-center text-color-brand" asp-controller="Account" asp-action="OrderHistoryDetail"
-                    asp-route-orderId="@order.OrderId">@order.ItemQuantity</a>
-                </td>
-                <td>
-                    <a class="block cursor-pointer p2 text-center text-color-brand" asp-controller="Account" asp-action="OrderHistoryDetail"
-                    asp-route-orderId="@order.OrderId">$@order.AmountPaid</a>
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table>
-</div>
+@if(@Model.orders.Count() > 0)
+{
+    <div class="flex-row justify-center">
+        <table class="order-table">
+            <thead>
+                <tr>
+                    <th class="p2 color-bg-brand text-bold text-gray-50">Date</th>
+                    <th class="p2 color-bg-brand text-bold text-gray-50">Items</th>
+                    <th class="p2 color-bg-brand text-bold text-gray-50">Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in @Model.orders)
+                {
+                <tr>
+                    <td>
+                        <a class="block cursor-pointer p2 text-center text-color-brand" asp-controller="Account" asp-action="OrderHistoryDetail"
+                        asp-route-orderId="@order.OrderId">@order.TimeSubmitted</a>
+                    </td>
+                    <td>
+                        <a class="block cursor-pointer p2 text-center text-color-brand" asp-controller="Account" asp-action="OrderHistoryDetail"
+                        asp-route-orderId="@order.OrderId">@order.ItemQuantity</a>
+                    </td>
+                    <td>
+                        <a class="block cursor-pointer p2 text-center text-color-brand" asp-controller="Account" asp-action="OrderHistoryDetail"
+                        asp-route-orderId="@order.OrderId">$@order.AmountPaid</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+} else {
+    <p class="text-center m4">You have not placed any orders.</p>
+    <partial name="/Views/Partials/GoBackPartial.cshtml" />
+}

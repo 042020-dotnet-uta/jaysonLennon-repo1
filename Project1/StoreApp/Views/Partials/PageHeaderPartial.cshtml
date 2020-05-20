@@ -1,30 +1,36 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @namespace StoreApp.PageHeader
 
-<div class="flex-col justify-center p4 nav-background nav-border nav-shadow sm:flex-row sm:justify-between">
+<header class="flex-col justify-center p4 nav-background nav-border nav-shadow sm:flex-row sm:justify-between">
     <div class="flex-col items-center sm:flex-row">
-        <a asp-controller="Storefront" asp-action="Index" class="width-100 sm:width-unset self-content-center text-gray-50 text-4xl p4 mr4 link-white">SugarRush</a>
+        <a asp-controller="Storefront" asp-action="Index" class="width-100 sm:width-unset self-content-center text-gray-50 text-4xl p4 link-white text-center">SugarRush</a>
         <a asp-controller="StoreFront" asp-action="Index" class="width-100 sm:width-unset m4 sm:mx4 sm:my0 button-link-dark cart-border">Browse</a>
-        <form asp-controller="Account" asp-action="Logout" method="POST" class="width-100 sm:width-unset logout-btn"><input type="submit" value="Logout" class="width-100 sm:width-unset button-dark cart-border logout"/></form>
-        <a asp-controller="AdminHome" asp-action="Index" class="width-100 sm:width-unset m4 sm:mx4 sm:my0 button-link-dark cart-border">Admin</a>
     </div>
 
     @if (!ViewData.ContainsKey(K.UserName)){
-        <div class="flex-col justify-center mr3 text-center sm:text-right">
+        <div class="flex-col justify-center text-center sm:text-right">
             <a class="link-white p4 sm:p2 no-underline" asp-Controller="Account" asp-action="CreateAccountIndex">Create Account</a>
             <a class="link-white p4 sm:p2 no-underline" asp-controller="Account" asp-action="LoginIndex">Login</a>
         </div>
     } else {
-        <div class="flex-row justify-between">
-            <div class="flex-col text-left mr4 self-content-center">
-                <div class="text-gray-200 my2">Logged in as @ViewData[K.UserName]</div>
-                <a class="link-white" asp-controller="Account" asp-action="Manage">Manage Account</a>
-            </div>
-            <a asp-controller="Cart" asp-action="Index" class="no-underline flex-col items-center block text-center link-white cart-border p2">
-                <div class="my2">@ViewData[K.NumItemsInCart]</div>
-                <div class="my2">View Cart</div>
+        <div class="items-center col-gap-xl row-gap-xl grid-auto-rows header-account-grid">
+            @if (ViewData.ContainsKey(K.UserName)) {
+                <div class="no-underline flex-col text-center sm:text-left">
+                    <div class="text-gray-200 my1 text-no-bold text-sm">&nbsp;</div>
+                    <form asp-controller="Account" asp-action="Logout" method="POST" class="width-unset text-gray-50 mr4">
+                        <input type="submit" value="Logout" class="width-unset naked"/>
+                    </form>
+                </div>
+            }
+            <a asp-controller="Account" asp-action="Manage" class="no-underline flex-col text-center sm:text-left">
+                <div class="text-gray-200 my1 text-no-bold text-sm">User: @ViewData[K.UserName]</div>
+                <div class="link-white">Manage Account</div>
+            </a>
+            <a asp-controller="Cart" asp-action="Index" class="no-underline flex-col text-center sm:text-left">
+                <div class="text-gray-200 my1 text-no-bold text-sm">Items: @ViewData[K.NumItemsInCart]</div>
+                <div class="link-white">View Cart</div>
             </a>
         </div>
     }
 
-</div>
+</header>

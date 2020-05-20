@@ -33,10 +33,10 @@ namespace StoreApp.Entity
         public Product(){}
 
         /// <summary>
-        /// Create a new <c>Product</c> with a given name and price.
+        /// Create a new Product with a given name and price.
         /// </summary>
-        /// <param name="name">Name of the <c>Product</c>.</param>
-        /// <param name="price">Price of the <c>Product</c>.</param>
+        /// <param name="name">Name of the Product.</param>
+        /// <param name="price">Price of the Product.</param>
         public Product(string name, double price) {
             this.ProductId = Guid.NewGuid();
             this.Name = name;

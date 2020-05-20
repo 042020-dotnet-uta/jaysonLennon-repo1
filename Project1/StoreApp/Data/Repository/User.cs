@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace StoreApp.Repository
 {
     /// <summary>
-    /// The return value of <c>CreateUserAccount()</c>
+    /// The return value of CreateUserAccount()
     /// </summary>
     public enum CreateUserAccountResult
     {
@@ -20,24 +20,51 @@ namespace StoreApp.Repository
         /// <summary>Failed to create account: another account with that name already exists.</summary>
         AccountNameExists,
 
-        /// <summary>Failed to create account: no login name was present in <c>User</c> object.</summary>
+        /// <summary>Failed to create account: no login name was present in User object.</summary>
         MissingLogin,
 
-        /// <summary>Failed to create account: no password was present in the <c>User</c> object.</summary>
+        /// <summary>Failed to create account: no password was present in the User object.</summary>
         MissingPassword,
     }
 
+    /// <summary>
+    /// Interface for a user data model.
+    /// </summary>
     public interface IUserData
     {
+        /// <summary>
+        /// Returns the first name of the user.
+        /// </summary>
         string GetFirstName();
+        /// <summary>
+        /// Returns the last name of the user.
+        /// </summary>
         string GetLastName();
+        /// <summary>
+        /// Gets address line 1 of the user.
+        /// </summary>
         string GetAddressLine1();
+        /// <summary>
+        /// Gets address line 2 of the user.
+        /// </summary>
         string GetAddressLine2();
+        /// <summary>
+        /// Gets the city of the user.
+        /// </summary>
         string GetCity();
+        /// <summary>
+        /// Gets the state of the user.
+        /// </summary>
         string GetState();
+        /// <summary>
+        /// Gets the zip code of the user.
+        /// </summary>
         string GetZip();
     }
 
+    /// <summary>
+    /// The result of a user query.
+    /// </summary>
     public class UserQueryResultWithRevenue
     {
         /// <summary>
@@ -83,37 +110,143 @@ namespace StoreApp.Repository
         public bool IsOmniQuery { get; set; }
         public IEnumerable<Tuple<User, double>> Users { get; set; }
     }
+
+    /// <summary>
+    /// Interface to query information about users.
+    /// </summary>
     public interface IUser
     {
+        /// <summary>
+        /// Searches for users based on a search query.
+        /// </summary>
+        /// <param name="nameQuery">Query</param>
+        /// <returns>Users found, if any</returns>
         public IEnumerable<User> FindUserQuery(string nameQuery);
+        /// <summary>
+        /// Searches for users based on a search query, and includes total revenue of the user.
+        /// </summary>
+        /// <param name="nameQuery">Query</param>
+        /// <returns>Users found, if any.</returns>
         public UserQueryResultWithRevenue FindUserQueryIncludeRevenue(string nameQuery);
+        /// <summary>
+        /// Searches for users based on their first name.
+        /// </summary>
+        /// <param name="firstName">First name to search</param>
+        /// <returns>Users found, if any.</returns>
         public IEnumerable<User> FindUserByFirstName(string firstName);
+        /// <summary>
+        /// Searches for users based on their last name.
+        /// </summary>
+        /// <param name="lastName">Last name to search</param>
+        /// <returns>Users found, if any.</returns>
         public IEnumerable<User> FindUserByLastName(string lastName);
+        /// <summary>
+        /// Retrieves a user based on their login name.
+        /// </summary>
+        /// <param name="login">Login to search</param>
+        /// <returns>A user, if found.</returns>
         public Task<User> GetUserByLogin(string login);
+        /// <summary>
+        /// Retrieves a user based on their user ID.
+        /// </summary>
+        /// <param name="userId">The ID of the user.</param>
+        /// <returns>The User, if found.</returns>
         public Task<User> GetUserById(Guid userId);
-        public Task<Address> GetAddressByuserId(Guid userId);
+        /// <summary>
+        /// Retrieves the address of a user.
+        /// </summary>
+        /// <param name="userId">The ID of the user.</param>
+        /// <returns>User address.</returns>
+        public Task<Address> GetAddressByUserId(Guid userId);
+        /// <summary>
+        /// Determines whether a login name exists.
+        /// </summary>
+        /// <param name="login">The login name to check.</param>
+        /// <returns>Whether the login name already exists.</returns>
         public Task<bool> LoginExists(string login);
+        /// <summary>
+        /// Adds a new user to the database.
+        /// </summary>
+        /// <param name="user">The user to add.</param>
+        /// <returns>CreateUserAccountResult detailing the status of the operation.</returns>
         public Task<CreateUserAccountResult> Add(User user);
+        /// <summary>
+        /// Verifies if the login supplied meets requirements.
+        /// </summary>
+        /// <param name="login">The login name to check.</param>
+        /// <returns>Whether requirements are satisfied.</returns>
         public Task<bool> VerifyUserLogin(string login);
+        /// <summary>
+        /// Sets the default location for a user.
+        /// </summary>
+        /// <param name="user">User to update.</param>
+        /// <param name="location">Location to set to default.</param>
         public void SetDefaultLocation(User user, Location location);
+        /// <summary>
+        /// Retrieves the default location for a user.
+        /// </summary>
+        /// <param name="user">The user to query.</param>
+        /// <returns>The default location for the user.</returns>
         public Task<Location> GetDefaultLocation(User user);
+        /// <summary>
+        /// Retrieves the default location for a user.
+        /// </summary>
+        /// <param name="userId">The user id to query.</param>
+        /// <returns>The default location for the user.</returns>
         public Task<Location> GetDefaultLocation(Guid userId);
+        /// <summary>
+        /// Retrieves the customer's currently open order for a location.
+        /// <remarks>
+        /// If the customer has no open order for the location, a new one will be
+        /// created, so this method will always return an order object.
+        /// </remarks>
+        /// </summary>
+        /// <param name="user">User to get order from.</param>
+        /// <param name="location">Location to check.</param>
+        /// <returns>Order for the location.</returns>
         public Task<Order> GetOpenOrder(User user, Location location);
+        /// <summary>
+        /// Verifies that a users login name and password match.
+        /// </summary>
+        /// <param name="login">The login name.</param>
+        /// <param name="plainPassword">The password supplied.</param>
+        /// <returns>A User, if credentials match; null otherwise.</returns>
         public Task<User> VerifyCredentials(string login, string plainPassword);
-        public Task<bool> UpdateUserInfo(Guid userId, IUserData newData);
+        /// <summary>
+        /// Updates user personal information.
+        /// </summary>
+        /// <param name="userId">The user ID to be updated.</param>
+        /// <param name="newData">The new data to input.</param>
+        /// <returns>Whether the operation was successful.</returns>
+        public Task<bool> UpdateUserPersonalInfo(Guid userId, IUserData newData);
+        /// <summary>
+        /// Get the number of products in a user's current order.
+        /// </summary>
+        /// <param name="userId">The user ID to check.</param>
+        /// <returns>Number of items in cart.</returns>
         public Task<int> CountProductsInCart(Guid userId);
     }
 
-
+    /// <summary>
+    /// Implementation of IUser repository.
+    /// </summary>
     public class UserRepository : Repository.IUser
     {
         private StoreContext _context;
 
+        /// <summary>
+        /// Standard constructor.
+        /// </summary>
         public UserRepository(StoreContext context)
         {
             this._context = context;
         }
 
+        /// <summary>
+        /// Retrieves the default location for a user.
+        /// </summary>
+        /// <param name="user">The user to query.</param>
+        /// <returns>The default location for the user.</returns>
         public async Task<Location> GetDefaultLocation(User user)
         {
             return await _context.Users
@@ -123,6 +256,11 @@ namespace StoreApp.Repository
                                  .SingleOrDefaultAsync();
         }
 
+        /// <summary>
+        /// Retrieves the default location for a user.
+        /// </summary>
+        /// <param name="userId">The user id to query.</param>
+        /// <returns>The default location for the user.</returns>
         public async Task<Location> GetDefaultLocation(Guid userId)
         {
             return await _context.Users
@@ -132,6 +270,11 @@ namespace StoreApp.Repository
                 .SingleOrDefaultAsync();
         }
 
+        /// <summary>
+        /// Adds a new user to the database.
+        /// </summary>
+        /// <param name="user">The user to add.</param>
+        /// <returns>CreateUserAccountResult detailing the status of the operation.</returns>
         public async Task<CreateUserAccountResult> Add(User user)
         {
             var hashed = StoreApp.Util.Hash.Sha256(user.Password);
@@ -147,6 +290,11 @@ namespace StoreApp.Repository
             return CreateUserAccountResult.Ok;
         }
 
+        /// <summary>
+        /// Retrieves a user based on their user ID.
+        /// </summary>
+        /// <param name="userId">The ID of the user.</param>
+        /// <returns>The User, if found.</returns>
         public async Task<User> GetUserById(Guid id)
         {
             return await _context.Users
@@ -155,6 +303,11 @@ namespace StoreApp.Repository
                                  .SingleOrDefaultAsync();
         }
 
+        /// <summary>
+        /// Retrieves a user based on their login name.
+        /// </summary>
+        /// <param name="login">Login to search</param>
+        /// <returns>A user, if found.</returns>
         public async Task<User> GetUserByLogin(string login)
         {
             login = login.ToLower();
@@ -165,6 +318,16 @@ namespace StoreApp.Repository
         }
 
 
+        /// <summary>
+        /// Retrieves the customer's currently open order for a location.
+        /// <remarks>
+        /// If the customer has no open order for the location, a new one will be
+        /// created, so this method will always return an order object.
+        /// </remarks>
+        /// </summary>
+        /// <param name="user">User to get order from.</param>
+        /// <param name="location">Location to check.</param>
+        /// <returns>Order for the location.</returns>
         public async Task<Order> GetOpenOrder(User user, Location location)
         {
             var currentOrder = await _context.Orders
@@ -187,6 +350,11 @@ namespace StoreApp.Repository
             }
         }
 
+        /// <summary>
+        /// Determines whether a login name exists.
+        /// </summary>
+        /// <param name="login">The login name to check.</param>
+        /// <returns>Whether the login name already exists.</returns>
         public async Task<bool> LoginExists(string login)
         {
             login = login.ToLower();
@@ -202,6 +370,12 @@ namespace StoreApp.Repository
             await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Verifies that a users login name and password match.
+        /// </summary>
+        /// <param name="login">The login name.</param>
+        /// <param name="plainPassword">The password supplied.</param>
+        /// <returns>A User, if credentials match; null otherwise.</returns>
         public async Task<User> VerifyCredentials(string login, string plainPassword)
         {
             login = login.ToLower();
@@ -213,6 +387,11 @@ namespace StoreApp.Repository
                                  .SingleOrDefaultAsync();
         }
 
+        /// <summary>
+        /// Verifies if the login supplied meets requirements.
+        /// </summary>
+        /// <param name="login">The login name to check.</param>
+        /// <returns>Whether requirements are satisfied.</returns>
         public async Task<bool> VerifyUserLogin(string login)
         {
             if (String.IsNullOrEmpty(login)) return false;
@@ -224,7 +403,13 @@ namespace StoreApp.Repository
             return exists == null;
         }
 
-        public async Task<bool> UpdateUserInfo(Guid userId, IUserData newData)
+        /// <summary>
+        /// Updates user personal information.
+        /// </summary>
+        /// <param name="userId">The user ID to be updated.</param>
+        /// <param name="newData">The new data to input.</param>
+        /// <returns>Whether the operation was successful.</returns>
+        public async Task<bool> UpdateUserPersonalInfo(Guid userId, IUserData newData)
         {
             // TODO: make this function less terrible
 
@@ -359,7 +544,12 @@ namespace StoreApp.Repository
             return true;
         }
 
-        public async Task<Address> GetAddressByuserId(Guid userId)
+        /// <summary>
+        /// Retrieves the address of a user.
+        /// </summary>
+        /// <param name="userId">The ID of the user.</param>
+        /// <returns>User address.</returns>
+        public async Task<Address> GetAddressByUserId(Guid userId)
         {
             return await _context.Users
                 .Include(c => c.Address)
@@ -377,6 +567,11 @@ namespace StoreApp.Repository
                 .SingleOrDefaultAsync();
         }
 
+        /// <summary>
+        /// Get the number of products in a user's current order.
+        /// </summary>
+        /// <param name="userId">The user ID to check.</param>
+        /// <returns>Number of items in cart.</returns>
         public async Task<int> CountProductsInCart(Guid userId)
         {
             return await _context.OrderLineItems
@@ -385,6 +580,11 @@ namespace StoreApp.Repository
                 .SumAsync(ol => ol.Quantity);
         }
 
+        /// <summary>
+        /// Searches for a user based on a search query.
+        /// </summary>
+        /// <param name="nameQuery">Query</param>
+        /// <returns>Users found, if any</returns>
         public IEnumerable<User> FindUserQuery(string nameQuery)
         {
             nameQuery = nameQuery.ToLower();
@@ -416,6 +616,11 @@ namespace StoreApp.Repository
                 .Select(u => u);
         }
 
+        /// <summary>
+        /// Searches for users based on a search query, and includes total revenue of the user.
+        /// </summary>
+        /// <param name="nameQuery">Query</param>
+        /// <returns>Users found, if any.</returns>
         public UserQueryResultWithRevenue FindUserQueryIncludeRevenue(string nameQuery)
         {
             nameQuery = nameQuery.ToLower();
@@ -488,6 +693,11 @@ namespace StoreApp.Repository
             };
         }
 
+        /// <summary>
+        /// Searches for users based on their first name.
+        /// </summary>
+        /// <param name="firstName">First name to search</param>
+        /// <returns>Users found, if any.</returns>
         public IEnumerable<User> FindUserByFirstName(string firstName)
         {
             firstName = firstName.ToLower();
@@ -496,6 +706,11 @@ namespace StoreApp.Repository
                 .Select(u => u);
         }
 
+        /// <summary>
+        /// Searches for users based on their last name.
+        /// </summary>
+        /// <param name="lastName">Last name to search</param>
+        /// <returns>Users found, if any.</returns>
         public IEnumerable<User> FindUserByLastName(string lastName)
         {
             lastName = lastName.ToLower();

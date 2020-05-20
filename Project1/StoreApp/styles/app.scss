@@ -144,6 +144,8 @@
 
 .search-result-highlight {
     text-decoration: underline;
+    color: $customer-search-highlight-color;
+    background: $customer-search-highlight-background;
 }
 
 @include break-sm {
@@ -155,4 +157,42 @@
 input[type="submit"].cart-border {
     border: 1px solid $color-gray-50;
     border-radius: $border-radius-sm;
+}
+
+.header-account-grid {
+    display: grid;
+    grid-template-rows: auto auto auto;
+}
+
+@include break-sm {
+    .header-account-grid {
+        grid-template-rows: unset;
+        grid-template-columns: auto 10rem auto;
+    }
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-rows: repeat(3, min-content);
+    grid-row-gap: 1rem;
+}
+
+@include break-sm {
+    .footer-grid {
+        grid-template-rows: unset;
+        grid-template-columns: max-content min-content min-content;
+    }
+}
+
+input[type="submit"].naked {
+    border: 0;
+    display: inline;
+    padding: 0;
+    line-height: unset;
+    box-shadow: none;
+    color: unset;
+    box-shadow: none;
+    margin: 0;
+    font-size: 1rem;
+    background: unset;
 }

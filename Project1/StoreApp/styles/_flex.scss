@@ -72,6 +72,9 @@
   //////////////////////
   // Small
   //////////////////////
+  .sm\:justify-start {
+    justify-content: flex-start;
+  }
   .sm\:flex-row {
     display: flex;
     flex-direction: row;

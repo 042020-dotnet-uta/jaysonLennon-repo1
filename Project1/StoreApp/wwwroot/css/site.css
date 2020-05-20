@@ -172,6 +172,10 @@ table {
 }
 
 @media screen and (min-width: 640px) {
+  .sm\:justify-start {
+    justify-content: flex-start;
+  }
+
   .sm\:flex-row {
     display: flex;
     flex-direction: row;
@@ -336,10 +340,19 @@ input[type=number] {
   border-radius: 3px;
   border: 1px solid #532f53;
   background: #ffffff;
-  font-size: 90%;
-  font-family: "Muli", sans-serif;
+  font-size: 100%;
+  font-family: "Montserrat", sans-serif;
   box-shadow: inset 0px 0px 2px 0px rgba(160, 76, 160, 0.55);
   line-height: 1;
+}
+
+button:focus,
+select:focus,
+input[type=text]:focus,
+input[type=password]:focus,
+input[type=submit]:focus,
+input[type=number]:focus {
+  text-decoration: underline;
 }
 
 input[type=number],
@@ -586,6 +599,14 @@ label + input[type=text] {
 
 .width-100 {
   width: 100%;
+}
+
+.height-unset {
+  height: unset;
+}
+
+.width-unset {
+  width: unset;
 }
 
 @media screen and (min-width: 640px) {
@@ -1167,7 +1188,7 @@ label + input[type=text] {
   }
 }
 h1 {
-  font-family: "Muli", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 2rem;
   font-weight: bolder;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
@@ -1176,7 +1197,7 @@ h1 {
 }
 
 h2 {
-  font-family: "Muli", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1.5rem;
   font-weight: bolder;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
@@ -1185,7 +1206,7 @@ h2 {
 }
 
 h3 {
-  font-family: "Muli", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1.17rem;
   font-weight: bolder;
   margin-top: 2rem;
@@ -1193,7 +1214,7 @@ h3 {
 }
 
 h4 {
-  font-family: "Muli", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1rem;
   font-weight: bolder;
   margin-top: 2rem;
@@ -1201,7 +1222,7 @@ h4 {
 }
 
 h5 {
-  font-family: "Muli", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 0.83rem;
   font-weight: bolder;
   margin-top: 2rem;
@@ -1209,7 +1230,7 @@ h5 {
 }
 
 h6 {
-  font-family: "Muli", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 0.67rem;
   font-weight: bolder;
   margin-top: 2rem;
@@ -1222,6 +1243,14 @@ h6 {
 
 .text-italic {
   font-style: italic;
+}
+
+.text-no-bold {
+  font-weight: normal;
+}
+
+.text-no-italic {
+  font-style: normal;
 }
 
 .text-xs {
@@ -1386,8 +1415,8 @@ html {
 }
 
 html {
-  font-family: "Muli", sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  font-size: 90%;
+  font-family: "Montserrat", sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-size: 100%;
   background: #fff9fe;
   background-attachment: fixed;
   color: #1a171a;
@@ -1398,13 +1427,14 @@ body {
   width: 100%;
   min-height: 100%;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
 }
 
 main {
-  margin-top: 2rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
-  padding-bottom: 4rem;
+  margin: 2rem;
+  flex-grow: 1;
 }
 
 hr {
@@ -1417,6 +1447,14 @@ hr {
 a {
   text-decoration: none;
   font-weight: bold;
+}
+
+a:active {
+  color: #fff9fe;
+}
+
+a:focus {
+  text-decoration: underline;
 }
 
 table {
@@ -1544,12 +1582,12 @@ em {
 
 @media screen and (min-width: 640px) {
   .sm\:checkout-container {
-    width: 200px;
+    width: 220px;
   }
 }
 .edit-cart-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 380px);
+  grid-template-columns: repeat(auto-fill, 390px);
   grid-column-gap: 6rem;
   grid-row-gap: 2rem;
   margin-top: 1rem;
@@ -1604,6 +1642,8 @@ em {
 }
 .search-result-highlight {
   text-decoration: underline;
+  color: #000000;
+  background: #6a5e733d;
 }
 
 @media screen and (min-width: 640px) {
@@ -1614,6 +1654,42 @@ em {
 input[type=submit].cart-border {
   border: 1px solid #f9f4f9;
   border-radius: 3px;
+}
+
+.header-account-grid {
+  display: grid;
+  grid-template-rows: auto auto auto;
+}
+
+@media screen and (min-width: 640px) {
+  .header-account-grid {
+    grid-template-rows: unset;
+    grid-template-columns: auto 10rem auto;
+  }
+}
+.footer-grid {
+  display: grid;
+  grid-template-rows: repeat(3, min-content);
+  grid-row-gap: 1rem;
+}
+
+@media screen and (min-width: 640px) {
+  .footer-grid {
+    grid-template-rows: unset;
+    grid-template-columns: max-content min-content min-content;
+  }
+}
+input[type=submit].naked {
+  border: 0;
+  display: inline;
+  padding: 0;
+  line-height: unset;
+  box-shadow: none;
+  color: unset;
+  box-shadow: none;
+  margin: 0;
+  font-size: 1rem;
+  background: unset;
 }
 
 /*# sourceMappingURL=site.css.map */

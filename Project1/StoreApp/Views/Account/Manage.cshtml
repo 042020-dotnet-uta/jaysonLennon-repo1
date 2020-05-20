@@ -9,7 +9,7 @@
         <a class="button-link-light text-center" asp-controller="Account" asp-action="OrderHistory">Order history</a>
         <div class="my4">
             <label asp-for="StorePicked">Default Store</label>
-            <select asp-for="StorePicked" asp-items="@Model.Stores"></select>
+            <select asp-for="StorePicked" asp-items="@Model.Stores" autofocus></select>
         </div>
         <div class="my4">
             <label asp-for="FirstName"></label>
