@@ -466,7 +466,7 @@ namespace StoreApp.Repository
                 zipEntity = await _context.Addresses
                     .Where(a => a.Zip.Zip == zipString.Trim())
                     .Select(a => a.Zip)
-                    .SingleOrDefaultAsync();
+                    .FirstOrDefaultAsync();
                 if (zipEntity == null)
                 {
                     zipEntity = new Entity.ZipCode();
