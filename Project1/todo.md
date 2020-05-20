@@ -75,18 +75,18 @@
 - [X] styles
 
 # Error page
-- [ ] stlyes
+- [X] stlyes
 
 # Admin pages
 - [X] view location orders
 - [X] search for customers
-- [X] stlyes
+- [X] styles
 
 # General
 - [X] Add redirects for POST-only URLs to appropriate location (cart main, storefront, etc)
 - [X] fix logger generics in all controllers
-- [ ] apply async where appropriate
-- [ ] autofocus
+- [X] apply async where appropriate
+- [X] autofocus
 - [X] ensure appropriate routes are authorize-gated
 - [X] remove unused imports
 - [X] separate models into view and submission
@@ -104,7 +104,6 @@
 - [ ] use implicit interface implementations
 - [X] remove console writelines
 - [X] add ValidateAntiForgeryToken on POST requests
-
 
 # Missing Requirements
 - [X] logging
