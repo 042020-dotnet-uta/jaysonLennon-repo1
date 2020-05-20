@@ -102,10 +102,10 @@
 - [X] style access denied page
 - [ ] remove .AsEnumerable calls in repos
 - [ ] use implicit interface implementations
-- [ ] remove console writelines
+- [X] remove console writelines
 - [X] add ValidateAntiForgeryToken on POST requests
 
 
 # Missing Requirements
-- [ ] logging
-- [ ] docs
+- [X] logging
+- [X] docs
