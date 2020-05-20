@@ -363,7 +363,6 @@ namespace StoreApp.Controllers
         /// <summary>
         /// Route when the user attempts to access a page that they don't have the authorization to view.
         /// </summary>
-        /// <param name="returnUrl">The page they attempted to access.</param>
         [Route("Account/AccessDenied")]
         [HttpGet]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]

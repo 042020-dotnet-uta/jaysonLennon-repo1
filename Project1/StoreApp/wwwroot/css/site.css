@@ -340,8 +340,8 @@ input[type=number] {
   border-radius: 3px;
   border: 1px solid #532f53;
   background: #ffffff;
-  font-size: 90%;
-  font-family: "Muli", sans-serif;
+  font-size: 100%;
+  font-family: "Montserrat", sans-serif;
   box-shadow: inset 0px 0px 2px 0px rgba(160, 76, 160, 0.55);
   line-height: 1;
 }
@@ -1179,7 +1179,7 @@ label + input[type=text] {
   }
 }
 h1 {
-  font-family: "Muli", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 2rem;
   font-weight: bolder;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
@@ -1188,7 +1188,7 @@ h1 {
 }
 
 h2 {
-  font-family: "Muli", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1.5rem;
   font-weight: bolder;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
@@ -1197,7 +1197,7 @@ h2 {
 }
 
 h3 {
-  font-family: "Muli", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1.17rem;
   font-weight: bolder;
   margin-top: 2rem;
@@ -1205,7 +1205,7 @@ h3 {
 }
 
 h4 {
-  font-family: "Muli", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1rem;
   font-weight: bolder;
   margin-top: 2rem;
@@ -1213,7 +1213,7 @@ h4 {
 }
 
 h5 {
-  font-family: "Muli", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 0.83rem;
   font-weight: bolder;
   margin-top: 2rem;
@@ -1221,7 +1221,7 @@ h5 {
 }
 
 h6 {
-  font-family: "Muli", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 0.67rem;
   font-weight: bolder;
   margin-top: 2rem;
@@ -1406,8 +1406,8 @@ html {
 }
 
 html {
-  font-family: "Muli", sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  font-size: 90%;
+  font-family: "Montserrat", sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-size: 100%;
   background: #fff9fe;
   background-attachment: fixed;
   color: #1a171a;

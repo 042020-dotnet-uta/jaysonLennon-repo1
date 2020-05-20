@@ -15,11 +15,16 @@ run: build-app build-styles
 
 migrate:
     cd {{STORE_APP_ROOT}} && dotnet ef database update
+    
+fresh-migrate:
+    rm -f {{STORE_APP_ROOT}}/store.sqlite
+    cd {{STORE_APP_ROOT}} && dotnet ef database update
 
 test:
     cd Tests && dotnet test
 
-rebuild-migrations:
+# Delete migrations and rebuild the database from the program models.
+rebuild-migrations y_to_confirm:
     rm -f {{STORE_APP_ROOT}}/store.sqlite
     rm -Rf {{STORE_APP_ROOT}}/Migrations
     cd {{STORE_APP_ROOT}} && dotnet ef migrations add InitialCreate
