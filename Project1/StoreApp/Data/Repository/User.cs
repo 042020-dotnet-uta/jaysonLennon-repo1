@@ -427,7 +427,7 @@ namespace StoreApp.Repository
                 cityEntity = await _context.Addresses
                     .Where(a => a.City.Name.ToLower() == cityString.ToLower().Trim())
                     .Select(a => a.City)
-                    .SingleOrDefaultAsync();
+                    .FirstOrDefaultAsync();
                 if (cityEntity == null)
                 {
                     cityEntity = new Entity.City();
@@ -443,7 +443,7 @@ namespace StoreApp.Repository
                 stateEntity = await _context.Addresses
                     .Where(a => a.State.Name.ToLower() == stateString.ToLower().Trim())
                     .Select(a => a.State)
-                    .SingleOrDefaultAsync();
+                    .FirstOrDefaultAsync();
                 if (stateEntity == null)
                 {
                     stateEntity = new Entity.State();
@@ -481,7 +481,7 @@ namespace StoreApp.Repository
                 addressLine1Entity = await _context.AddressLine1s
                     .Where(l => l.Data.ToLower() == addressLine1String.ToLower().Trim())
                     .Select(l => l)
-                    .SingleOrDefaultAsync();
+                    .FirstOrDefaultAsync();
                 if (addressLine1Entity == null)
                 {
                     addressLine1Entity = new Entity.AddressLine1();
@@ -496,7 +496,7 @@ namespace StoreApp.Repository
                 addressLine2Entity = await _context.AddressLine2s
                     .Where(l => l.Data.ToLower() == addressLine2String.ToLower().Trim())
                     .Select(l => l)
-                    .SingleOrDefaultAsync();
+                    .FirstOrDefaultAsync();
                 if (addressLine2Entity == null)
                 {
                     addressLine2Entity = new Entity.AddressLine2();
@@ -517,7 +517,7 @@ namespace StoreApp.Repository
                     .ThenInclude(a => a.Line2)
                 .Where(c => c.UserId == userId)
                 .Select(c => c)
-                .SingleOrDefaultAsync();
+                .FirstOrDefaultAsync();
 
             Entity.Address address = null;
             if (user.Address == null)
@@ -531,7 +531,7 @@ namespace StoreApp.Repository
                 address = await _context.Addresses
                     .Where(a => a.AddressId == user.Address.AddressId)
                     .Select(a => a)
-                    .SingleOrDefaultAsync();
+                    .FirstOrDefaultAsync();
             }
 
             if (newData.GetFirstName() != null) user.FirstName = newData.GetFirstName().Trim();
