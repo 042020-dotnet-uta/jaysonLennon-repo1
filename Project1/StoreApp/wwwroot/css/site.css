@@ -369,6 +369,24 @@ input[type=number]:disabled {
   border: 1px solid #b2a4b2;
 }
 
+button:disabled,
+input[type=button]:disabled,
+input[type=submit]:disabled {
+  background: #ede1ed;
+  cursor: not-allowed;
+  color: #4d454d;
+  border: 1px solid #b2a4b2;
+}
+
+button:disabled.button-dark,
+input[type=button]:disabled.button-dark,
+input[type=submit]:disabled.button-dark {
+  background: #ede1ed;
+  cursor: not-allowed;
+  color: #4d454d;
+  border: 1px solid #b2a4b2;
+}
+
 button,
 input[type=button],
 input[type=submit] {
@@ -1487,6 +1505,10 @@ h6 {
 
 em {
   font-style: italic;
+}
+
+p {
+  line-height: 1.5rem;
 }
 
 .link-light {

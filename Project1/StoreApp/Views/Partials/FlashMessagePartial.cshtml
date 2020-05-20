@@ -4,19 +4,19 @@
 <div class="flex-col items-center text-center width-100 my4">
     @if (!String.IsNullOrEmpty((string)ViewData[K.FlashInfo])) {
         <div class="flash-info bd-radius-sm text-bold my4 p4">
-            <div>@ViewData[K.FlashInfo]</div>
+            <p>@ViewData[K.FlashInfo]</p>
         </div>
     }
 
     @if (!String.IsNullOrEmpty((string)ViewData[K.FlashOk])) {
         <div class="flash-ok bd-radius-sm text-bold my4 p4">
-            <div>@ViewData[K.FlashOk]</div>
+            <p>@ViewData[K.FlashOk]</p>
         </div>
     }
 
     @if (!String.IsNullOrEmpty((string)ViewData[K.FlashError])) {
         <div class="flash-error bd-radius-sm text-bold my4 p4">
-            <div>@ViewData[K.FlashError]</div>
+            <p>@ViewData[K.FlashError]</p>
         </div>
     }
     </div>

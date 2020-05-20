@@ -26,13 +26,13 @@
                 StoreApp.Model.Input.CartItem item = Model.Items[i];
                 <input type="hidden" name="Items[@i].Id" value="@item.Id">
                 <div class="flex-row">
-                    <div class="flex-col items-center m4">
+                    <a class="flex-col items-center m4" href="/ItemDetail/View/@item.Id">
                         <div class="flex-col items-center bd-radius-lg candy-card-container">
                             <img class="candy-card-image" src="/img/product/@item.ImageName">
                             <div class="flex-col items-center justify-center height-100 width-100 p3 text-center text-gray-50 color-bg-brand text-bold card-cost-border">@item.Name</div>
                             <div class="flex-col items-center justify-center height-100 width-100 p3 text-center text-gray-50 color-bg-brand text-bold">$@item.UnitPrice each</div>
                         </div>
-                    </div>
+                    </a>
 
                     <div class="flex-col justify-center p4">
                         <div class="my4 text-5xl">$@item.TotalPrice()</div>

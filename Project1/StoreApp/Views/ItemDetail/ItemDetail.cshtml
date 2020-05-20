@@ -16,16 +16,26 @@
         </div>
     </div>
 
-    <div class="flex-col items-center">
-        <form class="item-detail-width" asp-controller="Cart" asp-action="AddToCart" method="POST">
-            <input type="hidden" name="ItemId" value="@Model.Id">
-            <div class="my4">
-                <label for="ItemQuantity">Quantity</label>
-                <input type="number" min="1" max="@Model.Stock" step="1" name="ItemQuantity" value="1" autofocus>
-            </div>
-            <div class="my4">
-                <input type="submit" class="button-dark" value="Add to cart">
-            </div>
-        </form>
-    </div>
+    @if (Model.MaxCanOrder() == 0)
+    {
+        <p class="text-center my4">This item is currently unavailable.</p>
+    } else {
+        @if (Model.NumInOrder > 0) {
+            <p class="text-center my4">@Model.MaxCanOrder() available (@Model.NumInOrder in cart)</p>
+        } else {
+            <p class="text-center my4">@Model.MaxCanOrder() available</p>
+        }
+        <div class="flex-col items-center">
+            <form class="item-detail-width" asp-controller="Cart" asp-action="AddToCart" method="POST">
+                <input type="hidden" name="ItemId" value="@Model.Id">
+                <div class="mb4">
+                    <label for="ItemQuantity">Quantity</label>
+                    <input type="number" min="1" max="@Model.MaxCanOrder()" step="1" name="ItemQuantity" value="1" autofocus>
+                </div>
+                <div class="mt4">
+                    <input type="submit" class="button-dark" value="Add to cart">
+                </div>
+            </form>
+        </div>
+    }
 }

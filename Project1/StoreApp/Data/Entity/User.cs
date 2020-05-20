@@ -47,7 +47,6 @@ namespace StoreApp.Entity
         /// </summary>
         public string PhoneNumber { get; set; }
 
-        private string _Password;
         /// <summary>
         /// The password for this user.
         /// </summary>

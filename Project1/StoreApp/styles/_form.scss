@@ -43,6 +43,23 @@ input[type="number"]:disabled {
   border: 1px solid $color-gray-300;
 }
 
+button:disabled,
+input[type="button"]:disabled,
+input[type="submit"]:disabled {
+  background: $color-gray-100;
+  cursor: not-allowed;
+  color: $color-gray-700;
+  border: 1px solid $color-gray-300;
+}
+button:disabled.button-dark,
+input[type="button"]:disabled.button-dark,
+input[type="submit"]:disabled.button-dark {
+  background: $color-gray-100;
+  cursor: not-allowed;
+  color: $color-gray-700;
+  border: 1px solid $color-gray-300;
+}
+
 button,
 input[type="button"],
 input[type="submit"] {

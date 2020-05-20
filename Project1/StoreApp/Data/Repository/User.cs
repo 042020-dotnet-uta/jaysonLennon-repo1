@@ -225,6 +225,13 @@ namespace StoreApp.Repository
         /// <param name="userId">The user ID to check.</param>
         /// <returns>Number of items in cart.</returns>
         public Task<int> CountProductsInCart(Guid userId);
+        /// <summary>
+        /// Get the number of a specific products in a user's current order.
+        /// </summary>
+        /// <param name="userId">The user ID to check.</param>
+        /// <param name="productId">The product ID to check.</param>
+        /// <returns>Number of items of the specific product in cart.</returns>
+        public Task<int> CountProductInCart(Guid userId, Guid productId);
     }
 
     /// <summary>
@@ -717,6 +724,16 @@ namespace StoreApp.Repository
             return _context.Users
                 .Where(u => u.LastName.ToLower().Contains(lastName))
                 .Select(u => u);
+        }
+
+        public async Task<int> CountProductInCart(Guid userId, Guid productId)
+        {
+            return await _context.OrderLineItems
+                .Where(ol => ol.Order.TimeSubmitted == null)
+                .Where(ol => ol.Order.User.UserId == userId)
+                .Where(ol => ol.Product.ProductId == productId)
+                .Select(ol => ol.Quantity)
+                .FirstOrDefaultAsync();
         }
     }
 }

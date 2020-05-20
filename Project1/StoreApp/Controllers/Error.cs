@@ -47,7 +47,7 @@ namespace StoreApp.Controllers
         {
             this.SetFlashError("Flash error message");
             this.SetFlashInfo("Flash info message that is long");
-            this.SetFlashOk("Flash ok message that is way longer than the other messages");
+            this.SetFlashOk("Flash ok message that is way longer than the other messages and hopefully spans multiple lines");
             return View("Teststuff");
         }
     }

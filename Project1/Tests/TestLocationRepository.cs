@@ -31,7 +31,7 @@ namespace TestStoreApp
         }
 
         [Fact]
-        public void GetsMostStockedLocation()
+        public async void GetsMostStockedLocation()
         {
             var options = TestUtil.GetMemDbOptions("TestLocationRepository-GetsMostStockedLocation");
 
@@ -46,7 +46,7 @@ namespace TestStoreApp
             using (var db = new StoreContext(options))
             {
                 var repo = (ILocation) new LocationRepository(db);
-                var mostStockedLocation = repo.GetMostStocked();
+                var mostStockedLocation = await repo.GetMostStocked();
                 Assert.Equal(location.LocationId, mostStockedLocation.LocationId);
             }
         }

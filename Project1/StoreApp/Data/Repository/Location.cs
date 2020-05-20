@@ -29,7 +29,7 @@ namespace StoreApp.Repository
         /// Retrieves the Location that has the highest stock of items.
         /// </summary>
         /// <returns>The Location with the highest stock of items.</returns>
-        Location GetMostStocked();
+        Task<Location> GetMostStocked();
         /// <summary>
         /// Get all products from a specific location that are currently in stock.
         /// </summary>
@@ -116,7 +116,7 @@ namespace StoreApp.Repository
         /// Retrieves the Location that has the highest stock of items.
         /// </summary>
         /// <returns>The Location with the highest stock of items.</returns>
-        Location ILocation.GetMostStocked()
+        async Task<Location> ILocation.GetMostStocked()
         {
             var locationWithMostProducts = _context.LocationInventories
                 .GroupBy(li => li.Location.LocationId)
@@ -127,9 +127,9 @@ namespace StoreApp.Repository
                 .OrderByDescending(gr => gr.Count)
                 .FirstOrDefault();
 
-            return _context.Locations
+            return await _context.Locations
                        .Where(l => l.LocationId == locationWithMostProducts.LocationId)
-                       .FirstOrDefault();
+                       .FirstOrDefaultAsync();
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace StoreApp.Repository
         }
 
         /// <summary>
-        /// Gets all products from a specific location, regardless of stock.
+        /// Get all products from a specific location that are currently in stock.
         /// </summary>
         /// <param name="location">The location to query.</param>
         /// <returns>IEnumerable of Tuple containing the Product and the total in stock.</returns>

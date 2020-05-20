@@ -74,6 +74,7 @@ namespace StoreApp.Controllers
             var location = await userRepo.GetDefaultLocation(userId);
 
             var quantityInStock = await locationRepo.GetStock(location, product);
+            var quantityInCart = await userRepo.CountProductInCart(userId, id);
 
             var model = new Model.View.ItemDetail();
             model.Id = product.ProductId;
@@ -81,6 +82,7 @@ namespace StoreApp.Controllers
             model.ImageName = product.ImageName;
             model.UnitPrice = product.Price;
             model.Stock = quantityInStock;
+            model.NumInOrder = quantityInCart;
 
             return View("ItemDetail", model);
         }

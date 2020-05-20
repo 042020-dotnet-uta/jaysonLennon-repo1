@@ -54,13 +54,13 @@ namespace StoreApp.Controllers
                 location = await userRepo.GetDefaultLocation(user);
                 if (location == null)
                 {
-                    location = locationRepo.GetMostStocked();
+                    location = await locationRepo.GetMostStocked();
                     userRepo.SetDefaultLocation(user, location);
                 }
             }
             else
             {
-                location = locationRepo.GetMostStocked();
+                location = await locationRepo.GetMostStocked();
             }
 
             model.products = locationRepo.GetProductsAvailable(location).ToList();
