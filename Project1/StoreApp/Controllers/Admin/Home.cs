@@ -39,7 +39,7 @@ namespace StoreApp.AdminControllers
         [Authorize(Roles = Auth.Role.Administrator)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         [ServiceFilter(typeof(PageHeader.PopulateHeader))]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var userName = HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserName).Value;
             this._logger.LogInformation($"'{userName}' accessed the administration page.");

@@ -148,7 +148,7 @@ namespace StoreApp.Controllers
         /// </summary>
         [HttpGet]
         [Route("Account/Update")]
-        public async Task<IActionResult> RedirectUpdateAccountInfo(Model.Input.AccountManagement model)
+        public IActionResult RedirectUpdateAccountInfo(Model.Input.AccountManagement model)
         {
             return RedirectToAction("Manage");
         }
@@ -160,7 +160,7 @@ namespace StoreApp.Controllers
         [Authorize(Roles = Auth.Role.Customer)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         [ServiceFilter(typeof(PageHeader.PopulateHeader))]
-        public async Task<IActionResult> OrderHistory()
+        public IActionResult OrderHistory()
         {
             var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
             var orderRepo = (Repository.IOrder)this._services.GetService(typeof(Repository.IOrder));
@@ -208,7 +208,7 @@ namespace StoreApp.Controllers
         [Route("Account/Create")]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         [ServiceFilter(typeof(PageHeader.PopulateHeader))]
-        public async Task<IActionResult> CreateAccountIndex()
+        public IActionResult CreateAccountIndex()
         {
             var model = new Model.Input.CreateAccount();
             return View("CreateAccount", model);
@@ -220,7 +220,7 @@ namespace StoreApp.Controllers
         [Route("Account/Login")]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         [ServiceFilter(typeof(PageHeader.PopulateHeader))]
-        public async Task<IActionResult> LoginIndex(Model.Input.LoginRedirect loginRedirectModel)
+        public IActionResult LoginIndex(Model.Input.LoginRedirect loginRedirectModel)
         {
             // LoginRedirectModel is used for redirection requests.
             var loginUser = new Model.Input.LoginUser();
@@ -367,7 +367,7 @@ namespace StoreApp.Controllers
         [HttpGet]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         [ServiceFilter(typeof(PageHeader.PopulateHeader))]
-        public async Task<IActionResult> AccessDenied(string returnUrl)
+        public IActionResult AccessDenied(string returnUrl)
         {
             var userId = Guid.Parse(HttpContext.User.FindFirst(claim => claim.Type == Auth.Claim.UserId).Value);
             this._logger.LogWarning($"User {userId} attempted to access a restricted page ({returnUrl})");

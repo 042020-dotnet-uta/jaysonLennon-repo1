@@ -40,7 +40,7 @@ namespace StoreApp.Controllers
         /// Redirect to store front if this page is visited without an ID.
         /// </summary>
         [Route("ItemDetail/View")]
-        public async Task<IActionResult> RedirectShowDetail()
+        public IActionResult RedirectShowDetail()
         {
             return Redirect("/Storefront");
         }

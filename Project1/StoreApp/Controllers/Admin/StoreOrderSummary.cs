@@ -41,7 +41,7 @@ namespace StoreApp.AdminControllers
         [Authorize(Roles = Auth.Role.Administrator)]
         [ServiceFilter(typeof(FlashMessage.FlashMessageFilter))]
         [ServiceFilter(typeof(PageHeader.PopulateHeader))]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var locationRepo = (Repository.ILocation)this._services.GetService(typeof(Repository.ILocation));
             var allLocations = locationRepo.GetLocations();
