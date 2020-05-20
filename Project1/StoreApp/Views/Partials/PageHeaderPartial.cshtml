@@ -17,7 +17,7 @@
             @if (ViewData.ContainsKey(K.UserName)) {
                 <div class="no-underline flex-col text-center sm:text-left">
                     <div class="text-gray-200 my1 text-no-bold text-sm">&nbsp;</div>
-                    <form asp-controller="Account" asp-action="Logout" method="POST" class="width-unset text-gray-50 mr4">
+                    <form asp-controller="Account" asp-action="Logout" method="POST" class="width-unset text-gray-50 mr0 sm:mr4">
                         <input type="submit" value="Logout" class="width-unset naked"/>
                     </form>
                 </div>
