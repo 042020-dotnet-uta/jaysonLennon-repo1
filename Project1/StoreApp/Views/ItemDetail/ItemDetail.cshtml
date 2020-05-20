@@ -6,12 +6,7 @@
 
 @if (Model.NotFound) {
     <h2 class="text-center">Unable to locate that item.</h2>
-        <div class="flex-col items-center text-center">
-            <form>
-                <a class="button-link-dark" asp-controller="Storefront" asp-action="Index">Browse Store</a>
-                <a class="button-link-light" href="javascript:history.go(-1);">Go Back</a>
-            </form>
-        </div>
+        <partial name="/Views/Partials/GoBackPartial.cshtml" />
 } else {
     <div class="flex-col items-center m4">
         <div class="flex-col items-center bd-radius-lg candy-card-container">
@@ -26,7 +21,7 @@
             <input type="hidden" name="ItemId" value="@Model.Id">
             <div class="my4">
                 <label for="ItemQuantity">Quantity</label>
-                <input type="number" min="1" max="@Model.Stock" step="1" name="ItemQuantity" value="1">
+                <input type="number" min="1" max="@Model.Stock" step="1" name="ItemQuantity" value="1" autofocus>
             </div>
             <div class="my4">
                 <input type="submit" class="button-dark" value="Add to cart">

@@ -45,6 +45,10 @@ a:active {
   color: $color-link-active;
 }
 
+a:focus {
+  text-decoration: underline;
+}
+
 table {
   border-collapse: collapse;
   border: $table-border-size solid $color-brand;

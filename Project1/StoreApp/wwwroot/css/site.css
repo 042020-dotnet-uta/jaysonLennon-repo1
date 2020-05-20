@@ -346,6 +346,15 @@ input[type=number] {
   line-height: 1;
 }
 
+button:focus,
+select:focus,
+input[type=text]:focus,
+input[type=password]:focus,
+input[type=submit]:focus,
+input[type=number]:focus {
+  text-decoration: underline;
+}
+
 input[type=number],
 input[type=number]:disabled {
   text-align: center;
@@ -1444,6 +1453,10 @@ a:active {
   color: #fff9fe;
 }
 
+a:focus {
+  text-decoration: underline;
+}
+
 table {
   border-collapse: collapse;
   border: 3px solid #532f53;
@@ -1569,12 +1582,12 @@ em {
 
 @media screen and (min-width: 640px) {
   .sm\:checkout-container {
-    width: 200px;
+    width: 220px;
   }
 }
 .edit-cart-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 380px);
+  grid-template-columns: repeat(auto-fill, 390px);
   grid-column-gap: 6rem;
   grid-row-gap: 2rem;
   margin-top: 1rem;

@@ -8,7 +8,7 @@
     <form asp-controller="AdminStoreOrderSummary" asp-action="Summary" method="GET">
         <div class="my4">
             <label for="storeId">Store</label>
-            <select name="storeId" asp-items="@Model.Stores"></select>
+            <select name="storeId" asp-items="@Model.Stores" autofocus></select>
         </div>
         <input type="submit" value="Go">
     </form>
