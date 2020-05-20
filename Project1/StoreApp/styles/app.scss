@@ -144,6 +144,8 @@
 
 .search-result-highlight {
     text-decoration: underline;
+    color: $customer-search-highlight-color;
+    background: $customer-search-highlight-background;
 }
 
 @include break-sm {

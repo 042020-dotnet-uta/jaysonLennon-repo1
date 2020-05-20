@@ -1418,13 +1418,14 @@ body {
   width: 100%;
   min-height: 100%;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
 }
 
 main {
-  margin-top: 2rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
-  padding-bottom: 10rem;
+  margin: 2rem;
+  flex-grow: 1;
 }
 
 hr {
@@ -1437,6 +1438,10 @@ hr {
 a {
   text-decoration: none;
   font-weight: bold;
+}
+
+a:active {
+  color: #fff9fe;
 }
 
 table {
@@ -1624,6 +1629,8 @@ em {
 }
 .search-result-highlight {
   text-decoration: underline;
+  color: #000000;
+  background: #6a5e733d;
 }
 
 @media screen and (min-width: 640px) {

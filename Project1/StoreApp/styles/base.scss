@@ -19,15 +19,14 @@ body {
   width: 100%;
   min-height: 100%;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
 }
 
 main {
-  margin-top: $main-padding;
-  padding-left: $main-padding;
-  padding-right: $main-padding;
-  // We need to use padding in place of margin since the footer is
-  // absolutely positioned.
-  padding-bottom: $footer-margin;
+  margin: $main-margin;
+  flex-grow: 1;
 }
 
 hr {
@@ -40,6 +39,10 @@ hr {
 a {
   text-decoration: none;
   font-weight: bold;
+}
+
+a:active {
+  color: $color-link-active;
 }
 
 table {
