@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: revp1
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: revp1
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: revp1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: revp1
+  template:
+    metadata:
+      labels:
+        app: revp1
+    spec:
+      containers:
+      - name: revp1
+        image: registry.digitalocean.com/jwl/revp1:latest
+        ports:
+        - containerPort: 80
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: revp1-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: "nginx"
+    nginx.org/mergeable-ingress-type: "minion"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: revp1.jayson.info
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: revp1
+          servicePort: 80
+  tls:
+  - hosts:
+    - revp1.jayson.info
+    secretName: revp1.jayson.info-cert
