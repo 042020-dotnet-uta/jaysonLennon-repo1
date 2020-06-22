@@ -1,5 +1,12 @@
 STORE_APP_ROOT := "StoreApp"
 
+CONTAINER_TAGNAME := "revp1"
+CONTAINER_REGISTRY := "registry.digitalocean.com/jwl"
+DEPLOYMENT := "revp1"
+
+@bump-version:
+  echo $(awk -F= '{print "TAG_VERSION="$2+1}' .env) > .env
+
 build-styles:
     sass {{STORE_APP_ROOT}}/styles/entry.scss {{STORE_APP_ROOT}}/wwwroot/css/site.css
 
@@ -35,3 +42,36 @@ coverage:
 
 coverage-report report:
     reportgenerator -reports:{{report}} -targetdir:Tests/TestResults/report "-reporttypes:Html;TextSummary"
+
+build-for-docker: build-styles bump-version
+    #cd {{STORE_APP_ROOT}} && dotnet publish -c Release -r linux-x64 --self-contained
+    cd {{STORE_APP_ROOT}} && dotnet publish -c Release -o bin -r linux-musl-x64 --self-contained true /p:PublishTrimmed=true
+    cd {{STORE_APP_ROOT}} && cp -r wwwroot bin/Release/netcoreapp3.1/linux-musl-x64
+    cd {{STORE_APP_ROOT}} && cp store.sqlite bin/Release/netcoreapp3.1/linux-musl-x64/store.sqlite
+
+create-docker-image:
+    sudo docker build -t {{CONTAINER_TAGNAME}}:latest .
+
+build-container:
+    sudo docker build -t {{CONTAINER_TAGNAME}}:latest .
+    sudo docker tag {{CONTAINER_TAGNAME}}:latest {{CONTAINER_REGISTRY}}/{{CONTAINER_TAGNAME}}:latest
+
+    sudo docker build -t {{CONTAINER_TAGNAME}}:v$TAG_VERSION .
+    sudo docker tag {{CONTAINER_TAGNAME}}:v$TAG_VERSION {{CONTAINER_REGISTRY}}/{{CONTAINER_TAGNAME}}:v$TAG_VERSION
+
+push-container:
+    sudo docker push {{CONTAINER_REGISTRY}}/{{CONTAINER_TAGNAME}}:latest
+    sudo docker push {{CONTAINER_REGISTRY}}/{{CONTAINER_TAGNAME}}:v$TAG_VERSION
+
+rollout:
+    kubectl set image deployment/{{DEPLOYMENT}} {{CONTAINER_TAGNAME}}=registry.digitalocean.com/jwl/{{CONTAINER_TAGNAME}}:v$TAG_VERSION
+
+rollout-status:
+    kubectl rollout status deployment.v1.apps/{{DEPLOYMENT}}
+
+rebuild-and-deploy:
+    just build-for-docker
+    just create-docker-image
+    just build-container
+    just push-container
+    just rollout
